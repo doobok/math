@@ -6,7 +6,7 @@
                 <p class="uk-heading-large uk-text-center">@lang('site.modal-title')</p>
                 <p></p>
 
-                <lead-form-phone></lead-form-phone>
+                <lead-form-phone lang="{{app()->getLocale()}}"></lead-form-phone>
 
             </div>
         </div>

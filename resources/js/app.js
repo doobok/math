@@ -6,6 +6,9 @@ window.Vue = require('vue');
 // Vuex
 import store from './store/index';
 
+// мультиязычность
+import './ml';
+
 // валидатор форм
 import Vuelidate from 'vuelidate';
 Vue.use(Vuelidate);

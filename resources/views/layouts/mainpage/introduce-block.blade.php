@@ -6,7 +6,7 @@
             <h2 class="uk-heading-xlarge">@lang('site.introduce-h2')</h2>
 
             {{-- large image --}}
-            <div class="uk-width-1-3@m uk-text-center uk-hidden@s">
+            <div class="uk-width-1-3@m uk-text-center uk-hidden@m">
                 <img data-src="/tutor1.jpg" alt="@lang('site.introduce-img-alt')" uk-img>
             </div>
 
@@ -36,7 +36,7 @@
             </div>
         </div>
         {{-- large image --}}
-        <div class="uk-width-1-3@m uk-visible@s">
+        <div class="uk-width-1-3@m uk-visible@m">
             <img data-src="/tutor1.jpg" alt="@lang('site.introduce-img-alt')" uk-img>
         </div>
     </div>

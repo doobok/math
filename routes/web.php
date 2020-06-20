@@ -14,3 +14,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'MainPageController@index')->name('mainpage');
+Route::get('/uk', 'MainPageController@indexUK');

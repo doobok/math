@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// V1 API
+Route::group(['prefix' => 'v1'], function () {
+  // Захват лидов
+  Route::post('lead-push', 'LeadsController@addLead');
 });

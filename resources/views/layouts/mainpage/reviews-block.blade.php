@@ -9,7 +9,7 @@
     <div data-uk-slider="velocity: 5; autoplay: true" class="uk-slider">
   			<div class="uk-position-relative">
   				<div class="uk-slider-container">
-  					<ul class="uk-slider-items uk-child-width-1-3@m  news-slide">
+  					<ul class="uk-slider-items uk-child-width-1-2@m uk-child-width-1-3@l  news-slide">
 
     					@include('components.reviews')
 

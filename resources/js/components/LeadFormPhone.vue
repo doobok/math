@@ -14,13 +14,14 @@
       </div>
     </template>
     <template v-if="subformshow">
-      <div class="uk-tile-muted uk-padding-small">
-        <p class="uk-h3">Номер телефона отправлен</p>
-        <p class="uk-text-meta">Мы получили номер Вашего телефона. Пожалуйста, оставайтесь на связи. Наш менеджер обычно звонит в течение 3-5 мин.</p>
+      <div class="uk-padding-small">
+        <img data-src="/telegram.png" uk-img>
+        <p class="uk-h3">{{$ml.get('phone_sended')}}</p>
+        <p class="uk-text-meta">{{$ml.get('phone_sended_desc')}}</p>
       </div>
     </template>
     <div v-show="formshow">
-      <p>Осталось оставить контактный номер и мы Вам перезвоним для уточнения всех подробностей</p>
+      <p>{{$ml.get('input_phone_desc')}}</p>
       <div class="uk-margin">
           <input v-model="phone"
           ref="phone"
@@ -31,7 +32,7 @@
       </div>
       <div class="uk-margin" v-if="$v.phone.$error">
         <transition name="fade">
-          <p class="uk-text-small uk-text-danger">Пожалуйста, введите действительный номер телефона</p>
+          <p class="uk-text-small uk-text-danger">{{$ml.get('pls_correct_phone')}}</p>
         </transition>
       </div>
       <div class="uk-margin">
@@ -41,14 +42,14 @@
         type="button"
         @click="send()">
         <template v-if="$v.$invalid">
-          Введите номер
+          {{$ml.get('enter_phone')}}
         </template>
         <template v-else>
-          Отправить
+          {{$ml.get('send')}}
         </template>
       </button>
       </div>
-      <p class="uk-text-small uk-text-muted">*мы никогда не передадим номер телефона третьим лицам</p>
+      <p class="uk-text-small uk-text-muted">*{{$ml.get('trust')}}</p>
 
     </div>
   </div>
@@ -59,7 +60,7 @@ import Inputmask from 'inputmask';
 import { required } from "vuelidate/lib/validators";
 
 export default {
-  // props: ['sourceid', 'button_title', 'redirect_uri'],
+  props: ['lang'],
   data: function() {
       return {
         loading: false,
@@ -103,10 +104,6 @@ export default {
         })
 
       },
-      nextPage() {
-        window.location.href= this.redirect_uri;
-
-      }
     },
     computed: {
       getSlug: function() {
@@ -124,12 +121,15 @@ export default {
             im.mask(this.$refs.phone);
 
       },
-      validations: {
-              phone: {
-                required,
-                validFormat: val => /^\+38 \(0\d{2}\) \d{3}\-\d{4}$/.test(val),
-              },
-            },
+    created: function(){
+          this.$ml.change(this.lang);
+      },
+    validations: {
+        phone: {
+          required,
+          validFormat: val => /^\+38 \(0\d{2}\) \d{3}\-\d{4}$/.test(val),
+        },
+      },
 }
 
 

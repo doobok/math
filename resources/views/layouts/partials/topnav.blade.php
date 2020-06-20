@@ -12,7 +12,7 @@
       </div>
       <div class="uk-navbar-right">
 
-        <a href="tel:+380665229066" class="uk-link-reset uk-text-large">
+        <a href="tel:+380**********" class="uk-link-reset uk-text-large">
           <i class="fas fa-phone-alt"></i>
           <span class="uk-visible@s">
             +38 (077) 777-77-77

@@ -1,5 +1,5 @@
 <template>
-  <div class="uk-text-center">
+  <div class="uk-text-center uk-padding-small">
     <div v-if="errorshow" class="uk-alert-danger" uk-alert>
         <p>{{error}}</p>
     </div>
@@ -20,11 +20,11 @@
       </div>
     </template>
     <div v-show="formshow">
-      <p>Оставте, пожалуйста, контактный номер телефона и уже через минуту наш менеджер свяжется с Вами</p>
+      <p>Осталось оставить контактный номер и мы Вам перезвоним для уточнения всех подробностей</p>
       <div class="uk-margin">
           <input v-model="phone"
           ref="phone"
-          class="uk-input uk-form-width-medium uk-form-large uk-form-width-large"
+          class="uk-input uk-form-large uk-width-medium"
           type="text"
           placeholder="+38"
           @blur="$v.phone.$touch()">
@@ -37,18 +37,18 @@
       <div class="uk-margin">
         <button
         :disabled="$v.$invalid"
-        class="uk-button uk-button-danger uk-button-large uk-form-width-large"
+        class="uk-button uk-text-truncate uk-button-large uk-button-danger uk-width-medium"
         type="button"
         @click="send()">
         <template v-if="$v.$invalid">
-          Введите номер телефона
+          Введите номер
         </template>
         <template v-else>
           Отправить
         </template>
       </button>
       </div>
-      <p class="uk-text-small uk-text-muted">* можете не волноваться, ваш телефон не будет передан третьим лицам</p>
+      <p class="uk-text-small uk-text-muted">*мы никогда не передадим номер телефона третьим лицам</p>
 
     </div>
   </div>

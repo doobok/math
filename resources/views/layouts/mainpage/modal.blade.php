@@ -1,9 +1,9 @@
 <div id="modal-full" class="uk-modal-full" uk-modal>
     <div class="uk-modal-dialog">
-        <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+        <div class="uk-flex uk-flex-center uk-flex-middle uk-tile-secondary" uk-height-viewport>
 
-            <div class="uk-padding-large">
-                <span class="uk-h1" style="color: #2C5186">Почти готово</span>
+            <div >
+                <p class="uk-heading-large uk-text-center">@lang('site.modal-title')</p>
                 <p></p>
 
                 <lead-form-phone></lead-form-phone>

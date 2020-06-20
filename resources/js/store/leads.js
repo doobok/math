@@ -11,8 +11,8 @@ export default {
   },
   mutations: {
     SET_SLUG: (state, payload) => {
+      console.log(payload);
       state.slug = payload;
-      console.log(state.slug);
     },
   },
   actions: {
@@ -23,7 +23,7 @@ export default {
 
     // отправка лида
     SEND_LEAD : (context, payload) => {
-      console.log(payload);
+      // console.log(payload);
       return Axios.post('/api/v1/lead-push', tempyGen(payload))
       .then((response) => {
         // какоето действие из состоянием (оставил на будущее)

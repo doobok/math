@@ -15,3 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'MainPageController@index')->name('mainpage');
 Route::get('/uk', 'MainPageController@indexUK');
+
+// Auth::routes();
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+
+Route::get('/home', 'HomeController@index')->name('home');

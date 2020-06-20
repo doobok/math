@@ -12,6 +12,7 @@ Vue.use(Vuelidate);
 
 // Components
 Vue.component('button-component', require('./components/ButtonComponent.vue').default);
+Vue.component('button-course-component', require('./components/ButtonCourseComponent.vue').default);
 Vue.component('lead-form-phone', require('./components/LeadFormPhone.vue').default);
 
 

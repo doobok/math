@@ -1,8 +1,13 @@
+// @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap');
 
 $global-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $base-body-font-family: Arial, sans-serif;
-$base-heading-font-family: 'Open Sans', sans-serif;;
+$base-heading-font-family: 'Open Sans', sans-serif;
+// $base-heading-font-family: 'Roboto Condensed', sans-serif;
+// $base-heading-font-family: 'Oswald', sans-serif;
+
 // $logo-font-family: $global-font-family !default;
 $global-font-size: 20px;
 $base-body-font-weight: 500;

@@ -7,7 +7,7 @@
 
             {{-- small imade --}}
             <div class="uk-width-1-3@m uk-text-center uk-hidden@m">
-                <img data-src="/tutor1.jpg" alt="@lang('site.h1')" uk-img>
+                <img data-src="/math_main.png" alt="@lang('site.h1')" width="400px" uk-img>
             </div>
 
               <ul class="uk-list uk-list-bullet uk-margin-medium" style="font-weight: 500;">
@@ -52,7 +52,7 @@
         </div>
         {{-- large image --}}
         <div class="uk-width-1-3@m uk-visible@m">
-            <img data-src="/tutor1.jpg" alt="@lang('site.h1')" uk-img>
+            <img data-src="/math_main.png" alt="@lang('site.h1')" uk-img>
         </div>
     </div>
   </div>

@@ -4,7 +4,7 @@
     <div class="uk-flex uk-flex-middle" uk-grid>
       {{-- large image --}}
       <div class="uk-width-1-3@m uk-visible@m">
-          <img data-src="/tutor1.jpg" alt="@lang('site.finish-img-alt')" uk-img>
+          <img data-src="/math_end.png" alt="@lang('site.finish-img-alt')" uk-img>
       </div>
       <div class="uk-width-2-3@m">
         <div class="uk-text-center uk-margin-medium-bottom">
@@ -14,7 +14,7 @@
 
         {{-- small image --}}
         <div class="uk-width-1-3@m uk-text-center uk-hidden@m">
-            <img data-src="/tutor1.jpg" alt="@lang('site.finish-img-alt')" uk-img>
+            <img data-src="/math_end2.png" alt="@lang('site.finish-img-alt')" width="800px" uk-img>
         </div>
 
         <ul class="uk-list uk-list-bullet uk-margin-medium" style="font-weight: 500;">

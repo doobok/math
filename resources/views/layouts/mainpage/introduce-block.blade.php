@@ -7,7 +7,7 @@
 
             {{-- large image --}}
             <div class="uk-width-1-3@m uk-text-center uk-hidden@m">
-                <img data-src="/tutor1.jpg" alt="@lang('site.introduce-img-alt')" uk-img>
+                <img data-src="/math_intro.webp" alt="@lang('site.introduce-img-alt')" uk-img>
             </div>
 
             <p class="uk-heading-large">@lang('site.introduce-my-name')</p>
@@ -37,7 +37,7 @@
         </div>
         {{-- large image --}}
         <div class="uk-width-1-3@m uk-visible@m">
-            <img data-src="/tutor1.jpg" alt="@lang('site.introduce-img-alt')" uk-img>
+            <img data-src="/math_intro.webp" alt="@lang('site.introduce-img-alt')" uk-img>
         </div>
     </div>
   </div>

@@ -21,4 +21,9 @@ class MainPageController extends Controller
         // перебросим на основной метод
         return self::index();
     }
+
+    public function policy()
+    {
+      return view('policy');
+    }
 }

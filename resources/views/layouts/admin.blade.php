@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
-		<title>Login</title>
+		<title>MASSTER</title>
 		<link rel="icon" href="favicon.ico">
 		<!-- CSS FILES -->
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/uikit@latest/dist/css/uikit.min.css">
@@ -17,7 +17,7 @@
 		<div class="uk-position-bottom-center uk-position-small uk-visible@m uk-position-z-index">
 			<span class="uk-text-small uk-text-muted">© 2020 @if (date('Y') != '2020')- {{date('Y')}}@endif Tutor-math.com.ua</span>
 		</div>
-		<div class="uk-width-medium uk-padding-small uk-position-z-index" uk-scrollspy="cls: uk-animation-fade">
+		<div class="uk-padding-small uk-position-z-index" uk-scrollspy="cls: uk-animation-fade">
 
       @yield('content')
 

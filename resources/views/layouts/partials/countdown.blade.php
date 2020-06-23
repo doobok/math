@@ -1,4 +1,4 @@
-<div class="uk-grid-small uk-child-width-auto" uk-grid uk-countdown="date: 2020-06-27T06:45:46+00:00">
+<div class="uk-grid-small uk-child-width-auto" uk-grid uk-countdown="date: {{$promo_time}}">
     <div>
         <div class="uk-countdown-number uk-countdown-days"></div>
         <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">@lang('site.days')</div>

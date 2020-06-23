@@ -22,7 +22,10 @@ Route::get('/policy', 'MainPageController@policy')->name('policy');
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 
-Route::get('/admin', 'AdminController@index')->name('admin');
-
-
-Route::get('/home', 'HomeController@index')->name('home');
+// роуты администратора
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/admin', 'AdminController@index')->name('admin');
+    // options
+    Route::post('/option/new', 'OptionsController@create')->name('addoption');
+    Route::patch('/option/{id}', 'OptionsController@update')->name('updoption');
+});

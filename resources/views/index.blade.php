@@ -4,9 +4,12 @@
   @component('components.meta')
 
     @slot('title') @lang('site.title') @endslot
-    @slot('description') @lang('site.description')  @endslot
-    @slot('image') /bg-windows.jpg  @endslot
-    @slot('date') 16.06.2020 @endslot
+    @slot('description') {{__('site.description', [
+      'price' => $options->get('price_1')->value
+      ])}}
+    @endslot
+    @slot('image') /math_intro.webp @endslot
+    @slot('date') {{$updated}} @endslot
 
   @endcomponent
 @endsection

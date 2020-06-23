@@ -33,15 +33,16 @@
 
         </div>
 
-        <p>@lang('site.finish-discount-1') *</p>
+        {{-- promo countdown --}}
+        @isset($promo_time)
+          <p>@lang('site.finish-discount-1') *</p>
+          <div class="uk-flex uk-flex-center">
+            @include('layouts.partials.countdown')
+          </div>
+          <p class="uk-text-meta">*@lang('site.finish-discount-2')</p>
+        @endisset
 
-        <div class="uk-flex uk-flex-center">
 
-          @include('layouts.partials.countdown')
-
-        </div>
-
-        <p class="uk-text-meta">*@lang('site.finish-discount-2')</p>
 
       </div>
 

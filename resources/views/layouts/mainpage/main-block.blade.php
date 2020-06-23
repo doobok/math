@@ -18,15 +18,22 @@
               </ul>
 
 
-
             <span class="uk-heading-large"><mark>@lang('site.main-mark')</mark></span>
 
             <div class="uk-child-width-1-2 uk-margin-small-top" uk-grid>
               <div>
-                <p class="uk-heading-medium"> <span class="ms-price-bordered">@lang('site.main-price') <span class="ms-price-small">250</span> грн*</span> </p>
+                <p class="uk-heading-medium"> <span class="ms-price-bordered">@lang('site.main-price') <span class="ms-price-small">
+                  @if ($options->has('price_1'))
+                    {{$options->get('price_1')->value}}
+                  @endif
+                </span> грн*</span> </p>
               </div>
               <div>
-                <p class="uk-heading-medium"> <span class="ms-price-bordered">@lang('site.main-price') <span class="ms-price-small">150</span> грн*</span> </p>
+                <p class="uk-heading-medium"> <span class="ms-price-bordered">@lang('site.main-price') <span class="ms-price-small">
+                  @if ($options->has('price_2'))
+                    {{$options->get('price_2')->value}}
+                  @endif
+                </span> грн*</span> </p>
               </div>
             </div>
 

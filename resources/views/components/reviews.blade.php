@@ -1,6 +1,6 @@
 <li class="uk-padding-small uk-text-center">
-    <img class="uk-border-circle uk-blend-hue" data-src="/man.jpg" width="200" height="200" alt="recall img 1" uk-img>
-      <p class="uk-h2 uk-margin-remove">Алёна</p>
+    <img class="uk-border-circle uk-blend-hue" data-src="/reviews/viktoria.webp" width="250" height="250" alt="@lang('site.review-from') Вікторії" uk-img>
+      <p class="uk-h2 uk-margin-remove">Вікторія</p>
       <div class="uk-heading-large">
         <i class="fas fa-star"></i>
         <i class="fas fa-star"></i>
@@ -8,7 +8,7 @@
         <i class="fas fa-star"></i>
         <i class="fas fa-star"></i>
       </div>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi</p>
+      <p class="uk-text-small">Репетитор дуже гарний, мені подобається. За декілька місяців я почала розуміти математику. Оцінка поступово почала ставати вищою. Уроки проходять цікаво. Анастасія дуже ввічлива людина. Незрозумілі моменти може пояснити декілька разів. Доступно і зрозуміло пояснюєте урок, оцінки стали набагато краще 😊👌. Хочу висловити Вам подяку як найкращому репетитору алгебри і геометрії. Я задоволена співпрацею!</p>
 </li>
 
 <li class="uk-padding-small uk-text-center">
@@ -25,8 +25,8 @@
 </li>
 
 <li class="uk-padding-small uk-text-center">
-    <img class="uk-border-circle uk-blend-hue" data-src="/man.jpg" width="200" height="200" alt="" uk-img>
-      <p class="uk-h2 uk-margin-remove">Марія</p>
+    <img class="uk-border-circle uk-blend-hue" data-src="/reviews/anatolij.webp" width="250" height="250" alt="@lang('site.review-from') Анатолія" uk-img>
+      <p class="uk-h2 uk-margin-remove">Анатолій</p>
       <div class="uk-heading-large">
         <i class="fas fa-star"></i>
         <i class="fas fa-star"></i>
@@ -34,5 +34,5 @@
         <i class="fas fa-star"></i>
         <i class="fas fa-star"></i>
       </div>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi</p>
+      <p class="uk-text-small">Хочу подякувати вам, Анастасія, за те, що завдяки вам  у сина виникла цікавість до алгебри та геометрії. Доступне, цікаве викладання, відпрацювання проблемних тем, індивідуальний підхід до учнів, можливість займатись онлайн та не пропускати занять - все це дозволило Анатолію підтягнути свої знання з предмету. Сину дуже сподобалось займатись з вами!👍👍👍 Щиро вдячні Вам за пророблену роботу!</p>
 </li>

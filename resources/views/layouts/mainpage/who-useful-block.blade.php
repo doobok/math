@@ -1,11 +1,11 @@
 <section class="uk-section uk-section-muted uk-section-muted">
   <div class="uk-container uk-container-large">
 
-      <h2 class="uk-heading-large uk-margin-medium-bottom uk-text-center">@lang('site.who-useful-h2')</h2>
+      <h2 class="uk-heading-large uk-margin-medium-bottom uk-text-center" uk-scrollspy="cls: uk-animation-fade">@lang('site.who-useful-h2')</h2>
 
   </div>
 
-  <div class="uk-container uk-container-small">
+  <div class="uk-container uk-container-small" uk-scrollspy="target: > div; cls: uk-animation-fade; delay: 200">
 
     <div class="uk-margin-small-bottom">
       <span class="uk-padding-small">

@@ -2,11 +2,11 @@
   <div class="uk-container uk-container-large">
 
     <div class="uk-text-center uk-margin-medium-bottom">
-      <h2 class="uk-heading-xlarge">@lang('site.reviews-h2')</h2>
-      <span class="uk-heading-large"><mark>@lang('site.reviews-mark')</mark></span>
+      <h2 class="uk-heading-xlarge" uk-scrollspy="cls: uk-animation-fade">@lang('site.reviews-h2')</h2>
+      <span class="uk-heading-large" uk-scrollspy="cls: uk-animation-fade; delay: 100"><mark>@lang('site.reviews-mark')</mark></span>
     </div>
 
-    <div data-uk-slider="velocity: 5; autoplay: true" class="uk-slider">
+    <div data-uk-slider="velocity: 5; autoplay: true" class="uk-slider" uk-scrollspy="cls: uk-animation-fade; delay: 200">
   			<div class="uk-position-relative">
   				<div class="uk-slider-container">
   					<ul class="uk-slider-items uk-child-width-1-2@m uk-child-width-1-3@l  news-slide">

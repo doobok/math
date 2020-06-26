@@ -1,12 +1,12 @@
 <section class="uk-section uk-section-secondary">
   <div class="uk-container uk-container-large">
     <div class="uk-text-center uk-margin-medium-bottom">
-      <h2 class="uk-heading-xlarge">@lang('site.courses-h2')</h2>
-      <span class="uk-heading-large"><mark>@lang('site.courses-mark')</mark></span>
+      <h2 class="uk-heading-xlarge" uk-scrollspy="cls: uk-animation-fade">@lang('site.courses-h2')</h2>
+      <span class="uk-heading-large" uk-scrollspy="cls: uk-animation-fade; delay: 100"><mark>@lang('site.courses-mark')</mark></span>
     </div>
 
     <div class="uk-child-width-1-2@m" uk-grid>
-      <div class="uk-text-center">
+      <div class="uk-text-center" uk-scrollspy="target: > a; cls: uk-animation-fade; delay: 150">
 
         <button-course-component
         title="@lang('site.courses-elementary')"
@@ -20,7 +20,7 @@
 
       </div>
 
-      <div>
+      <div uk-scrollspy="target: > a; cls: uk-animation-fade; delay: 150">
 
         <button-course-component
         title="@lang('site.courses-olympiad')"
@@ -40,14 +40,16 @@
         discount="10"
         ></button-course-component>
 
-        <p>@lang('site.courses-group-desc')*</p>
+        <p uk-scrollspy="cls: uk-animation-fade; delay: 300">
+          @lang('site.courses-group-desc')*
+        </p>
 
         <button-course-component
         title="@lang('site.courses-group')"
         clases="uk-button-large"
         ></button-course-component>
 
-        <div class="uk-flex-middle uk-margin-remove-top" uk-grid>
+        <div class="uk-flex-middle uk-margin-remove-top" uk-scrollspy="cls: uk-animation-slide-right-medium; delay: 500" uk-grid>
           <div class="uk-width-expand">
             <p class="uk-text-meta uk-text-right">* @lang('site.courses-group-discount')</p>
           </div>

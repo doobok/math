@@ -47,7 +47,7 @@ class TelegramNewLead extends Notification
      {
 
          return TelegramMessage::create()
-             ->to({{config('app.telegramchat')}})
+             ->to(config('app.telegramchat'))
              ->content("🔥 *Новий лід!* \n мітка *$this->slug* \n ```$this->phone```");
      }
 

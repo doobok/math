@@ -12,6 +12,8 @@
     @slot('date') {{$updated}} @endslot
 
   @endcomponent
+  <link rel="alternate" href="https://bucha.tutor-math.com.ua" hreflang="ru-ua" />
+  <link rel="alternate" href="https://bucha.tutor-math.com.ua/uk" hreflang="uk-ua" />
 @endsection
 
 @section('content')

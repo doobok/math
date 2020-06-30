@@ -18,7 +18,7 @@ class LeadsController extends Controller
       ]);
 
       // проверяем наличие лида в БД
-      $lead = Lead::where('tempy', $request->tempy)->first();
+      $lead = Lead::where('tempy', $request->tempy)->orderBy('id', 'desc')->first();
 
       // если нет лида в БД то создаем нового
       if ($lead === null) {

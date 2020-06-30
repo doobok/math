@@ -37,15 +37,17 @@
               </div>
             </div>
 
+            @if ($options->has('discount_percent'))
             <div class="uk-flex-middle uk-margin-remove-top" uk-scrollspy="cls: uk-animation-slide-left-medium; delay: 2000" uk-grid>
               <div class="uk-width-expand">
                 <p class="uk-text-meta uk-text-right">* @lang('site.main-get-discount')</p>
               </div>
               <div class="uk-width-small ms-star-s">
                 <span><i class="fas fa-certificate uk-text-warning"></i></span>
-                <p>-10%</p>
+                <p>-{{$options->get('discount_percent')->value}}%</p>
               </div>
             </div>
+            @endif
 
 
             <div class="uk-text-center uk-margin-medium-top" uk-scrollspy="cls: uk-animation-slide-bottom-small; delay: 500">

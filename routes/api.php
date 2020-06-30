@@ -22,4 +22,6 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1'], function () {
   // Захват лидов
   Route::post('lead-push', 'LeadsController@addLead');
+  // Promo info
+  Route::get('promo', 'PromoController@getPromo');
 });

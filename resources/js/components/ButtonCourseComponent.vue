@@ -17,11 +17,14 @@
 
 <script>
 export default{
-  props:['title', 'clases', 'discount'],
+  props:['title', 'clases', 'discount', 'group'],
   methods: {
     getForm() {
       // передаем надпись с кнопки в store
       this.$store.dispatch('PUSH_SLUG', this.title);
+      if (this.group) {
+        this.$store.dispatch('PUSH_GROUP', true);
+      }
       // вызываем событие GA
       gtag('event', 'pushButton', {'event_category': 'Phone', 'event_label': this.title }); return true;
     }

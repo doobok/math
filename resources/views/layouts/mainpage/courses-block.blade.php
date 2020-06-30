@@ -32,12 +32,12 @@
 
         <button-course-component
         title="@lang('site.courses-zno')"
-        discount="10"
+        discount="{{$options->get('discount_percent')->value}}"
         ></button-course-component>
 
         <button-course-component
         title="@lang('site.courses-online')"
-        discount="10"
+        discount="{{$options->get('discount_percent')->value}}"
         ></button-course-component>
 
         <p uk-scrollspy="cls: uk-animation-fade; delay: 300">
@@ -47,17 +47,20 @@
         <button-course-component
         title="@lang('site.courses-group')"
         clases="uk-button-large"
+        group="true"
         ></button-course-component>
 
+        @if ($options->has('discount_gr_percent'))
         <div class="uk-flex-middle uk-margin-remove-top" uk-scrollspy="cls: uk-animation-slide-right-medium; delay: 500" uk-grid>
           <div class="uk-width-expand">
             <p class="uk-text-meta uk-text-right">* @lang('site.courses-group-discount')</p>
           </div>
           <div class="uk-width-small ms-star-m">
             <span><i class="fas fa-certificate uk-text-warning"></i></span>
-            <p>до 30%</p>
+            <p>до {{$options->get('discount_gr_percent')->value}}%</p>
           </div>
         </div>
+        @endif
 
       </div>
 

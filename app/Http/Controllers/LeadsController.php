@@ -55,7 +55,7 @@ class LeadsController extends Controller
         $phone = '+38' . $request->phone;
         $slug = $request->slug;
         //telegram notification
-        // Notification::send('', new TelegramNewLead($slug, $phone));
+        Notification::send('', new TelegramNewLead($slug, $phone));
 
         // отправляем в retailCRM
         $client = new \RetailCrm\ApiClient(
@@ -80,9 +80,6 @@ class LeadsController extends Controller
                 )
             ));
         } catch (\RetailCrm\Exception\CurlException $e) {
-
-              return back();
-
             // echo "Connection error: " . $e->getMessage();
         }
 

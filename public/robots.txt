@@ -1,2 +1,4 @@
 User-agent: *
-Disallow:
+Allow: /
+
+Sitemap: https://bucha.tutor-math.com.ua/sitemap.xml

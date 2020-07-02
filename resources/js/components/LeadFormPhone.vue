@@ -131,8 +131,8 @@ export default {
 
             // вызываем событие GA
             gtag('event', 'sendPhone', {'event_category': 'getPhone', 'event_label': this.slug });
-            ga('send', 'pageview', '/send-form');
-            return true;
+            gtag('send', 'pageview', '/send-form');
+            // return true;
 
           // в противном случае показываем сообщение об ошибке
           } else {

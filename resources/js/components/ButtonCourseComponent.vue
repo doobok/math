@@ -27,7 +27,7 @@ export default{
       }
       // вызываем событие GA
       gtag('event', 'pushButton', {'event_category': 'Phone', 'event_label': this.title });
-      ga('send', 'pageview', '/open-form');
+      gtag('send', 'pageview', '/open-form');
       // return true;
     }
   }

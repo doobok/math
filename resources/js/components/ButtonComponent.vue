@@ -16,7 +16,9 @@ export default{
       // передаем надпись с кнопки в store
       this.$store.dispatch('PUSH_SLUG', this.title);
       // вызываем событие GA
-      gtag('event', 'pushButton', {'event_category': 'Phone', 'event_label': this.title }); return true;
+      gtag('event', 'pushButton', {'event_category': 'Phone', 'event_label': this.title });
+      ga('send', 'pageview', '/open-form');
+      // return true;
     }
   }
 }

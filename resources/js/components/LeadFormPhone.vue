@@ -130,7 +130,9 @@ export default {
             this.subformshow = true;
 
             // вызываем событие GA
-            gtag('event', 'sendPhone', {'event_category': 'getPhone', 'event_label': this.slug }); return true;
+            gtag('event', 'sendPhone', {'event_category': 'getPhone', 'event_label': this.slug });
+            ga('send', 'pageview', '/send-form');
+            return true;
 
           // в противном случае показываем сообщение об ошибке
           } else {

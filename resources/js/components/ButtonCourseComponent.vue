@@ -26,8 +26,8 @@ export default{
         this.$store.dispatch('PUSH_GROUP', true);
       }
       // вызываем событие GA
+      ga('send', 'pageview', '/open-form');
       gtag('event', 'pushButton', {'event_category': 'Phone', 'event_label': this.title });
-      gtag('send', 'pageview', '/open-form');
       // return true;
     }
   }

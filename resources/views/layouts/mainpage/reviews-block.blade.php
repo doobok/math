@@ -23,6 +23,15 @@
         <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
   		</div>
 
+      {{-- Star rating --}}
+      <div class="uk-h4 uk-text-muted uk-text-center uk-margin-medium-top">@lang('site.set-rating')</div>
+      <div class="uk-container uk-flex uk-flex-center">
+        <star-rating
+        itemid="1"
+        model="main"
+        ></star-rating>
+      </div>
+
 
   </div>
 </section>

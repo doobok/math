@@ -24,4 +24,7 @@ Route::group(['prefix' => 'v1'], function () {
   Route::post('lead-push', 'LeadsController@addLead');
   // Promo info
   Route::get('promo', 'PromoController@getPromo');
+  // звездный рейтинг
+  Route::get('rating-get', 'RatingController@getRating');
+  Route::post('rating-set', 'RatingController@setRating');
 });

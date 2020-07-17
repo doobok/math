@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App;
 use App\Option;
 use Carbon\Carbon;
+use App\Rating;
 
 class MainPageController extends Controller
 {
@@ -17,6 +18,14 @@ class MainPageController extends Controller
 
       // updated time
       $updated = Option::all()->pluck('created_at')->last();
+
+      // rating
+      $rating = Rating::where('model', 'main')->where('itemid', 1)->first();
+        if ($rating === null) {
+          $rating = collect();
+          $rating->rating = 5;
+          $rating->count = 1;
+        }
 
       // promo time
       $promo_time = null;
@@ -45,11 +54,11 @@ class MainPageController extends Controller
         }
       }
 
-
       return view('index', [
         'options' => $options,
         'updated' => $updated,
         'promo_time' => $promo_time,
+        'rating' => $rating,
       ]);
     }
 

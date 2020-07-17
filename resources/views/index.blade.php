@@ -5,7 +5,7 @@
 
     @slot('title') @lang('site.title') @endslot
     @slot('description') {{__('site.description', [
-      'price' => $options->get('price_1')->value
+      'price' => $options->get('price_2')->value
       ])}}
     @endslot
     @slot('image') /math_intro.webp @endslot
@@ -37,4 +37,7 @@
   @include('layouts.mainpage.finish-block')
   {{-- modal form --}}
   @include('layouts.mainpage.modal')
+
+  {{-- schema --}}
+  @include('layouts.schema.company')
 @endsection

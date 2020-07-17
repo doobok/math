@@ -17,6 +17,7 @@ Vue.use(Vuelidate);
 Vue.component('button-component', require('./components/ButtonComponent.vue').default);
 Vue.component('button-course-component', require('./components/ButtonCourseComponent.vue').default);
 Vue.component('lead-form-phone', require('./components/LeadFormPhone.vue').default);
+Vue.component('star-rating', require('./components/StarRating.vue').default);
 
 
 const app = new Vue({

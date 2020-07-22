@@ -31,10 +31,10 @@
       </div>
       <div class="uk-navbar-right">
 
-        <a href="tel:+380689827797" class="uk-link-reset uk-text-large">
+        <a href="tel:+380673135525" class="uk-link-reset uk-text-large">
           <i class="fas fa-phone-square-alt"></i>
           <span class="uk-visible@s">
-            +38 (068) 98-27-797
+            +38 (067) 313-55-25
           </span>
         </a>
 

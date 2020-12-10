@@ -11,11 +11,12 @@
 	  <link rel="shortcut icon" href="{{asset('favicon.ico')}}" type="image/x-icon" />
 	  <link rel="apple-touch-icon" href="{{asset('apple-touch-icon.png')}}" />
 
-	  <link href="{{ mix('css/app.css')}}" rel="stylesheet">
+		<link href="{{ mix('css/app.css')}}" rel="stylesheet">
+	  <link href="{{ mix('css/dash.css')}}" rel="stylesheet">
 
 	</head>
 	<body>
-		<div>
+		<div id="app">
 			<div class="uk-navbar-container" uk-navbar>
 			    <div class="uk-navbar-left uk-margin-left">
 		        <a class="uk-navbar-toggle uk-text-large" href="#sidebar" uk-toggle>
@@ -53,7 +54,8 @@
 
 	</div>
 		<!-- JS FILES -->
-		<script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit-icons.min.js"></script>
+		<script src="{{ mix('js/dash.js') }}"></script>
+		{{-- <script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit-icons.min.js"></script> --}}
 	</body>
 </html>

@@ -25,6 +25,7 @@ Route::post('login', 'Auth\LoginController@login');
 // роуты администратора
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin', 'AdminController@index')->name('admin');
+    Route::get('/settings', 'AdminController@settings')->name('settings');
     // options
     Route::post('/option/new', 'OptionsController@create')->name('addoption');
     Route::patch('/option/{id}', 'OptionsController@update')->name('updoption');

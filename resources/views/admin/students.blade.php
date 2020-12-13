@@ -4,8 +4,8 @@
 
 <h1>Учні</h1>
 
-{{-- <v-app>
-  <calendar-component></calendar-component>
-</v-app> --}}
+<v-app>
+  <student-table></student-table>
+</v-app>
 
 @endsection

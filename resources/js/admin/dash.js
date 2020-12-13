@@ -19,6 +19,7 @@ import Vuetify from 'vuetify';
 Vue.component('calendar-component', require('./components/CalendarComponent.vue').default);
 Vue.component('classroom-table', require('./components/ClassroomsTable.vue').default);
 Vue.component('tutor-table', require('./components/TutorsTable.vue').default);
+Vue.component('student-table', require('./components/StudentsTable.vue').default);
 
 
 

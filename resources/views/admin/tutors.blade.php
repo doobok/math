@@ -4,8 +4,8 @@
 
 <h1>Тьютори</h1>
 
-{{-- <v-app>
-  <calendar-component></calendar-component>
-</v-app> --}}
+<v-app>
+  <tutor-table></tutor-table>
+</v-app>
 
 @endsection

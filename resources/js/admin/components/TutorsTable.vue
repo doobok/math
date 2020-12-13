@@ -29,6 +29,12 @@
       >
         mdi-pencil
       </v-icon>
+      <v-icon
+        class="mr-2"
+        @click="openItem(item)"
+      >
+        mdi-account-cash
+      </v-icon>
     </template>
 
     <template v-slot:footer>
@@ -59,16 +65,46 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="10">
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="4"
+                  >
+                    <v-text-field
+                      v-model="editedItem.lname"
+                      label="Прізвище"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="4"
+                  >
                     <v-text-field
                       v-model="editedItem.name"
-                      label="Назва"
+                      label="Імʼя"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="4"
+                  >
+                    <v-text-field
+                      v-model="editedItem.mname"
+                      label="По батькові"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="10">
                     <v-text-field
-                      v-model="editedItem.desc"
-                      label="Опис"
+                      v-model="editedItem.phone"
+                      label="Номер телефону"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="10">
+                    <v-text-field
+                      v-model="editedItem.comment"
+                      label="Коментар"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="10">
@@ -118,12 +154,15 @@
         search: '',
         headers: [
           {
-            text: 'Назва',
+            text: 'Прізвище',
             align: 'start',
-            sortable: false,
-            value: 'name',
+            value: 'lname',
           },
-          { text: 'Опис', value: 'desc' },
+          { text: 'Імʼя', value: 'name' },
+          { text: 'По батькові', value: 'mname' },
+          { text: 'Телефон', value: 'phone' },
+          { text: 'Баланс', value: 'balance' },
+          { text: 'Коментар', value: 'comment' },
           { text: 'Активність', value: 'active' },
           { text: 'Дії', value: 'actions', sortable: false },
         ],
@@ -132,27 +171,33 @@
         editedItem: {
           id: '',
           name: '',
-          desc: '',
+          lname: '',
+          mname: '',
+          phone: '',
+          comment: '',
           active: true,
         },
         defaultItem: {
           id: '',
           name: '',
-          desc: '',
+          lname: '',
+          mname: '',
+          phone: '',
+          comment: '',
           active: true,
       }
     }
   },
   mounted () {
     axios
-          .get('/api/v1/classroom-get')
+          .get('/api/v1/tutor-get')
           .then(response => {
               this.items = response.data;
           });
   },
   computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'Новий кабінет' : 'Редагування кабінету'
+        return this.editedIndex === -1 ? 'Новий тьютор' : 'Редагування тьютора'
       },
     },
   methods: {
@@ -171,7 +216,7 @@
     save () {
       if (this.editedIndex > -1) {
         axios
-        .patch('/api/v1/classroom-upd/' + this.editedItem.id, this.editedItem)
+        .patch('/api/v1/tutor-upd/' + this.editedItem.id, this.editedItem)
             .then(response => {
               if (response.data.success === 'true') {
                 // console.log('ok');
@@ -185,7 +230,7 @@
           Object.assign(this.items[this.editedIndex], this.editedItem)
       } else {
           axios
-            .post('/api/v1/classroom-set', this.editedItem)
+            .post('/api/v1/tutor-set', this.editedItem)
             .then(response => {
               this.items.push(response.data.data);
             })
@@ -197,6 +242,10 @@
       }
       this.close()
     },
+    openItem(item) {
+      console.log(item.id);
+      document.location.href = '/';      
+    }
   }
 }
 </script>

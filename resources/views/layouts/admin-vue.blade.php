@@ -41,11 +41,15 @@
           <button class="uk-offcanvas-close" type="button" uk-close></button>
 
 
-	        <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
-	            <li class="uk-active"><a href="{{route('mainpage')}}"><i class="fas fa-home"></i> На головну</a></li>
+	        <ul class="uk-nav uk-nav-primary uk-margin-auto-vertical">
+						<li><a href="{{route('admin')}}"><i class="far fa-calendar-alt"></i> Розклад</a></li>
+						<li><a href="{{route('students')}}"><i class="fas fa-user-graduate"></i> Учні</a></li>
+						<li><a href="{{route('tutors')}}"><i class="fas fa-chalkboard-teacher"></i> Тьютори</a></li>
+            <li><a href="{{route('classrooms')}}"><i class="fas fa-puzzle-piece"></i> Кабінети</a></li>
 
-	            <li class="uk-nav-divider"></li>
-	            <li><a href="{{route('settings')}}"><i class="fas fa-cog"></i> Налаштування</a></li>
+            <li class="uk-nav-divider"></li>
+						<li><a href="{{route('mainpage')}}"><i class="fas fa-home"></i> На головну</a></li>
+            <li><a href="{{route('settings')}}"><i class="fas fa-cog"></i> Налаштування</a></li>
 	        </ul>
 
 

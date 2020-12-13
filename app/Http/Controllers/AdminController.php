@@ -24,6 +24,30 @@ class AdminController extends Controller
       ]);
     }
 
+    // students
+    public function students()
+    {
+      return view('admin.students', [
+        // 'options' => $options,
+      ]);
+    }
+
+    // tutors
+    public function tutors()
+    {
+      return view('admin.tutors', [
+        // 'options' => $options,
+      ]);
+    }
+
+    // classrooms
+    public function classrooms()
+    {
+      return view('admin.classrooms', [
+        // 'options' => $options,
+      ]);
+    }
+
     public function settings()
     {
         $options = Option::all();

@@ -2,10 +2,10 @@
 
 @section('content')
 
-<h1>Розклад занять</h1>
+<h1>Учні</h1>
 
-<v-app>
+{{-- <v-app>
   <calendar-component></calendar-component>
-</v-app>
+</v-app> --}}
 
 @endsection

@@ -16,9 +16,8 @@ import Vuetify from 'vuetify';
 // Vue.use(Vuelidate);
 
 // Components
-Vue.component('test-component', require('./components/TestComponent.vue').default);
-Vue.component('test-component2', require('./components/TestComponent2.vue').default);
-Vue.component('test-component3', require('./components/TestComponent3.vue').default);
+Vue.component('calendar-component', require('./components/CalendarComponent.vue').default);
+Vue.component('classroom-table', require('./components/ClassroomsTable.vue').default);
 
 
 

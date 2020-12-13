@@ -2,10 +2,10 @@
 
 @section('content')
 
-<h1>Розклад занять</h1>
+<h1>Кабінети</h1>
 
 <v-app>
-  <calendar-component></calendar-component>
+  <classroom-table></classroom-table>
 </v-app>
 
 @endsection

@@ -27,4 +27,8 @@ Route::group(['prefix' => 'v1'], function () {
   // звездный рейтинг
   Route::get('rating-get', 'RatingController@getRating');
   Route::post('rating-set', 'RatingController@setRating');
+  // Classrooms
+  Route::get('classroom-get', 'Dash\ClassroomController@getClass');
+  Route::post('classroom-set', 'Dash\ClassroomController@setClass');
+  Route::patch('classroom-upd/{id}', 'Dash\ClassroomController@updClass');
 });

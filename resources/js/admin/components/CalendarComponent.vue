@@ -20,6 +20,7 @@
                   :hint="`${editedItem.tutor_id.lname} ${editedItem.tutor_id.name} ${editedItem.tutor_id.mname}`"
                   item-text="lname"
                   label="Тьютор"
+                  item-value="id"
                   return-object
                 ></v-select>
               </v-col>
@@ -329,27 +330,23 @@
               :color="selectedEvent.color"
               dark
             >
-              <v-btn icon>
+              <v-btn @click="edit" icon>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
-              <v-btn icon>
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </v-toolbar>
             <v-card-text>
-              <span v-html="selectedEvent.details"></span>
+              <span>Тьютор: {{getTutorbyId}}</span><br>
+              <span>Кабінет: {{getClassbyId}}</span><br>
+              <span v-html="selectedEvent.comment"></span>
             </v-card-text>
             <v-card-actions>
-              <v-btn
-                text
-                color="secondary"
-                @click="selectedOpen = false"
-              >
+              <v-spacer></v-spacer>
+              <v-btn text color="secondary" @click="selectedOpen = false">
                 Ok
               </v-btn>
             </v-card-actions>
@@ -457,7 +454,25 @@
         this.$nextTick(() => {
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
+          this.datePic.last = ''
         })
+      },
+      // нажатие на редактирование события
+      edit () {
+        console.log('edit worked');
+        this.editedIndex =  this.lessons.indexOf(this.selectedEvent);
+
+        this.editForm = true;
+        this.editedItem = this.selectedEvent;
+        this.datePic.date = this.formatDate(this.selectedEvent.start);
+        this.datePic.start = this.formatTime(this.selectedEvent.start);
+        this.datePic.end = this.formatTime(this.selectedEvent.end);
+        if (this.selectedEvent.period_end) {
+          this.datePic.last = this.formatDate(this.selectedEvent.period_end);
+        }
+
+        this.editedItem.students = JSON.parse(this.selectedEvent.students);
+
       },
       // сохранить форму
       save () {
@@ -468,7 +483,7 @@
 
         if (this.editedIndex > -1) {
             this.$store.dispatch('EDIT_LESSON', this.collector);
-            Object.assign(this.items[this.editedIndex], this.editedItem)
+            // Object.assign(this.lessons[this.editedIndex], this.editedItem)
         } else {
           console.log( this.editedItem);
           this.$store.dispatch('SET_LESSON', this.collector);
@@ -573,7 +588,6 @@
           this.editForm = true;
           this.datePic.date = this.formatDate(this.createStart);
           this.datePic.start = this.formatTime(this.createStart);
-          console.log(this.createStart);
           this.datePic.end = this.formatTime(this.createStart+3600000);
           // this.editedItem.start = new Date(this.createStart);
           // alert(new Date(this.createStart))
@@ -712,15 +726,38 @@
         this.editedItem.students.forEach(function(el) {
           nm = nm + el.lname + ' ';
         });
-        return nm;
+        return this.editedItem.students[0].class + ' ' + nm;
       },
       getColor () {
         let cl = this.editedItem.students[0].class;
-        if (cl === 11) return 'deep-purple';
+        if (cl === 1) return 'light-blue';
+        if (cl === 2) return 'cyan';
+        if (cl === 3) return 'teal';
+        if (cl === 4) return 'green';
+        if (cl === 5) return 'light-green';
+        if (cl === 6) return 'lime darken-1';
+        if (cl === 7) return 'amber';
+        if (cl === 8) return 'orange';
+        if (cl === 9) return 'deep-orange';
+        if (cl === 10) return 'red';
+        if (cl === 11) return 'pink';
+        else return 'blue-grey';
       },
       getLastdate () {
         if (this.datePic.last) {
           return this.datePic.last + ' ' + this.datePic.end;
+        }
+      },
+      getTutorbyId () {
+        let tutor = this.tutors.find(element => element.id === this.selectedEvent.tutor_id);
+        if (tutor) {
+          return tutor.lname +' '+ tutor.name +' '+ tutor.mname;
+        }
+      },
+      getClassbyId () {
+        let classroom = this.classrooms.find(element => element.id === this.selectedEvent.classroom_id);
+        if (classroom) {
+          return classroom.name;
         }
       }
     },

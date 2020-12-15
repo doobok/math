@@ -41,6 +41,6 @@ class LessonController extends Controller
       $lesson = Lesson::findOrFail($id);
       $lesson->update($request->all());
 
-      return response()->json(['success' => 'true']);
+      return $lesson;
     }
 }

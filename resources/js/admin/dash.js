@@ -3,13 +3,11 @@ require('./../bootstrap');
 // Vue
 window.Vue = require('vue');
 
-// import vuetify from './plugins/vuetify' // path to vuetify export
-
 import Vuetify from 'vuetify';
    Vue.use(Vuetify);
 
 // Vuex
-// import store from './store/index';
+import store from './store/index';
 
 // // валидатор форм
 // import Vuelidate from 'vuelidate';
@@ -26,5 +24,5 @@ Vue.component('student-table', require('./components/StudentsTable.vue').default
 const app = new Vue({
    el: '#app',
    vuetify: new Vuetify(),
-   // store
+   store
 });

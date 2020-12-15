@@ -16,6 +16,9 @@ class StudentController extends Controller
     public function setStudent(Request $request)
     {
       $student = Student::create($request->all());
+      // конкатенація імені і прізвища
+      $student->concname = $request->lname . ' ' . $request->name;
+      $student->save();
 
       return response()->json(['success' => 'true', 'data' => $student]);
     }
@@ -24,6 +27,9 @@ class StudentController extends Controller
     {
       $student = Student::findOrFail($id);
       $student->update($request->all());
+      // конкатенація імені і прізвища
+      $student->concname = $request->lname . ' ' . $request->name;
+      $student->save();
 
       return response()->json(['success' => 'true']);
     }

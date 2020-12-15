@@ -90,10 +90,11 @@
                     sm="6"
                     md="4"
                   >
-                    <v-text-field
-                      v-model="editedItem.class"
+                    <v-select
+                    v-model="editedItem.class"
+                      :items="clases"
                       label="Клас"
-                    ></v-text-field>
+                    ></v-select>
                   </v-col>
                   <v-col cols="10">
                     <v-text-field
@@ -152,6 +153,7 @@
       return {
         dialog: false,
         search: '',
+        clases: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,],
         headers: [
           {
             text: 'Прізвище',

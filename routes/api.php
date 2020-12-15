@@ -39,4 +39,9 @@ Route::group(['prefix' => 'v1'], function () {
   Route::get('student-get', 'Dash\StudentController@getStudent');
   Route::post('student-set', 'Dash\StudentController@setStudent');
   Route::patch('student-upd/{id}', 'Dash\StudentController@updStudent');
+  // Lessons
+  Route::get('lesson-get', 'Dash\LessonController@getLesson');
+  Route::get('lesson-start-data', 'Dash\LessonController@getStartData');  
+  Route::post('lesson-set', 'Dash\LessonController@setLesson');
+  Route::patch('lesson-upd/{id}', 'Dash\LessonController@updLesson');
 });

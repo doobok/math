@@ -8,6 +8,7 @@ use App\Lesson;
 use App\Student;
 use App\Tutor;
 use App\Classroom;
+use Carbon\Carbon;
 
 class LessonController extends Controller
 {
@@ -40,6 +41,16 @@ class LessonController extends Controller
     {
       $lesson = Lesson::findOrFail($id);
       $lesson->update($request->all());
+
+      return $lesson;
+    }
+    // edit Lesson time
+    public function updLessonTime(Request $request, $id)
+    {
+      $lesson = Lesson::findOrFail($id);
+      $lesson->start = Carbon::createFromTimestamp($request->start);
+      $lesson->end = Carbon::createFromTimestamp($request->end);
+      $lesson->save();
 
       return $lesson;
     }

@@ -353,9 +353,6 @@
           </v-card>
         </v-menu>
 
-        <!-- <calendar-addleson :startTime="new Date(this.createStart)"></calendar-addleson> -->
-
-
       </v-sheet>
     </v-col>
   </v-row>
@@ -376,9 +373,6 @@
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
-      events: [],
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-      names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       editForm: false,
       editedIndex: -1,
       editedItem: {
@@ -428,7 +422,7 @@
       axios
         .get('/api/v1/lesson-start-data')
         .then(response => {
-          console.log(response);
+          // console.log(response);
           this.students = response.data.students;
           this.tutors = response.data.tutors;
           this.classrooms = response.data.classrooms;
@@ -438,12 +432,6 @@
           console.log(e);
           alert('Виникла помилка, повторіть спробу трішки пізніше');
         });
-
-        // получение состояния тасков
-        // this.events = this.$store.getters.lessons;
-
-        // this.$store.dispatch('GET_LESSONS');
-
 
       this.$refs.calendar.checkChange()
     },
@@ -459,7 +447,6 @@
       },
       // нажатие на редактирование события
       edit () {
-        console.log('edit worked');
         this.editedIndex =  this.lessons.indexOf(this.selectedEvent);
 
         this.editForm = true;
@@ -470,29 +457,21 @@
         if (this.selectedEvent.period_end) {
           this.datePic.last = this.formatDate(this.selectedEvent.period_end);
         }
-
         this.editedItem.students = JSON.parse(this.selectedEvent.students);
-
       },
       // сохранить форму
       save () {
-        console.log(this.editedItem.students);
-
         this.editedItem.start = this.datePic.date + ' ' + this.datePic.start;
         this.editedItem.end = this.datePic.date + ' ' + this.datePic.end;
 
         if (this.editedIndex > -1) {
             this.$store.dispatch('EDIT_LESSON', this.collector);
-            // Object.assign(this.lessons[this.editedIndex], this.editedItem)
         } else {
-          console.log( this.editedItem);
           this.$store.dispatch('SET_LESSON', this.collector);
-
         }
         this.close()
       },
       viewDay ({ date }) {
-        console.log('Показать день');//норм
         this.focus = date
         this.type = 'day'
       },
@@ -509,8 +488,7 @@
         this.$refs.calendar.next()
       },
       showEvent ({ nativeEvent, event }) {
-        console.log('Клик по событию');//норм
-        // setTimeout(() => {
+        // console.log('Клик по событию');//норм
           const open = () => {
             this.selectedEvent = event
             this.selectedElement = nativeEvent.target
@@ -518,7 +496,6 @@
               this.selectedOpen = true
             }, 10)
           }
-        // }, 100)
 
         if (this.selectedOpen) {
           this.selectedOpen = false
@@ -531,51 +508,19 @@
       },
       updateRange ({ start, end }) {
         this.$store.dispatch('GET_LESSONS');
-        console.log('get lessons');
-        // console.log(start);
-
-      //   console.log('Изменения состояния');//норм
-      //
-      //   const min = new Date(`${start.date}T00:00:00`)
-      //   const max = new Date(`${end.date}T23:59:59`)
-      //
-      //   // // создание случайных событий
-      //   // const events = []
-      //   //
-      //   const days = (max.getTime() - min.getTime()) / 86400000
-      //   // const eventCount = this.rnd(days, days + 20)
-      //   //
-      //   // for (let i = 0; i < eventCount; i++) {
-      //   //   const allDay = this.rnd(0, 3) === 0
-      //   //   const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-      //   //   const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-      //   //   const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-      //   //   const second = new Date(first.getTime() + secondTimestamp)
-      //   //
-      //   //   events.push({
-      //   //     name: this.names[this.rnd(0, this.names.length - 1)],
-      //   //     start: first,
-      //   //     end: second,
-      //   //     color: this.colors[this.rnd(0, this.colors.length - 1)],
-      //   //     timed: !allDay,
-      //   //   })
-      //   // }
-      //   //
-        this.events = this.lessons;
-      },
-      rnd (a, b) {
-        return Math.floor((b - a + 1) * Math.random()) + a
       },
       startDrag ({ event, timed }) {
-        console.log('Начало перетаскивания');
+        // console.log('Начало перетаскивания');
         if (event && timed) {
           this.dragEvent = event
+          this.dragEvent.start = new Date(event.start)
+          this.dragEvent.end = new Date(event.end)
           this.dragTime = null
           this.extendOriginal = null
         }
       },
       startTime (tms) {
-        console.log('Мышка опустилась на шкалу времени');
+        // console.log('Мышка опустилась на шкалу времени');
 
         const mouse = this.toTime(tms)
 
@@ -589,17 +534,6 @@
           this.datePic.date = this.formatDate(this.createStart);
           this.datePic.start = this.formatTime(this.createStart);
           this.datePic.end = this.formatTime(this.createStart+3600000);
-          // this.editedItem.start = new Date(this.createStart);
-          // alert(new Date(this.createStart))
-          // this.createEvent = {
-          //   name: `Event #${this.events.length}`,
-          //   color: this.rndElement(this.colors),
-          //   start: this.createStart,
-          //   end: this.createStart,
-          //   timed: true,
-          // }
-
-          // this.events.push(this.createEvent)
         }
       },
       extendBottom (event) {
@@ -631,12 +565,10 @@
         }
       },
       endDrag () {
-        console.log('Конец перемещения');
+        // console.log('Конец перемещения');
         if (this.dragEvent && this.dragTime !== null) {
-          console.log('новое время события:' + this.dragEvent.start + ' по ' + this.dragEvent.end);
-
-          // this.dragEvent.start = newStart
-          // this.dragEvent.end = newEnd
+          // console.log('новое время события:' + this.dragEvent.start + ' по ' + this.dragEvent.end);
+          this.$store.dispatch('EDIT_TIME', { 'id': this.dragEvent.id, 'start': this.dragEvent.start/1000, 'end': this.dragEvent.end/1000 });
         }
         this.dragTime = null
         this.dragEvent = null
@@ -645,14 +577,13 @@
         this.extendOriginal = null
       },
       cancelDrag () {
-        console.log('Мышка вне таблицы');
         if (this.createEvent) {
           if (this.extendOriginal) {
             this.createEvent.end = this.extendOriginal
           } else {
-            const i = this.events.indexOf(this.createEvent)
+            const i = this.lessons.indexOf(this.createEvent)
             if (i !== -1) {
-              this.events.splice(i, 1)
+              this.lessons.splice(i, 1)
             }
           }
         }

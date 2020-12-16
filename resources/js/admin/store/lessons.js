@@ -9,14 +9,6 @@ export default {
       return state.lessons;
     }
   },
-  // getters: {
-  //   TASKS (state) {
-  //     return state.tasks
-  //   },
-  //   NOT_CONFIRMED (state) {
-  //     return state.tasks.filter(task => task.confirmed != 1)
-  //   }
-  // },
   mutations: {
     SET_LESSONS: (state, payload) => {
       state.lessons = payload;
@@ -31,6 +23,8 @@ export default {
         return t.id === payload.id
       })
       lesson.name = payload.name,
+      // lesson.start = payload.start,
+      // lesson.end = payload.end,
       lesson.comment = payload.comment,
       lesson.color = payload.color
     },
@@ -43,13 +37,17 @@ export default {
     },
     // отправка Урока
     SET_LESSON : async (context, payload) => {
-      console.log(payload);
       let {data} = await Axios.post('/api/v1/lesson-set', payload);
       context.commit('PUSH_lESSON', data);
     },
     // изменение Урока в БД
     EDIT_LESSON: async (context, payload) => {
       let {data} = await Axios.patch('/api/v1/lesson-upd/' + payload.id, payload);
+      context.commit('UPDATE_LESSON', data);
+    },
+    // изменение Урока в БД
+    EDIT_TIME: async (context, payload) => {
+      let {data} = await Axios.patch('/api/v1/lesson-time-upd/' + payload.id, payload);
       context.commit('UPDATE_LESSON', data);
     },
   }

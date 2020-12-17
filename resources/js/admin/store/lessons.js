@@ -37,7 +37,7 @@ export default {
   actions: {
     // получаем Уроки
     GET_LESSONS : async (context, payload) => {
-      let {data} = await Axios.get('/api/v1/lesson-get');
+      let {data} = await Axios.get('/api/v1/lesson-get', payload);
       context.commit('SET_LESSONS', data);
     },
     // отправка Урока

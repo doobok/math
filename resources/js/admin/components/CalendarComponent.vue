@@ -288,6 +288,34 @@
             {{ $refs.calendar.title }}
           </v-toolbar-title>
           <v-spacer></v-spacer>
+
+          <v-col class="d-flex" cols="2">
+            <v-select
+              @change="getLessons"
+              v-model="filter.tutor"
+              :items="tutors"
+              item-text="lname"
+              item-value="id"
+              label="Тьютор"
+            ></v-select>
+          </v-col>
+          <v-col class="d-flex" cols="2">
+            <v-select
+              @change="getLessons"
+              v-model="filter.classroom"
+              :items="classrooms"
+              item-text="name"
+              item-value="id"
+              label="Кабінет"
+            ></v-select>
+          </v-col>
+          <v-btn elevation="1" icon @click="resetFilter">
+            <v-icon color="light-green lighten-1">
+              mdi-restart
+            </v-icon>
+          </v-btn>
+
+          <v-spacer></v-spacer>
           <v-menu
             bottom
             right
@@ -322,7 +350,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="900">
+      <v-sheet height="750">
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -490,12 +518,15 @@
       startPicT: false,
       endPicT: false,
       lastDatePic: false,
+      filter: {
+        tutor: 'all',
+        classroom: 'all',
+      }
     }),
     mounted () {
       axios
         .get('/api/v1/lesson-start-data')
         .then(response => {
-          // console.log(response);
           this.students = response.data.students;
           this.tutors = response.data.tutors;
           this.classrooms = response.data.classrooms;
@@ -506,9 +537,13 @@
           alert('Виникла помилка, повторіть спробу трішки пізніше');
         });
 
-      this.$refs.calendar.checkChange()
+      this.$refs.calendar.checkChange();
+      this.getLessons();
     },
     methods: {
+      getLessons () {
+        this.$store.dispatch('GET_LESSONS', {params: this.filter});
+      },
       // закрыть форму редактирования
       close () {
         this.editForm = false
@@ -595,7 +630,7 @@
         nativeEvent.stopPropagation()
       },
       updateRange ({ start, end }) {
-        this.$store.dispatch('GET_LESSONS');
+        // console.log('обновлено');
       },
       startDrag ({ event, timed }) {
         // console.log('Начало перетаскивания');
@@ -655,7 +690,6 @@
       endDrag () {
         // console.log('Конец перемещения');
         if (this.dragEvent && this.dragTime !== null) {
-          // console.log('новое время события:' + this.dragEvent.start + ' по ' + this.dragEvent.end);
           this.$store.dispatch('EDIT_TIME', { 'id': this.dragEvent.id, 'start': this.dragEvent.start/1000, 'end': this.dragEvent.end/1000 });
         }
         this.dragTime = null
@@ -713,8 +747,12 @@
           if (mm < 10) mm = '0' + mm;
 
           return [hh, mm].join(':');
-
       },
+      resetFilter() {
+        this.filter.tutor = 'all';
+        this.filter.classroom = 'all';
+        this.getLessons()
+      }
     },
     computed: {
       formTitle () {

@@ -12,9 +12,23 @@ use Carbon\Carbon;
 
 class LessonController extends Controller
 {
-    public function getLesson()
+    public function getLesson(Request $request)
     {
-      return Lesson::all();
+      $params = [];
+
+      if ($request->tutor != 'all') {
+        array_push($params, ['tutor_id', $request->tutor]);
+      }
+
+      if ($request->classroom != 'all') {
+        array_push($params, ['classroom_id', $request->classroom]);
+      }
+
+      $lessons = Lesson::
+          where($params)
+        ->get();
+
+      return $lessons;
     }
     // start data
     public function getStartData()

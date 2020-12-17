@@ -24,7 +24,9 @@ class CreateLessonsTable extends Migration
             $table->integer('tutor_id')->nullable();
             $table->integer('classroom_id')->nullable();
             $table->json('students');
-            $table->boolean('paid')->default(false);
+            $table->json('pass')->nullable();
+            $table->boolean('pass_paid')->nullable();
+            $table->boolean('computed')->default(false);
             $table->boolean('timed')->default(true);
             $table->timestamp('period_end')->nullable();
             $table->string('comment')->nullable();

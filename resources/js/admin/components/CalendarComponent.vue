@@ -68,6 +68,7 @@
                     </template>
                     <v-date-picker
                       v-model="datePic.date"
+                      locale="uk"
                       @input="startPicD = false"
                     ></v-date-picker>
                   </v-menu>
@@ -138,19 +139,21 @@
                     </v-time-picker>
                   </v-dialog>
                 </v-col>
-                <v-col class="d-flex" cols="10">
+                <v-col class="d-flex" cols="10" sm="7">
                   <v-select
                     v-model="editedItem.students"
                     :items="students"
                     label="Учні"
                     item-text="concname"
                     item-value="id"
+                    item-color="green"
                     chips
+                    deletable-chips
                     multiple
                     return-object
                   ></v-select>
                 </v-col>
-                <v-col class="d-flex" cols="10" sm="4">
+                <v-col class="d-flex" cols="10" sm="3">
                     <v-menu
                       v-model="lastDatePic"
                       :close-on-content-click="false"
@@ -162,7 +165,7 @@
                       <template v-slot:activator="{ on, attrs }">
                         <v-text-field
                           v-model="datePic.last"
-                          label="Заняття до"
+                          label="Випуск"
                           prepend-icon="mdi-calendar"
                           readonly
                           v-bind="attrs"
@@ -171,10 +174,33 @@
                       </template>
                       <v-date-picker
                         v-model="datePic.last"
+                        locale="uk"
                         @input="lastDatePic = false"
                       ></v-date-picker>
                     </v-menu>
                   </v-col>
+                <template v-if="editedItem.students">
+                  <v-col class="d-flex" cols="10" sm="7">
+                    <v-select
+                      v-model="editedItem.pass"
+                      :items="editedItem.students"
+                      label="Відсутні"
+                      item-text="concname"
+                      item-value="id"
+                      chips
+                      deletable-chips
+                      item-color="red"
+                      multiple
+                      return-object
+                    ></v-select>
+                  </v-col>
+                  <v-col class="d-flex" ols="10" sm="3">
+                    <v-checkbox
+                      v-model="editedItem.pass_paid"
+                      :label="passPaid"
+                    ></v-checkbox>
+                  </v-col>
+                </template>
               <v-col cols="10">
                 <v-text-field
                   v-model="editedItem.comment"
@@ -293,8 +319,6 @@
           @click:more="viewDay"
           @click:date="viewDay"
           @change="updateRange"
-
-
           @mousedown:event="startDrag"
           @mousedown:time="startTime"
           @mousemove:time="mouseMove"
@@ -335,9 +359,35 @@
               </v-btn>
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
+              <v-menu bottom left>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    dark
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+
+                <v-list flat>
+                  <v-list-item-group
+                    color="primary"
+                  >
+                  <v-list-item @click="copyLesson">
+                    <v-list-item-title>
+                      <v-icon>mdi-content-copy</v-icon>
+                        Дублювати
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item @click="delLesson">
+                    <v-icon>mdi-delete</v-icon>
+                      <v-list-item-title>Видалити</v-list-item-title>
+                  </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+              </v-menu>
             </v-toolbar>
             <v-card-text>
               <span>Тьютор: {{getTutorbyId}}</span><br>
@@ -388,6 +438,8 @@
         period_end: '',
         comment: '',
         color: '',
+        pass: '',
+        pass_paid: '',
       },
       defaultItem: {
         id: '',
@@ -402,6 +454,8 @@
         period_end: '',
         comment: '',
         color: '',
+        pass: '',
+        pass_paid: '',
       },
       datePic: {
         date: '',
@@ -416,7 +470,6 @@
       startPicT: false,
       endPicT: false,
       lastDatePic: false,
-      selectedStud: [],
     }),
     mounted () {
       axios
@@ -457,7 +510,12 @@
         if (this.selectedEvent.period_end) {
           this.datePic.last = this.formatDate(this.selectedEvent.period_end);
         }
-        this.editedItem.students = JSON.parse(this.selectedEvent.students);
+        if (this.selectedEvent.students.constructor != Array) {
+          this.editedItem.students = JSON.parse(this.selectedEvent.students);
+        }
+        if (this.selectedEvent.pass && this.selectedEvent.pass.constructor != Array) {
+          this.editedItem.pass = JSON.parse(this.selectedEvent.pass);
+        }
       },
       // сохранить форму
       save () {
@@ -470,6 +528,16 @@
           this.$store.dispatch('SET_LESSON', this.collector);
         }
         this.close()
+      },
+      copyLesson () {
+        this.$store.dispatch('COPY_LESSON', this.selectedEvent.id);
+        this.selectedOpen = false;
+      },
+      delLesson () {
+        if (confirm("Ви дійсно бажаєте видалити це заняття?")) {
+          this.$store.dispatch('DEL_LESSON', this.selectedEvent.id);
+          this.selectedOpen = false;
+        }
       },
       viewDay ({ date }) {
         this.focus = date
@@ -632,6 +700,9 @@
       formTitle () {
         return this.editedIndex === -1 ? 'Нове заняття' : 'Редагування заняття'
       },
+      passPaid () {
+        return this.editedItem.pass_paid ? 'Оплачуваний пропуск' : 'Не оплачуваний пропуск'
+      },
       // получение состояния тасков
       lessons () {
         return this.$store.getters.lessons;
@@ -650,6 +721,9 @@
           period_end: this.getLastdate,
           comment: this.editedItem.comment,
           color: this.getColor,
+          timed: true,
+          pass: this.getPassStudent,
+          pass_paid: this.editedItem.pass_paid,
         };
       },
       getName () {
@@ -689,6 +763,11 @@
         let classroom = this.classrooms.find(element => element.id === this.selectedEvent.classroom_id);
         if (classroom) {
           return classroom.name;
+        }
+      },
+      getPassStudent () {
+        if (this.editedItem.pass) {
+          return JSON.stringify(this.editedItem.pass);
         }
       }
     },

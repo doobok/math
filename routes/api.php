@@ -44,5 +44,7 @@ Route::group(['prefix' => 'v1'], function () {
   Route::get('lesson-start-data', 'Dash\LessonController@getStartData');
   Route::post('lesson-set', 'Dash\LessonController@setLesson');
   Route::patch('lesson-upd/{id}', 'Dash\LessonController@updLesson');
+  Route::post('lesson-copy/{id}', 'Dash\LessonController@copyLesson');
+  Route::delete('lesson-del/{id}', 'Dash\LessonController@delLesson');
   Route::patch('lesson-time-upd/{id}', 'Dash\LessonController@updLessonTime');
 });

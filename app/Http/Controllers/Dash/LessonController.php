@@ -54,4 +54,33 @@ class LessonController extends Controller
 
       return $lesson;
     }
+    // copy Lesson
+    public function copyLesson($id)
+    {
+      $lesson = Lesson::findOrFail($id);
+
+      $newLesson = $lesson->replicate();
+      $newLesson->pass = null;
+      $newLesson->pass_paid = null;
+      $newLesson->computed = 0;
+      $newLesson->save();
+
+      return $newLesson;
+    }
+    // copy Lesson
+    public function delLesson($id)
+    {
+
+      // // удаление доступно только для менеджера
+      //   if ($request->user()->cannot('manager-show')) {
+      //       abort(403);
+      //   }
+
+      $lesson = Lesson::findOrFail($id);
+
+      $lesson->delete();
+
+      return response()->json(['success' => 'true']);
+
+    }
 }

@@ -28,6 +28,11 @@ export default {
       lesson.comment = payload.comment,
       lesson.color = payload.color
     },
+    // убрать урок из состояния
+    REMOVE_LESSON(state, payload){
+      var index = state.lessons.findIndex(lesson => lesson.id === payload);
+      state.lessons.splice(index, 1);
+    }
   },
   actions: {
     // получаем Уроки
@@ -49,6 +54,16 @@ export default {
     EDIT_TIME: async (context, payload) => {
       let {data} = await Axios.patch('/api/v1/lesson-time-upd/' + payload.id, payload);
       context.commit('UPDATE_LESSON', data);
+    },
+    // изменение Урока в БД
+    COPY_LESSON: async (context, payload) => {
+      let {data} = await Axios.post('/api/v1/lesson-copy/' + payload);
+      context.commit('PUSH_lESSON', data);
+    },
+    // удаление урока в БД
+    DEL_LESSON: async (context, payload) => {
+      let {data} = await Axios.delete('/api/v1/lesson-del/' + payload);
+      context.commit('REMOVE_LESSON', payload);
     },
   }
 }

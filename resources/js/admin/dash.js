@@ -6,6 +6,14 @@ window.Vue = require('vue');
 import Vuetify from 'vuetify';
    Vue.use(Vuetify);
 
+// vee-validate
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+import { required } from 'vee-validate/dist/rules';
+
+extend('required', {
+  ...required,
+  message: 'Це обовʼязкове поле'
+});
 // Vuex
 import store from './store/index';
 
@@ -18,6 +26,9 @@ Vue.component('calendar-component', require('./components/CalendarComponent.vue'
 Vue.component('classroom-table', require('./components/ClassroomsTable.vue').default);
 Vue.component('tutor-table', require('./components/TutorsTable.vue').default);
 Vue.component('student-table', require('./components/StudentsTable.vue').default);
+
+Vue.component('validation-provider', ValidationProvider);
+Vue.component('validation-observer', ValidationObserver);
 
 
 

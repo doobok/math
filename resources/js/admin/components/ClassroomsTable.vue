@@ -51,6 +51,7 @@
               Додати
             </v-btn>
           </template>
+          <validation-observer ref="observer" v-slot="{ invalid }">
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -60,16 +61,22 @@
               <v-container>
                 <v-row>
                   <v-col cols="10">
-                    <v-text-field
-                      v-model="editedItem.name"
-                      label="Назва"
-                    ></v-text-field>
+                    <validation-provider rules="required" v-slot="{ errors }">
+                      <v-text-field
+                        v-model="editedItem.name"
+                        label="Назва"
+                        :error-messages="errors"
+                      ></v-text-field>
+                    </validation-provider>
                   </v-col>
                   <v-col cols="10">
-                    <v-text-field
-                      v-model="editedItem.desc"
-                      label="Опис"
-                    ></v-text-field>
+                    <validation-provider rules="required" v-slot="{ errors }">
+                      <v-text-field
+                        v-model="editedItem.desc"
+                        label="Опис"
+                        :error-messages="errors"
+                      ></v-text-field>
+                    </validation-provider>
                   </v-col>
                   <v-col cols="10">
                     <v-checkbox
@@ -94,12 +101,14 @@
               <v-btn
                 color="blue darken-1"
                 text
+                :disabled="invalid"
                 @click="save"
               >
                 зберегти
               </v-btn>
             </v-card-actions>
           </v-card>
+          </validation-observer>
         </v-dialog>
 
       </v-toolbar>

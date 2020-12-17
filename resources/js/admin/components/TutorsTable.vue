@@ -57,6 +57,7 @@
               Додати
             </v-btn>
           </template>
+          <validation-observer ref="observer" v-slot="{ invalid }">
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -70,36 +71,48 @@
                     sm="6"
                     md="4"
                   >
+                  <validation-provider rules="required" v-slot="{ errors }">
                     <v-text-field
                       v-model="editedItem.lname"
+                      :error-messages="errors"
                       label="Прізвище"
                     ></v-text-field>
+                  </validation-provider>
                   </v-col>
                   <v-col
                     cols="12"
                     sm="6"
                     md="4"
                   >
+                  <validation-provider rules="required" v-slot="{ errors }">
                     <v-text-field
                       v-model="editedItem.name"
+                      :error-messages="errors"
                       label="Імʼя"
                     ></v-text-field>
+                  </validation-provider>
                   </v-col>
                   <v-col
                     cols="12"
                     sm="6"
                     md="4"
                   >
+                  <validation-provider rules="required" v-slot="{ errors }">
                     <v-text-field
                       v-model="editedItem.mname"
+                      :error-messages="errors"
                       label="По батькові"
                     ></v-text-field>
+                  </validation-provider>
                   </v-col>
                   <v-col cols="10">
+                  <validation-provider rules="required" v-slot="{ errors }">
                     <v-text-field
                       v-model="editedItem.phone"
+                      :error-messages="errors"
                       label="Номер телефону"
                     ></v-text-field>
+                  </validation-provider>
                   </v-col>
                   <v-col cols="10">
                     <v-text-field
@@ -130,12 +143,14 @@
               <v-btn
                 color="blue darken-1"
                 text
+                :disabled="invalid"
                 @click="save"
               >
                 зберегти
               </v-btn>
             </v-card-actions>
           </v-card>
+        </validation-observer>
         </v-dialog>
 
       </v-toolbar>
@@ -244,7 +259,7 @@
     },
     openItem(item) {
       console.log(item.id);
-      document.location.href = '/';      
+      document.location.href = '/';
     }
   }
 }

@@ -6,6 +6,7 @@
       width="800"
       style="overflow-x: hidden"
     >
+    <validation-observer ref="observer" v-slot="{ invalid }">
       <v-card>
         <v-card-title class="headline">{{ formTitle }}</v-card-title>
 
@@ -14,31 +15,40 @@
           <v-container>
             <v-row>
               <v-col class="d-flex" cols="10" sm="5">
-                <v-select
-                  v-model="editedItem.tutor_id"
-                  :items="tutors"
-                  :hint="`${editedItem.tutor_id.lname} ${editedItem.tutor_id.name} ${editedItem.tutor_id.mname}`"
-                  item-text="lname"
-                  label="Тьютор"
-                  item-value="id"
-                  return-object
-                ></v-select>
+                <validation-provider rules="required" v-slot="{ errors }">
+                  <v-select
+                    v-model="editedItem.tutor_id"
+                    :items="tutors"
+                    :hint="`${editedItem.tutor_id.lname} ${editedItem.tutor_id.name} ${editedItem.tutor_id.mname}`"
+                    item-text="lname"
+                    label="Тьютор"
+                    item-value="id"
+                    return-object
+                    :error-messages="errors"
+                  ></v-select>
+                </validation-provider>
               </v-col>
               <v-col class="d-flex" cols="10" sm="5">
-                <v-select
-                  v-model="editedItem.classroom_id"
-                  :items="classrooms"
-                  item-text="name"
-                  item-value="id"
-                  label="Кабінет"
-                ></v-select>
+                <validation-provider rules="required" v-slot="{ errors }">
+                  <v-select
+                    v-model="editedItem.classroom_id"
+                    :items="classrooms"
+                    item-text="name"
+                    item-value="id"
+                    label="Кабінет"
+                    :error-messages="errors"
+                  ></v-select>
+                </validation-provider>
               </v-col>
               <v-col class="d-flex" cols="8" sm="4">
-                <v-text-field
-                  v-model="editedItem.price_student"
-                  prepend-icon="mdi-cash-multiple"
-                  label="Вартість для учня"
-                ></v-text-field>
+                <validation-provider rules="required" v-slot="{ errors }">
+                  <v-text-field
+                    v-model="editedItem.price_student"
+                    prepend-icon="mdi-cash-multiple"
+                    label="Вартість для учня"
+                    :error-messages="errors"
+                  ></v-text-field>
+                </validation-provider>
               </v-col>
               <v-col class="d-flex" cols="8" sm="4">
                 <v-text-field
@@ -57,14 +67,17 @@
                     min-width="290px"
                   >
                     <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="datePic.date"
-                        label="Дата"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
+                      <validation-provider rules="required" v-slot="{ errors }">
+                        <v-text-field
+                          v-model="datePic.date"
+                          label="Дата"
+                          prepend-icon="mdi-calendar"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                          :error-messages="errors"
+                        ></v-text-field>
+                      </validation-provider>
                     </template>
                     <v-date-picker
                       v-model="datePic.date"
@@ -82,14 +95,17 @@
                     width="290px"
                   >
                     <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="datePic.start"
-                        label="Час початку"
-                        prepend-icon="mdi-clock-time-four-outline"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
+                      <validation-provider rules="required" v-slot="{ errors }">
+                        <v-text-field
+                          v-model="datePic.start"
+                          label="Час початку"
+                          prepend-icon="mdi-clock-time-four-outline"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                          :error-messages="errors"
+                        ></v-text-field>
+                      </validation-provider>
                     </template>
                     <v-time-picker
                       v-if="startPicT"
@@ -115,14 +131,17 @@
                     width="290px"
                   >
                     <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="datePic.end"
-                        label="Час закінчення"
-                        prepend-icon="mdi-clock-time-four-outline"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
+                      <validation-provider rules="required" v-slot="{ errors }">
+                        <v-text-field
+                          v-model="datePic.end"
+                          label="Час закінчення"
+                          prepend-icon="mdi-clock-time-four-outline"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                          :error-messages="errors"
+                        ></v-text-field>
+                      </validation-provider>
                     </template>
                     <v-time-picker
                       v-if="endPicT"
@@ -140,18 +159,21 @@
                   </v-dialog>
                 </v-col>
                 <v-col class="d-flex" cols="10" sm="7">
-                  <v-select
-                    v-model="editedItem.students"
-                    :items="students"
-                    label="Учні"
-                    item-text="concname"
-                    item-value="id"
-                    item-color="green"
-                    chips
-                    deletable-chips
-                    multiple
-                    return-object
-                  ></v-select>
+                  <validation-provider rules="required" v-slot="{ errors }">
+                    <v-select
+                      v-model="editedItem.students"
+                      :items="students"
+                      label="Учні"
+                      item-text="concname"
+                      item-value="id"
+                      item-color="green"
+                      chips
+                      deletable-chips
+                      multiple
+                      return-object
+                      :error-messages="errors"
+                    ></v-select>
+                  </validation-provider>
                 </v-col>
                 <v-col class="d-flex" cols="10" sm="3">
                     <v-menu
@@ -215,17 +237,15 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-
           <v-btn color="red darken-1" text @click="close">
             Скасувати
           </v-btn>
-
-          <v-btn color="blue darken-1" text @click="save">
+          <v-btn color="blue darken-1" text @click="save" :disabled="invalid">
             зберегти
           </v-btn>
-
         </v-card-actions>
       </v-card>
+    </validation-observer>
     </v-dialog>
 
   <v-row class="fill-height">

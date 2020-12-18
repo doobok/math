@@ -8,12 +8,16 @@ import Vuetify from 'vuetify';
 
 // vee-validate
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { required } from 'vee-validate/dist/rules';
+import { required, integer } from 'vee-validate/dist/rules';
 
 extend('required', {
   ...required,
   message: 'Це обовʼязкове поле'
 });
+extend('integer', {
+    ...integer,
+    message: 'Поле повинне містити ціле число',
+  })
 // Vuex
 import store from './store/index';
 

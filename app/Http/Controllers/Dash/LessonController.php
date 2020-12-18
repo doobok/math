@@ -46,27 +46,51 @@ class LessonController extends Controller
     // add new Lesson
     public function setLesson(Request $request)
     {
+      // відсікаємо помилковий час закінчення
+      if ($request->start > $request->end) {
+        return response()->json(['success' => 'false', 'msg' => 'Час завершення не може бути більшим за час початку, заняття не створено!']);
+      }
+      // відсікаємо заняття які створюються для минулого часу
+      if (Carbon::today() > Carbon::create($request->start)) {
+        return response()->json(['success' => 'false', 'msg' => 'Неможливо сворити для минулого часу, заняття не створено!']);
+      }
+      // створюємо заняття
       $lesson = Lesson::create($request->all());
 
-      return $lesson;
+      return response()->json(['success' => 'true', 'data' => $lesson]);
     }
     // edit Lesson
     public function updLesson(Request $request, $id)
     {
+      // відсікаємо помилковий час закінчення
+      if ($request->start > $request->end) {
+        return response()->json(['success' => 'false', 'msg' => 'Час завершення не може бути більшим за час початку, заняття не збережене!']);
+      }
+      // відсікаємо заняття які переносяться до минулого часу
+      if (Carbon::today() > Carbon::create($request->start)) {
+        return response()->json(['success' => 'false', 'msg' => 'Неможливо перемістити в минулий час, заняття не збережене!']);
+      }
+      // знаходимо заняття
       $lesson = Lesson::findOrFail($id);
+      // обновляємо
       $lesson->update($request->all());
 
-      return $lesson;
+      return response()->json(['success' => 'true', 'data' => $lesson]);
     }
     // edit Lesson time
     public function updLessonTime(Request $request, $id)
     {
+      // відсікаємо заняття які переносяться до минулого часу
+      if (Carbon::today() > Carbon::create($request->start)) {
+        return response()->json(['success' => 'false', 'msg' => 'Неможливо перемістити в минулий час, заняття не збережене!']);
+      }
+
       $lesson = Lesson::findOrFail($id);
       $lesson->start = Carbon::createFromTimestamp($request->start);
       $lesson->end = Carbon::createFromTimestamp($request->end);
       $lesson->save();
 
-      return $lesson;
+      return response()->json(['success' => 'true', 'data' => $lesson]);
     }
     // copy Lesson
     public function copyLesson($id)

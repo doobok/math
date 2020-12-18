@@ -41,9 +41,10 @@
                 </validation-provider>
               </v-col>
               <v-col class="d-flex" cols="8" sm="4">
-                <validation-provider rules="required" v-slot="{ errors }">
+                <validation-provider :rules="{required: true, integer: true}" v-slot="{ errors }">
                   <v-text-field
                     v-model="editedItem.price_student"
+                    name="studentprice"
                     prepend-icon="mdi-cash-multiple"
                     label="Вартість для учня"
                     :error-messages="errors"
@@ -51,11 +52,15 @@
                 </validation-provider>
               </v-col>
               <v-col class="d-flex" cols="8" sm="4">
-                <v-text-field
-                  v-model="editedItem.price_tutor"
-                  prepend-icon="mdi-cash-multiple"
-                  label="Комісія тьютора"
-                ></v-text-field>
+                <validation-provider rules="integer" v-slot="{ errors }">
+                  <v-text-field
+                    v-model="editedItem.price_tutor"
+                    name="tutorprice"
+                    prepend-icon="mdi-cash-multiple"
+                    label="Комісія тьютора"
+                    :error-messages="errors"
+                  ></v-text-field>
+                </validation-provider>
               </v-col>
               <v-col class="d-flex" cols="9" sm="3">
                   <v-menu
@@ -240,7 +245,7 @@
           <v-btn color="red darken-1" text @click="close">
             Скасувати
           </v-btn>
-          <v-btn color="blue darken-1" text @click="save" :disabled="invalid">
+          <v-btn color="blue darken-1" text @click="save" :disabled="invalid" v-if="!editedItem.computed">
             зберегти
           </v-btn>
         </v-card-actions>
@@ -407,7 +412,7 @@
               </v-btn>
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-menu bottom left>
+              <v-menu v-if="!selectedEvent.computed" bottom left>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     dark
@@ -521,6 +526,10 @@
       filter: {
         tutor: 'all',
         classroom: 'all',
+      },
+      tmp: {
+        start: '',
+        end: '',
       }
     }),
     mounted () {
@@ -578,7 +587,13 @@
         this.editedItem.end = this.datePic.date + ' ' + this.datePic.end;
 
         if (this.editedIndex > -1) {
-            this.$store.dispatch('EDIT_LESSON', this.collector);
+            this.$store.dispatch('EDIT_LESSON', this.collector).then((res) => {
+              if (res === false) {
+                console.log('not yet');
+                this.selectedEvent.start = this.tmp.start
+                this.selectedEvent.end = this.tmp.end
+              }
+          });
         } else {
           this.$store.dispatch('SET_LESSON', this.collector);
         }
@@ -636,6 +651,10 @@
         // console.log('Начало перетаскивания');
         if (event && timed) {
           this.dragEvent = event
+          // временое хранение времени при перемещении
+          this.tmp.start = event.start
+          this.tmp.end = event.end
+
           this.dragEvent.start = new Date(event.start)
           this.dragEvent.end = new Date(event.end)
           this.dragTime = null
@@ -644,7 +663,6 @@
       },
       startTime (tms) {
         // console.log('Мышка опустилась на шкалу времени');
-
         const mouse = this.toTime(tms)
 
         if (this.dragEvent && this.dragTime === null) {
@@ -690,7 +708,18 @@
       endDrag () {
         // console.log('Конец перемещения');
         if (this.dragEvent && this.dragTime !== null) {
-          this.$store.dispatch('EDIT_TIME', { 'id': this.dragEvent.id, 'start': this.dragEvent.start/1000, 'end': this.dragEvent.end/1000 });
+          // отсекаем возможность переноса занятий в прошлое и редактирования уже обработаных
+          if (this.deadline > this.dragEvent.start || this.dragEvent.computed) {
+            // console.log('last time, don`t work');
+            this.dragEvent.start = this.tmp.start
+            this.dragEvent.end = this.tmp.end
+          } else {
+            // работаем с будущим временем
+            if (Date.parse(this.tmp.start) != Date.parse(this.dragEvent.start)) {
+              this.$store.dispatch('EDIT_TIME', { 'id': this.dragEvent.id, 'start': this.dragEvent.start/1000, 'end': this.dragEvent.end/1000 });
+              this.selectedOpen = false;
+            }
+          }
         }
         this.dragTime = null
         this.dragEvent = null
@@ -709,7 +738,6 @@
             }
           }
         }
-
         this.createEvent = null
         this.createStart = null
         this.dragTime = null
@@ -752,7 +780,7 @@
         this.filter.tutor = 'all';
         this.filter.classroom = 'all';
         this.getLessons()
-      }
+      },
     },
     computed: {
       formTitle () {
@@ -827,6 +855,13 @@
         if (this.editedItem.pass) {
           return JSON.stringify(this.editedItem.pass);
         }
+      },
+      deadline: function() {
+        let seconds = Date.now() / 1000; // Количество секунд до настоящего момента
+        seconds -= seconds % 86400; // Отсечь секунды после полуночи нулевого меридиана
+        let date = seconds * 1000;
+
+        return date
       }
     },
   }

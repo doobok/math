@@ -492,7 +492,7 @@
         comment: '',
         color: '',
         pass: '',
-        pass_paid: '',
+        pass_paid: true,
       },
       defaultItem: {
         id: '',
@@ -508,7 +508,7 @@
         comment: '',
         color: '',
         pass: '',
-        pass_paid: '',
+        pass_paid: true,
       },
       datePic: {
         date: '',

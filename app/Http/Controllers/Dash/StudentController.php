@@ -10,7 +10,7 @@ class StudentController extends Controller
 {
     public function getStudent()
     {
-      return Student::all();
+      return Student::orderBy('balance')->get();
     }
     // add new Student
     public function setStudent(Request $request)

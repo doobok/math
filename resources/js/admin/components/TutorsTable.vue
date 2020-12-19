@@ -168,9 +168,9 @@
         dialog: false,
         search: '',
         headers: [
+          { text: 'ID', value: 'id', align: 'start' },
           {
             text: 'Прізвище',
-            align: 'start',
             value: 'lname',
           },
           { text: 'Імʼя', value: 'name' },

@@ -20,7 +20,7 @@ class CreateStudentsTable extends Migration
             $table->string('concname')->nullable();
             $table->integer('class')->nullable();
             $table->string('phone')->nullable();
-            $table->integer('balance')->nullable();
+            $table->integer('balance')->default(0);
             $table->string('comment')->nullable();
             $table->boolean('active');
             $table->timestamps();

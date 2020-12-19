@@ -16,6 +16,11 @@
       :items="items"
       :search="search"
       >
+      <template v-slot:item.balance="{ item }">
+        <span :class="getColor(item.balance)">
+          {{ item.balance }}
+        </span>
+      </template>
       <template v-slot:item.active="{ item }">
         <v-checkbox
           v-model="item.active"
@@ -167,9 +172,9 @@
         search: '',
         clases: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,],
         headers: [
+          { text: 'ID', value: 'id', align: 'start' },
           {
             text: 'Прізвище',
-            align: 'start',
             value: 'lname',
           },
           { text: 'Імʼя', value: 'name' },
@@ -259,7 +264,12 @@
     openItem(item) {
       console.log(item.id);
       document.location.href = '/';
-    }
+    },
+    getColor (balance) {
+        if (balance > 400) return 'green--text'
+        else if (balance > 0) return 'orange--text'
+        else return 'red--text'
+      },
   }
 }
 </script>

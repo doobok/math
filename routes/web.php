@@ -29,6 +29,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/tutors', 'AdminController@tutors')->name('tutors');
     Route::get('/classrooms', 'AdminController@classrooms')->name('classrooms');
     Route::get('/settings', 'AdminController@settings')->name('settings');
+    Route::get('/finance', 'AdminController@finance')->name('finance');
+    Route::get('/reports', 'AdminController@reports')->name('reports');
     // options
     Route::post('/option/new', 'OptionsController@create')->name('addoption');
     Route::patch('/option/{id}', 'OptionsController@update')->name('updoption');

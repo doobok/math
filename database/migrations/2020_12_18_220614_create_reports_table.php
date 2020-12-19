@@ -26,6 +26,7 @@ class CreateReportsTable extends Migration
             $table->integer('pays_out')->nullable();
             $table->integer('pays_profit')->nullable();
             $table->string('period');
+            $table->string('type');
             $table->integer('errors')->nullable();
             $table->timestamps();
         });

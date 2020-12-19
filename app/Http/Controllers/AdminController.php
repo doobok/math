@@ -48,6 +48,22 @@ class AdminController extends Controller
       ]);
     }
 
+    // finance
+    public function finance()
+    {
+      return view('admin.finance', [
+        // 'options' => $options,
+      ]);
+    }
+
+    // reports
+    public function reports()
+    {
+      return view('admin.reports', [
+        // 'options' => $options,
+      ]);
+    }
+
     public function settings()
     {
         $options = Option::all();

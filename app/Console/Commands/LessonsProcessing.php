@@ -144,6 +144,7 @@ class LessonsProcessing extends Command
           $report->pass_count = $pass_count;// кількість пропусків
           $report->pass_notpayed_count = $pass_notpayed_count;// кількість неоплачуваних пропусків
           $report->period = Carbon::today()->toDateString();
+          $report->type = 'daily';
           $report->errors = $computed_err;
           $report->save();
         }

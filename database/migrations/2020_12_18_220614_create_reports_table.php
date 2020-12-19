@@ -15,13 +15,18 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->integer('lessons');
-            $table->integer('wage');
-            $table->integer('profit');
+            $table->integer('lessons')->nullable();
+            $table->integer('wage')->nullable();
+            $table->integer('profit')->nullable();
+            $table->integer('lessons_count')->nullable();
+            $table->integer('students_count')->nullable();
+            $table->integer('pass_count')->nullable();
+            $table->integer('pass_notpayed_count')->nullable();
             $table->integer('pays_in')->nullable();
             $table->integer('pays_out')->nullable();
             $table->integer('pays_profit')->nullable();
             $table->string('period');
+            $table->integer('errors')->nullable();
             $table->timestamps();
         });
     }

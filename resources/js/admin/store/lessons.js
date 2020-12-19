@@ -19,14 +19,16 @@ export default {
     },
     // обновление таска в состоянии после редактирования
     UPDATE_LESSON (state, payload) {
-      // const lesson = state.lessons.find(t => {
-      //   return t.id === payload.id
-      // })
-      // lesson.name = payload.name,
-      // // lesson.start = payload.start,
-      // // lesson.end = payload.end,
-      // lesson.comment = payload.comment,
-      // lesson.color = payload.color
+      const lesson = state.lessons.find(t => {
+        return t.id === payload.id
+      })
+      lesson.name = payload.name,
+      lesson.tutor_id = payload.tutor_id,
+      lesson.classroom_id = payload.classroom_id,
+      // lesson.start = payload.start,
+      // lesson.end = payload.end,
+      lesson.comment = payload.comment,
+      lesson.color = payload.color
     },
     // убрать урок из состояния
     REMOVE_LESSON(state, payload){

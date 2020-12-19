@@ -48,87 +48,103 @@ class LessonsProcessing extends Command
         $lessonsPay = 0;// дохід за заняття
         $wagePay = 0;// комісія тьюторів
         $nextWeek = Carbon::today()->addWeek()->toDateString();// час через тиждень
-
+        $students_count = 0;// кількість студентів
+        $pass_count = 0;// кількість пропусків
+        $pass_notpayed_count = 0;// кількість неоплачуваних пропусків
+        $computed_err = 0;// помилки обробки
 
         foreach ($lessons as $lesson) {
 
-            // // отримуємо студентів з пропусками та формуємо масив з їх ID
-            // $passStud = json_decode($lesson->pass);
-            // $pStudents = [];
-            // if ($passStud != null) {
-            //   foreach ($passStud as $ps) {
-            //     // створюємо новий пропуск
-            //     $pass = new Pass;
-            //     $pass->lesson_id = $lesson->id;
-            //     $pass->student_id = $ps->id;
-            //     $pass->date = $lesson->start;
-            //     $pass->save();
-            //     array_push($pStudents, $ps->id);
-            //   }
-            // }
-            //
-            // // отримуємо студентів записаних на заняття
-            // $students = json_decode($lesson->students);
-            // foreach ($students as $st) {
-            //   if ($lesson->pass_paid) {
-            //     $pay = new Pay;
-            //     $pay->type = 'lesson-pay';
-            //     $pay->student_id = $st->id;
-            //     $pay->sum = $lesson->price_student;
-            //     $pay->save();
-            //
-            //     $lessonsPay = $lessonsPay + $lesson->price_student;// сумуємо дохід за заняття
-            //
-            //   } else if (in_array($st->id, $pStudents)) {
-            //     // нічого не робимо для відсутніх
-            //   } else {
-            //     $pay = new Pay;
-            //     $pay->type = 'lesson-pay';
-            //     $pay->student_id = $st->id;
-            //     $pay->sum = $lesson->price_student;
-            //     $pay->save();
-            //
-            //     $lessonsPay = $lessonsPay + $lesson->price_student;// сумуємо дохід за заняття
-            //   }
-            // }
+          try {
 
-            // if ($lesson->price_tutor > 0) {
-            //       $pay = new Pay;
-            //       $pay->type = 'lesson-wage';
-            //       $pay->tutor_id = $lesson->tutor_id;
-            //       $pay->sum = $lesson->price_tutor;
-            //       $pay->save();
-            //
-            //       $wagePay = $wagePay + $lesson->price_tutor;// сумуємо комісію тьюторів
-            // }
+            // отримуємо студентів з пропусками та формуємо масив з їх ID
+            $passStud = json_decode($lesson->pass);
+            $pStudents = [];
+            if ($passStud != null) {
+              $pass_count = $pass_count + count($passStud);// рахуємо кількість пропусків
+              foreach ($passStud as $ps) {
+                // створюємо новий пропуск
+                $pass = new Pass;
+                $pass->lesson_id = $lesson->id;
+                $pass->student_id = $ps->id;
+                $pass->date = $lesson->start;
+                $pass->save();
+                array_push($pStudents, $ps->id);
+              }
+            }
 
-            // // створюємо нові уроки на наступний тиждень
-            // $newLesson = $lesson->replicate();
-            // $newLesson->pass = null;
-            // $newLesson->start = Carbon::create($lesson->start)->addWeek();
-            // $newLesson->end = Carbon::create($lesson->end)->addWeek();
-            // $newLesson->pass_paid = null;
-            // $newLesson->computed = 0;
-            // if ($lesson->period_end === null OR $newLesson->start < $lesson->period_end) {
-            //   $newLesson->save();
-            // }
+            // отримуємо студентів записаних на заняття
+            $students = json_decode($lesson->students);
+            $students_count = $students_count + count($students);// рахуємо кількість студентів
+            foreach ($students as $st) {
+              if ($lesson->pass_paid) {
+                $pay = new Pay;
+                $pay->type = 'lesson-pay';
+                $pay->student_id = $st->id;
+                $pay->sum = $lesson->price_student;
+                $pay->save();
 
-            // // помічаємо заняття як опрацьоване
-            // $lesson->computed = 1;
+                $lessonsPay = $lessonsPay + $lesson->price_student;// сумуємо дохід за заняття
+
+              } else if (in_array($st->id, $pStudents)) {
+                // оновлюємо лічильник неоплачених занять
+                $pass_notpayed_count++;
+              } else {
+                $pay = new Pay;
+                $pay->type = 'lesson-pay';
+                $pay->student_id = $st->id;
+                $pay->sum = $lesson->price_student;
+                $pay->save();
+
+                $lessonsPay = $lessonsPay + $lesson->price_student;// сумуємо дохід за заняття
+              }
+            }
+
+            // рахуємо оплату праці тьютора
+            if ($lesson->price_tutor > 0) {
+                  $pay = new Pay;
+                  $pay->type = 'lesson-wage';
+                  $pay->tutor_id = $lesson->tutor_id;
+                  $pay->sum = $lesson->price_tutor;
+                  $pay->save();
+
+                  $wagePay = $wagePay + $lesson->price_tutor;// сумуємо комісію тьюторів
+            }
+
+            // створюємо нові уроки на наступний тиждень
+            $newLesson = $lesson->replicate();
+            $newLesson->pass = null;
+            $newLesson->start = Carbon::create($lesson->start)->addWeek();
+            $newLesson->end = Carbon::create($lesson->end)->addWeek();
+            $newLesson->pass_paid = null;
+            $newLesson->computed = 0;
+            if ($lesson->period_end === null OR $newLesson->start < $lesson->period_end) {
+              $newLesson->save();
+            }
+
+            // помічаємо заняття як опрацьоване
+            $lesson->computed = 1;
+            $lesson->save();
+
+          } catch (\Exception $e) {
+            $computed_err++;
+          }
 
           usleep(200000);//чекаємо 0.2 секунди
         }
 
-        echo "Dey lessons pay=" . $lessonsPay;
-        echo "Dey tutors wage pay=" . $wagePay;
-
-        // записуємо дані в звіт 
+        // записуємо дані в звіт
         if ($lessons->count() > 0) {
           $report = new Report;
           $report->lessons = $lessonsPay;
           $report->wage = $wagePay;
           $report->profit = $lessonsPay - $wagePay;
+          $report->lessons_count = $lessons->count();// кількість занять
+          $report->students_count = $students_count;// кількість студентів
+          $report->pass_count = $pass_count;// кількість пропусків
+          $report->pass_notpayed_count = $pass_notpayed_count;// кількість неоплачуваних пропусків
           $report->period = Carbon::today()->toDateString();
+          $report->errors = $computed_err;
           $report->save();
         }
 

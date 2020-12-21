@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dash;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Tutor;
+use App\Pay;
 
 class TutorController extends Controller
 {
@@ -26,5 +27,21 @@ class TutorController extends Controller
       $tutor->update($request->all());
 
       return response()->json(['success' => 'true']);
+    }
+    // отримуємо статистику по тьютору
+    public function getTutorStat(Request $request)
+    {
+      $pays = Pay::where('tutor_id', $request->id)->orderBy('id', 'desc')->limit(100)->get();
+      $wage = Pay::where('tutor_id', $request->id)->where('type', 'wage')->get();
+
+      $sum = 0;
+      foreach ($wage as $pay) {
+          $sum = $sum + $pay->sum;
+      }
+
+      return response()->json([
+        'pays' => $pays,
+        'sum' => $sum,
+      ]);
     }
 }

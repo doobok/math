@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Dash;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-Use App\Student;
+use App\Student;
+use App\Pay;
+use App\Pass;
 
 class StudentController extends Controller
 {
@@ -32,5 +34,16 @@ class StudentController extends Controller
       $student->save();
 
       return response()->json(['success' => 'true']);
+    }
+    // отримуємо статистику по учню
+    public function getStudentStat(Request $request)
+    {
+      $pays = Pay::where('student_id', $request->id)->orderBy('id', 'desc')->get();
+      $passes = Pass::where('student_id', $request->id)->orderBy('id', 'desc')->get();
+
+      return response()->json([
+        'pays' => $pays,
+        'passes' => $passes,
+      ]);
     }
 }

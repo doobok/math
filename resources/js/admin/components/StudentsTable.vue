@@ -27,6 +27,11 @@
           disabled
         ></v-checkbox>
       </template>
+      <template v-slot:item.refill="{ item }">
+        <v-btn outlined x-small color="green" @click="showRefill(item)">
+          поповнити
+        </v-btn>
+      </template>
       <template v-slot:item.actions="{ item }">
       <v-icon
         class="mr-2"
@@ -38,7 +43,7 @@
         class="mr-2"
         @click="openItem(item)"
       >
-        mdi-account-cash
+        mdi-account
       </v-icon>
     </template>
 
@@ -155,6 +160,51 @@
           </v-card>
           </validation-observer>
         </v-dialog>
+        <v-dialog
+          v-model="refillDialog"
+          max-width="310px"
+        >
+        <validation-observer ref="observer" v-slot="{ invalid }">
+        <v-card>
+          <v-card-title v-if="refillUser">
+            <span class="headline">{{ refillTitle}}</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="7">
+                  <validation-provider :rules="{required: true, integer: true}" v-slot="{ errors }">
+                    <v-text-field
+                      v-model="refillSum"
+                      :error-messages="errors"
+                      label="Сума"
+                    ></v-text-field>
+                  </validation-provider>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="red darken-1"
+              text
+              @click="closeRefill"
+            >
+              Скасувати
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              text
+              :disabled="invalid"
+              @click="setRefill()"
+            >
+              поповнити
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+        </validation-observer>
+        </v-dialog>
 
       </v-toolbar>
     </template>
@@ -181,6 +231,7 @@
           { text: 'Клас', value: 'class' },
           { text: 'Телефон', value: 'phone' },
           { text: 'Баланс', value: 'balance' },
+          { text: '', value: 'refill' },
           { text: 'Коментар', value: 'comment' },
           { text: 'Активність', value: 'active' },
           { text: 'Дії', value: 'actions', sortable: false },
@@ -204,7 +255,10 @@
           phone: '',
           comment: '',
           active: true,
-      }
+        },
+        refillSum: '',
+        refillDialog: '',
+        refillUser: '',
     }
   },
   mounted () {
@@ -217,6 +271,9 @@
   computed: {
       formTitle () {
         return this.editedIndex === -1 ? 'Новий учень' : 'Редагування учня'
+      },
+      refillTitle () {
+        return 'Поповнити баланс учня ' + this.refillUser.concname;
       },
     },
   methods: {
@@ -262,14 +319,40 @@
       this.close()
     },
     openItem(item) {
-      console.log(item.id);
-      document.location.href = '/';
+      document.location.href = '/students/' + item.id;
     },
     getColor (balance) {
-        if (balance > 400) return 'green--text'
-        else if (balance > 0) return 'orange--text'
-        else return 'red--text'
-      },
+      if (balance > 400) return 'green--text'
+      else if (balance > 0) return 'orange--text'
+      else return 'red--text'
+    },
+    showRefill(user) {
+      this.refillUser = user;
+      this.refillDialog = true;
+    },
+    closeRefill() {
+      this.refillDialog = false;
+      this.refillUser = '';
+      this.refillSum = '';
+    },
+    setRefill() {
+      axios
+        .post('/api/v1/refill-student', {sum: this.refillSum, id: this.refillUser.id})
+        .then(response => {
+          if (response.data.success === true) {
+            let indx = this.items.indexOf(this.refillUser);
+            let balance = this.items[indx].balance;
+            this.items[indx].balance = +balance + +this.refillSum;
+            this.closeRefill();
+          }
+        })
+        .catch(err => {
+          let e = { ...err    }
+          console.log(e);
+          alert('Виникла помилка, повторіть спробу трішки пізніше');
+        });
+
+    }
   }
 }
 </script>

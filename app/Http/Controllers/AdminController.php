@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Option;
+use App\Student;
+use App\Tutor;
 
 class AdminController extends Controller
 {
@@ -31,6 +33,13 @@ class AdminController extends Controller
         // 'options' => $options,
       ]);
     }
+    public function studentsPage($id)
+    {
+      $student = Student::findOrFail($id);
+      return view('admin.students-page', [
+          'student' => $student,
+        ]);
+    }
 
     // tutors
     public function tutors()
@@ -38,6 +47,13 @@ class AdminController extends Controller
       return view('admin.tutors', [
         // 'options' => $options,
       ]);
+    }
+    public function tutorsPage($id)
+    {
+      $tutor = Tutor::findOrFail($id);
+      return view('admin.tutors-page', [
+          'tutor' => $tutor,
+        ]);
     }
 
     // classrooms

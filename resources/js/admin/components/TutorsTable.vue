@@ -33,7 +33,7 @@
         class="mr-2"
         @click="openItem(item)"
       >
-        mdi-account-cash
+        mdi-account
       </v-icon>
     </template>
 
@@ -258,9 +258,8 @@
       this.close()
     },
     openItem(item) {
-      console.log(item.id);
-      document.location.href = '/';
-    }
+      document.location.href = '/tutors/' + item.id;
+    },
   }
 }
 </script>

@@ -58,7 +58,7 @@
     data () {
       return {
         nameLabel: {
-          'lesson-pay': 'Олата за заняття',
+          'lesson-pay': 'Оплата за заняття',
           'lesson-wage': 'Комісія тьютора',
           'refill': 'Внесення оплати',
           'wage': 'Зарплата тьютора',
@@ -97,8 +97,12 @@
             });
       },
       getVectorColor (type) {
-        if (type === 'lesson-pay' || type === 'refill') {
+        if (type === 'refill') {
           return 'green'
+        } else if (type === 'lesson-pay') {
+          return 'green lighten-3'
+        } else if (type === 'lesson-wage') {
+          return 'pink lighten-3'
         } else {
           return 'red'
         }

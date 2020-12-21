@@ -26,7 +26,9 @@ Route::post('login', 'Auth\LoginController@login');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin', 'AdminController@index')->name('admin');
     Route::get('/students', 'AdminController@students')->name('students');
+    Route::get('/students/{id}', 'AdminController@studentsPage')->name('student');
     Route::get('/tutors', 'AdminController@tutors')->name('tutors');
+    Route::get('/tutors/{id}', 'AdminController@tutorsPage')->name('tutor');
     Route::get('/classrooms', 'AdminController@classrooms')->name('classrooms');
     Route::get('/settings', 'AdminController@settings')->name('settings');
     Route::get('/finance', 'AdminController@finance')->name('finance');

@@ -33,10 +33,12 @@ Route::group(['prefix' => 'v1'], function () {
   Route::patch('classroom-upd/{id}', 'Dash\ClassroomController@updClass');
   // Tutors
   Route::get('tutor-get', 'Dash\TutorController@getTutor');
+  Route::get('tutor-get-stat', 'Dash\TutorController@getTutorStat');
   Route::post('tutor-set', 'Dash\TutorController@setTutor');
   Route::patch('tutor-upd/{id}', 'Dash\TutorController@updTutor');
   // Students
   Route::get('student-get', 'Dash\StudentController@getStudent');
+  Route::get('student-get-stat', 'Dash\StudentController@getStudentStat');
   Route::post('student-set', 'Dash\StudentController@setStudent');
   Route::patch('student-upd/{id}', 'Dash\StudentController@updStudent');
   // Lessons
@@ -49,6 +51,8 @@ Route::group(['prefix' => 'v1'], function () {
   Route::patch('lesson-time-upd/{id}', 'Dash\LessonController@updLessonTime');
   // Finances
   Route::get('finances-get', 'Dash\LogisticController@getFinances');
+  Route::post('refill-student', 'Dash\LogisticController@refillStud');
+  Route::post('wage-pay', 'Dash\LogisticController@wagePay');
   // Reports
   Route::get('reports-get', 'Dash\LogisticController@getReports');
 

@@ -29,7 +29,9 @@ import store from './store/index';
 Vue.component('calendar-component', require('./components/CalendarComponent.vue').default);
 Vue.component('classroom-table', require('./components/ClassroomsTable.vue').default);
 Vue.component('tutor-table', require('./components/TutorsTable.vue').default);
+Vue.component('tutor-page', require('./components/TutorPage.vue').default);
 Vue.component('student-table', require('./components/StudentsTable.vue').default);
+Vue.component('student-page', require('./components/StudentPage.vue').default);
 Vue.component('finance-table', require('./components/FinanceTable.vue').default);
 Vue.component('reports-table', require('./components/ReportsTable.vue').default);
 

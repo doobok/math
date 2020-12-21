@@ -20,4 +20,29 @@ class LogisticController extends Controller
     {
       return Report::skip($request->skip)->limit(50)->orderBy('created_at', 'desc')->get();
     }
+
+    // поповнюємобаланс студента
+    public function refillStud(Request $request)
+    {
+      $refill = new Pay;
+      $refill->sum = $request->sum;
+      $refill->student_id = $request->id;
+      $refill->type = 'refill';
+      $refill->save();
+
+      return response()->json(['success' => true ]);
+    }
+
+    // виплата зарплати
+    public function wagePay(Request $request)
+    {
+      $wage = new Pay;
+      $wage->sum = $request->sum;
+      $wage->tutor_id = $request->id;
+      $wage->type = 'wage';
+      $wage->save();
+
+      return response()->json(['success' => true, 'pay' => $wage ]);
+
+    }
 }

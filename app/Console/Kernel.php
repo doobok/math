@@ -13,8 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-         'App\Console\Commands\LessonsProcessing',
-
+        'App\Console\Commands\LessonsProcessing',
+        'App\Console\Commands\DailyReport',
     ];
 
     /**
@@ -25,7 +25,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('lessons:calculate')->dailyAt('21:30');
+        // $schedule->command('report:weekly')->weekly()->saturdays()->at('21:45');
+        // $schedule->command('report:monthly')->monthlyOn(1, '10:00');
+        // $schedule->command('report:quarterly')->quarterly()->at('11:00');
     }
 
     /**

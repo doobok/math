@@ -147,6 +147,11 @@ class LessonsProcessing extends Command
           $report->type = 'daily';
           $report->errors = $computed_err;
           $report->save();
+
+          usleep(200000);//чекаємо 0.2 секунди
+          
+          // закінчуємо формування звіту
+          $this->call('report:daily');
         }
 
     }

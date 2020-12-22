@@ -43,6 +43,17 @@ class LogisticController extends Controller
       $wage->save();
 
       return response()->json(['success' => true, 'pay' => $wage ]);
+    }
 
+    // внесення інших платежів
+    public function otherPay(Request $request)
+    {
+      $pay = new Pay;
+      $pay->sum = $request->sum;
+      $pay->comment = $request->comment;
+      $pay->type = 'other-pay';
+      $pay->save();
+
+      return response()->json(['success' => true, 'pay' => $pay ]);
     }
 }

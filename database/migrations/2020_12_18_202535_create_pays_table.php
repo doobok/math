@@ -19,6 +19,7 @@ class CreatePaysTable extends Migration
             $table->integer('sum');
             $table->integer('student_id')->nullable();
             $table->integer('tutor_id')->nullable();
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }

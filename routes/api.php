@@ -53,6 +53,7 @@ Route::group(['prefix' => 'v1'], function () {
   Route::get('finances-get', 'Dash\LogisticController@getFinances');
   Route::post('refill-student', 'Dash\LogisticController@refillStud');
   Route::post('wage-pay', 'Dash\LogisticController@wagePay');
+  Route::post('other-pay-add', 'Dash\LogisticController@otherPay');  
   // Reports
   Route::get('reports-get', 'Dash\LogisticController@getReports');
 

@@ -1,8 +1,69 @@
 <template>
   <div>
+    <v-dialog
+      v-model="dialog"
+      max-width="400px"
+    >
+    <validation-observer ref="observer" v-slot="{ invalid }">
+    <v-card>
+      <v-card-title>
+        <span class="headline">Внести видаток</span>
+      </v-card-title>
+      <v-card-text>
+        <v-container>
+          <v-row>
+            <v-col cols="10">
+              <validation-provider :rules="{required: true, integer: true}" v-slot="{ errors }">
+                <v-text-field
+                  v-model="paySum"
+                  :error-messages="errors"
+                  label="Сума"
+                ></v-text-field>
+              </validation-provider>
+            </v-col>
+            <v-col cols="10">
+              <validation-provider rules="required" v-slot="{ errors }">
+                <v-text-field
+                  v-model="payComment"
+                  :error-messages="errors"
+                  label="Коментар (за що оплата)"
+                ></v-text-field>
+              </validation-provider>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          color="red darken-1"
+          text
+          @click="closeDialog"
+        >
+          Скасувати
+        </v-btn>
+        <v-btn
+          color="blue darken-1"
+          text
+          :disabled="invalid"
+          @click="paySet()"
+        >
+          внести
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+    </validation-observer>
+    </v-dialog>
   <v-card>
     <v-card-title>
       TutorMath
+      <v-btn
+        class="ml-4"
+        elevation="2"
+        icon
+        @click="dialogOpn"
+      ><v-icon>mdi-plus</v-icon>
+      </v-btn>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -11,6 +72,7 @@
         single-line
         hide-details
       ></v-text-field>
+
     </v-card-title>
     <v-data-table
       :headers="headers"
@@ -26,7 +88,8 @@
         >{{ getVector(item.type) }}</v-icon>
       </template>
       <template v-slot:item.user="{ item }">
-        {{ getUser(item) }}
+        <div class="" v-html="getUser(item)">
+        </div>
       </template>
       <template v-slot:item.created_at="{ item }">
         {{ getDate(item.created_at) }}
@@ -38,17 +101,13 @@
     v-if="download"
     flat
   >
-
     <v-spacer></v-spacer>
-
     <v-btn elevation="0" @click="getData">
       завантажити ще
       <v-icon >
         mdi-download
       </v-icon>
     </v-btn>
-
-
   </v-toolbar>
 </div>
 </template>
@@ -62,6 +121,7 @@
           'lesson-wage': 'Комісія тьютора',
           'refill': 'Внесення оплати',
           'wage': 'Зарплата тьютора',
+          'other-pay': 'Інші видатки',
         },
         search: '',
         headers: [
@@ -72,12 +132,16 @@
           },
           { text: ' ', value: 'vector', sortable: false },
           { text: 'Сума', value: 'sum' },
+          { text: 'Коментар', value: 'comment' },
           { text: 'Користувач', value: 'user', sortable: false },
           { text: 'Дата', value: 'created_at' },
         ],
         items: [],
         skiped: 0,
         download: true,
+        dialog: false,
+        paySum: '',
+        payComment: '',
     }
   },
   mounted () {
@@ -88,7 +152,6 @@
         axios
             .get('/api/v1/finances-get', {params: {skip: this.skiped}})
             .then(response => {
-              console.log(response.data.length);
               if (response.data.length < 50) {
                 this.download = false;
               }
@@ -116,11 +179,12 @@
       },
       getUser (item) {
         if (item.student_id) {
-          return 'Учень з ID:'+ item.student_id
+          return `<a href="/students/${item.student_id}">Учень з ID:${item.student_id}</a>`
+          // return a 'Учень з ID:'+ item.student_id
         } else if (item.tutor_id) {
-          return 'Tutor з ID:'+ item.tutor_id
+          return `<a href="/tutors/${item.tutor_id}">Tutor ID:${item.tutor_id}</a>`
         } else {
-          return 'невідомий'
+          return `<span> NA </span>`
         }
       },
       getDate (date) {
@@ -136,6 +200,32 @@
 
         return [day, month, year].join('-');
       },
+      dialogOpn () {
+        this.dialog = true;
+      },
+      closeDialog () {
+        this.dialog = false;
+        this.paySum = '';
+        this.payComment = '';
+      },
+      paySet () {
+        axios
+          .post('/api/v1/other-pay-add', {sum: this.paySum, comment: this.payComment})
+          .then(response => {
+            if (response.data.success === true) {
+              console.log(response.data);
+
+              this.items.unshift(response.data.pay);
+
+              this.closeDialog();
+            }
+          })
+          .catch(err => {
+            let e = { ...err    }
+            console.log(e);
+            alert('Виникла помилка, повторіть спробу трішки пізніше');
+          });
+      }
     },
 
 

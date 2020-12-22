@@ -49,16 +49,18 @@
                   {{student.concname}}
                 </p>
               </v-card-title>
-              <p class="ml-3 white--text">
+              <span :class="`pa-3 ml-3 ${getBalanceCol(student.balance)} white--text`">
                 <v-icon color="white">
                   mdi-cash-usd
                 </v-icon>
                 {{student.balance}}
+              </span>
+              <span class="ml-3 white--text">
                 <v-icon color="white">
                   mdi-phone
                 </v-icon>
                 {{student.phone}}
-              </p>
+              </span>
 
               <p class="ml-3 white--text float--right">
                 {{student.comment}}
@@ -82,14 +84,20 @@
                           :left="getLeft(pay.type)"
                           small
                         >
-                          <div>
+                          <div :class="getSide(pay.type)">
                             <div class="font-weight-normal">
                               <strong>
                                 {{ payLabel[pay.type] }}
-                              </strong> @{{ getDate(pay.created_at) }}
+                              </strong>
                             </div>
-                            <div>{{ pay.sum }}</div>
+                            <div>{{ getDate(pay.created_at) }}</div>
                           </div>
+                          <template v-slot:opposite>
+                            <span
+                              :class="`headline font-weight-bold ${getColor(pay.type)}--text`"
+                              v-text="pay.sum"
+                            ></span>
+                          </template>
                         </v-timeline-item>
                       </v-timeline>
                     </template>
@@ -103,7 +111,7 @@
                         <v-timeline-item
                           v-for="pass in passes"
                           :key="pass.id"
-                          color="red"
+                          color="deep-orange"
                           right
                           small
                         >
@@ -114,12 +122,15 @@
                               </strong>
                             </div>
                           </div>
+                          <template v-slot:opposite>
+                            <span
+                              :class="`headline font-weight-bold deep-orange--text`"
+                              v-text="`Н`"
+                            ></span>
+                          </template>
                         </v-timeline-item>
                       </v-timeline>
                     </template>
-
-
-
                   </v-col>
                 </v-row>
 
@@ -183,6 +194,22 @@
     },
     getLeft (type) {
       return type === 'refill'
+    },
+    getSide (type) {
+      if (type === 'refill') {
+        return 'text-right'
+      } else {
+        return 'text-left'
+      }
+    },
+    getBalanceCol (bal) {
+      if (bal < 1) {
+        return 'red'
+      } else if (bal < 500) {
+        return 'orange'
+      } else {
+        return 'green'
+      }
     },
 
   }

@@ -82,9 +82,9 @@
                             <div>
                               <strong>
                                 {{ payLabel[pay.type] }}
-                              </strong> @{{ getDate(pay.created_at) }}
+                              </strong>
                             </div>
-                            <div>{{ pay.sum }}</div>
+                            <div>{{ getDate(pay.created_at) }}</div>
                           </div>
                           <template v-slot:opposite>
                             <span
@@ -217,7 +217,6 @@
       axios
         .post('/api/v1/wage-pay', {sum: this.wageSum, id: this.tutor.id})
         .then(response => {
-          console.log(response);
           if (response.data.success === true) {
             this.tutor.balance = this.tutor.balance - this.wageSum;
             this.sum = +this.sum + +this.wageSum;

@@ -17,13 +17,15 @@
       :items="items"
       :search="search"
       >
+      <template v-slot:item.type="{ item }">
+        {{ typeLabel[item.type] }}
+      </template>
     </v-data-table>
   </v-card>
   <v-toolbar
     v-if="download"
     flat
   >
-
     <v-spacer></v-spacer>
 
     <v-btn elevation="0" @click="getData">
@@ -32,7 +34,6 @@
         mdi-download
       </v-icon>
     </v-btn>
-
 
   </v-toolbar>
 </div>

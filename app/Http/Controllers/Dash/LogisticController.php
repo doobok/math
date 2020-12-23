@@ -9,11 +9,11 @@ use App\Report;
 
 class LogisticController extends Controller
 {
-    // дії доступні виключно для адміністратора
-    public function __construct()
-    {
-        $this->middleware('can:admin');
-    }
+    // // дії доступні виключно для адміністратора
+    // public function __construct()
+    // {
+    //     $this->middleware('can:admin');
+    // }
     // get Finances operations
     public function getFinances(Request $request)
     {

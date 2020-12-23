@@ -45,9 +45,9 @@ Route::group(['prefix' => 'v1'], function () {
   // Lessons
   Route::get('lesson-get', 'Dash\LessonController@getLesson');
   Route::get('lesson-start-data', 'Dash\LessonController@getStartData');
-  Route::post('lesson-set', 'Dash\LessonController@setLesson')->middleware('cannot:admin');
-  Route::patch('lesson-upd/{id}', 'Dash\LessonController@updLesson')->middleware('cannot:admin');
-  Route::post('lesson-copy/{id}', 'Dash\LessonController@copyLesson')->middleware('cannot:admin');
+  Route::post('lesson-set', 'Dash\LessonController@setLesson');
+  Route::patch('lesson-upd/{id}', 'Dash\LessonController@updLesson');
+  Route::post('lesson-copy/{id}', 'Dash\LessonController@copyLesson');
   Route::delete('lesson-del/{id}', 'Dash\LessonController@delLesson');
   Route::patch('lesson-time-upd/{id}', 'Dash\LessonController@updLessonTime');
   // Finances

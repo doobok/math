@@ -9,6 +9,12 @@ use App\Pay;
 
 class TutorController extends Controller
 {
+    // дії доступні виключно для адміністратора
+    public function __construct()
+    {
+        $this->middleware('can:admin');
+    }
+    
     public function getTutor()
     {
       return Tutor::all();

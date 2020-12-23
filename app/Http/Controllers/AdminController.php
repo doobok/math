@@ -9,21 +9,10 @@ use App\Tutor;
 
 class AdminController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    // дії доступні виключно для адміністратора
     public function __construct()
     {
-        $this->middleware('auth');
-    }
-
-    public function index()
-    {
-      return view('admin.index', [
-        // 'options' => $options,
-      ]);
+        $this->middleware('can:admin');
     }
 
     // students

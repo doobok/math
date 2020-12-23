@@ -10,6 +10,12 @@ use App\Pass;
 
 class StudentController extends Controller
 {
+    // дії доступні виключно для адміністратора
+    public function __construct()
+    {
+        $this->middleware('can:admin');
+    }
+    
     public function getStudent()
     {
       return Student::orderBy('balance')->get();

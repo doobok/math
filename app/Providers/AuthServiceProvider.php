@@ -13,8 +13,25 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        // 'App\Policies\DashboardPolicy',
     ];
+
+    public function DashboardRules()
+    {
+      Gate::before(function ($user) {
+        if ($user->id === 2) {
+          return true;
+        }
+      });
+      Gate::define('admin', function ($user) {
+          return $user->id === 1;
+          // return $user->role->name === 'director';
+      });
+      Gate::define('tutor', function ($user) {
+          return $user->id === 2;
+          // return $user->role->name === 'director';
+      });
+    }
 
     /**
      * Register any authentication / authorization services.
@@ -24,6 +41,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+        $this->DashboardRules();
 
         //
     }

@@ -42,16 +42,20 @@
 
 
 	        <ul class="uk-nav uk-nav-primary uk-margin-auto-vertical">
-						<li><a href="{{route('admin')}}"><i class="far fa-calendar-alt"></i> Розклад</a></li>
-						<li><a href="{{route('students')}}"><i class="fas fa-user-graduate"></i> Учні</a></li>
-						<li><a href="{{route('tutors')}}"><i class="fas fa-chalkboard-teacher"></i> Тьютори</a></li>
-						<li><a href="{{route('classrooms')}}"><i class="fas fa-puzzle-piece"></i> Кабінети</a></li>
-						<li><a href="{{route('finance')}}"><i class="fas fa-dollar-sign"></i> Фінансова історія</a></li>
-            <li><a href="{{route('reports')}}"><i class="fas fa-clipboard-check"></i> Звіти</a></li>
+						<li @if(str_contains(url()->current(), 'admin')) class="uk-active" @endif><a href="{{route('admin')}}"><i class="far fa-calendar-alt"></i> Розклад</a></li>
+						@can ('admin')
+							<li @if(str_contains(url()->current(), 'students')) class="uk-active" @endif><a href="{{route('students')}}"><i class="fas fa-user-graduate"></i> Учні</a></li>
+							<li @if(str_contains(url()->current(), 'tutors')) class="uk-active" @endif><a href="{{route('tutors')}}"><i class="fas fa-chalkboard-teacher"></i> Тьютори</a></li>
+							<li @if(str_contains(url()->current(), 'classrooms')) class="uk-active" @endif><a href="{{route('classrooms')}}"><i class="fas fa-puzzle-piece"></i> Кабінети</a></li>
+							<li @if(str_contains(url()->current(), 'finance')) class="uk-active" @endif><a href="{{route('finance')}}"><i class="fas fa-dollar-sign"></i> Фінансова історія</a></li>
+	            <li @if(str_contains(url()->current(), 'reports')) class="uk-active" @endif><a href="{{route('reports')}}"><i class="fas fa-clipboard-check"></i> Звіти</a></li>
+						@endcan
 
             <li class="uk-nav-divider"></li>
 						<li><a href="{{route('mainpage')}}"><i class="fas fa-home"></i> На головну</a></li>
-            <li><a href="{{route('settings')}}"><i class="fas fa-cog"></i> Налаштування</a></li>
+						@can ('admin')
+	            <li><a href="{{route('settings')}}"><i class="fas fa-cog"></i> Налаштування</a></li>
+						@endcan
 	        </ul>
 
 

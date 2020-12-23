@@ -76,12 +76,20 @@ export default {
     // изменение Урока в БД
     COPY_LESSON: async (context, payload) => {
       let {data} = await Axios.post('/api/v1/lesson-copy/' + payload);
-      context.commit('PUSH_lESSON', data);
+      if (data.success === 'true') {
+        context.commit('PUSH_lESSON', data.data);
+      } else {
+        alert(data.msg);
+      }
     },
     // удаление урока в БД
     DEL_LESSON: async (context, payload) => {
       let {data} = await Axios.delete('/api/v1/lesson-del/' + payload);
-      context.commit('REMOVE_LESSON', payload);
+      if (data.success === 'true') {
+        context.commit('REMOVE_LESSON', payload);
+      } else {
+        alert(data.msg);
+      }
     },
   }
 }

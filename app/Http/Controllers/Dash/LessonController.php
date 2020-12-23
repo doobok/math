@@ -9,6 +9,7 @@ use App\Student;
 use App\Tutor;
 use App\Classroom;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class LessonController extends Controller
 {
@@ -95,6 +96,11 @@ class LessonController extends Controller
     // copy Lesson
     public function copyLesson($id)
     {
+      // // відсікаємо не адміністратора
+      // if (Auth::user()->cannot('admin')) {
+      //   return response()->json(['success' => 'false', 'msg' => 'Дія доступна лише для адміністратора!']);
+      // }
+
       $lesson = Lesson::findOrFail($id);
 
       $newLesson = $lesson->replicate();
@@ -103,16 +109,15 @@ class LessonController extends Controller
       $newLesson->computed = 0;
       $newLesson->save();
 
-      return $newLesson;
+      return response()->json(['success' => 'true', 'data' => $newLesson]);
     }
     // copy Lesson
     public function delLesson($id)
     {
-
-      // // удаление доступно только для менеджера
-      //   if ($request->user()->cannot('manager-show')) {
-      //       abort(403);
-      //   }
+      // // відсікаємо не адміністратора
+      // if (Auth::user()->cannot('admin')) {
+      //   return response()->json(['success' => 'false', 'msg' => 'Дія доступна лише для адміністратора!']);
+      // }
 
       $lesson = Lesson::findOrFail($id);
 

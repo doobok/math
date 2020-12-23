@@ -27,6 +27,7 @@ Route::group(['prefix' => 'v1'], function () {
   // звездный рейтинг
   Route::get('rating-get', 'RatingController@getRating');
   Route::post('rating-set', 'RatingController@setRating');
+
   // Classrooms
   Route::get('classroom-get', 'Dash\ClassroomController@getClass');
   Route::post('classroom-set', 'Dash\ClassroomController@setClass');
@@ -44,16 +45,16 @@ Route::group(['prefix' => 'v1'], function () {
   // Lessons
   Route::get('lesson-get', 'Dash\LessonController@getLesson');
   Route::get('lesson-start-data', 'Dash\LessonController@getStartData');
-  Route::post('lesson-set', 'Dash\LessonController@setLesson');
-  Route::patch('lesson-upd/{id}', 'Dash\LessonController@updLesson');
-  Route::post('lesson-copy/{id}', 'Dash\LessonController@copyLesson');
+  Route::post('lesson-set', 'Dash\LessonController@setLesson')->middleware('cannot:admin');
+  Route::patch('lesson-upd/{id}', 'Dash\LessonController@updLesson')->middleware('cannot:admin');
+  Route::post('lesson-copy/{id}', 'Dash\LessonController@copyLesson')->middleware('cannot:admin');
   Route::delete('lesson-del/{id}', 'Dash\LessonController@delLesson');
   Route::patch('lesson-time-upd/{id}', 'Dash\LessonController@updLessonTime');
   // Finances
   Route::get('finances-get', 'Dash\LogisticController@getFinances');
   Route::post('refill-student', 'Dash\LogisticController@refillStud');
   Route::post('wage-pay', 'Dash\LogisticController@wagePay');
-  Route::post('other-pay-add', 'Dash\LogisticController@otherPay');  
+  Route::post('other-pay-add', 'Dash\LogisticController@otherPay');
   // Reports
   Route::get('reports-get', 'Dash\LogisticController@getReports');
 

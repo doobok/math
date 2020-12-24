@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         'App\Console\Commands\LessonsProcessing',
+        'App\Console\Commands\CopyLessons',
         'App\Console\Commands\DailyReport',
     ];
 

@@ -111,21 +111,6 @@ class LessonsProcessing extends Command
                   $wagePay = $wagePay + $lesson->price_tutor;// сумуємо комісію тьюторів
             }
 
-            // створюємо нові уроки на наступний тиждень
-            $newLesson = $lesson->replicate();
-            $newLesson->pass = null;
-            $newLesson->start = Carbon::create($lesson->start)->addWeek();
-            $newLesson->end = Carbon::create($lesson->end)->addWeek();
-            $newLesson->pass_paid = null;
-            $newLesson->computed = 0;
-            if ($lesson->period_end === null OR $newLesson->start < $lesson->period_end) {
-              $newLesson->save();
-            }
-
-            // помічаємо заняття як опрацьоване
-            $lesson->computed = 1;
-            $lesson->save();
-
           } catch (\Exception $e) {
             $computed_err++;
           }
@@ -149,9 +134,11 @@ class LessonsProcessing extends Command
           $report->save();
 
           usleep(200000);//чекаємо 0.2 секунди
-          
-          // закінчуємо формування звіту
-          $this->call('report:daily');
+
+          echo "1 step ";
+
+          // переходимо до копіювання уроків
+          $this->call('lessons:copy');
         }
 
     }

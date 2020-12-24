@@ -45,19 +45,30 @@ class DailyReport extends Command
 
         $incoming = 0;
         $outgoing = 0;
+        $computed_err = 0;// помилки обробки
 
         foreach ($pays as $pay) {
-          if ($pay->type === 'refill') {
-            $incoming = $incoming + $pay->sum;
-          } else {
-            $outgoing = $outgoing + $pay->sum;
+          try {
+
+            if ($pay->type === 'refill') {
+              $incoming = $incoming + $pay->sum;
+            } else {
+              $outgoing = $outgoing + $pay->sum;
+            }
+
+          } catch (\Exception $e) {
+            $computed_err++;
           }
+
         }
 
         $report->pays_in = $incoming;
         $report->pays_out = $outgoing;
         $report->pays_profit = $incoming - $outgoing;
+        $report->errors = $report->errors . '/' . $computed_err;
         $report->save();
+
+        echo "3 step ";
 
     }
 }

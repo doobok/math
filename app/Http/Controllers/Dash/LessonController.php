@@ -57,6 +57,9 @@ class LessonController extends Controller
       }
       // створюємо заняття
       $lesson = Lesson::create($request->all());
+      $lesson->start = $request->start;
+      $lesson->end = $request->end;
+      $lesson->save();
 
       return response()->json(['success' => 'true', 'data' => $lesson]);
     }
@@ -75,6 +78,9 @@ class LessonController extends Controller
       $lesson = Lesson::findOrFail($id);
       // обновляємо
       $lesson->update($request->all());
+      $lesson->start = $request->start;
+      $lesson->end = $request->end;
+      $lesson->save();
 
       return response()->json(['success' => 'true', 'data' => $lesson]);
     }

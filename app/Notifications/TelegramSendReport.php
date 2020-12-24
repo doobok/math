@@ -39,7 +39,7 @@ class TelegramSendReport extends Notification
      {
          return TelegramMessage::create()
              ->to(config('app.telegramchat'))
-             ->content("📈 *Звіт $this->type за $this->period* \n кількість занять *$this->lessons_count* учнів *$this->students_count* пропусків *$this->pass_count* неоплатних *$this->pass_notpayed_count* \n дохід за уроки *$this->lessons_count грн.* комісія тьюторів *$this->wage грн.* профіт *$this->profit грн.* \n внесенно *$this->pays_in грн.* видатки *$this->pays_out грн.* різниця *$this->pays_profit грн.* \n  помилок *$this->errors*");
+             ->content("📈 *Звіт $this->type за $this->period* \nкількість занять *$this->lessons_count* учнів *$this->students_count* пропусків *$this->pass_count* неоплатних *$this->pass_notpayed_count* \nдохід за уроки *$this->lessons грн.* комісія тьюторів *$this->wage грн.* профіт *$this->profit грн.* \nвнесенно *$this->pays_in грн.* видатки *$this->pays_out грн.* різниця *$this->pays_profit грн.* \nпомилки: доходи/копіювання уроків/оплати *$this->errors*");
      }
 
     public function toArray($notifiable)

@@ -115,28 +115,27 @@ class LessonsProcessing extends Command
         }
 
         // КОПІЮЄМО УРОКИ
-        foreach ($lessons as $lesson) {
+        foreach ($lessons as $oldLesson) {
           try {
             // створюємо нові уроки на наступний тиждень
-            $newLesson = $lesson->replicate();
+            $newLesson = $oldLesson->replicate();
             $newLesson->pass = null;
-            $newLesson->start = Carbon::create($lesson->start)->addWeek();
-            $newLesson->end = Carbon::create($lesson->end)->addWeek();
+            $newLesson->start = Carbon::create($oldLesson->start)->addWeek();
+            $newLesson->end = Carbon::create($oldLesson->end)->addWeek();
             $newLesson->pass_paid = null;
             $newLesson->computed = 0;
-            if ($lesson->period_end === null OR $newLesson->start < $lesson->period_end) {
+            if ($oldLesson->period_end === null OR $newLesson->start < $oldLesson->period_end) {
               $newLesson->save();
             }
-            // помічаємо заняття як опрацьоване
-            $lesson->computed = 1;
-            $lesson->timestamps = false;
-            $lesson->save();
 
           } catch (\Exception $e) {
             $copy_err++;
           }
           usleep(200000);//чекаємо 0.2 секунди
         }
+
+        // помічаємо усі заняття як опрацьовані
+        $updated = Lesson::where('computed', false)->whereDate('start', Carbon::today()->toDateString())->update(['computed' => 1]);
 
         // ПЕРЕБИРАЄМО ПЛАТЕЖІ
         foreach ($pays as $pay) {

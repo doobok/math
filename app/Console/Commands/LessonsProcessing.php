@@ -43,6 +43,7 @@ class LessonsProcessing extends Command
     public function handle()
     {
         $lessons = Lesson::where('computed', false)->whereDate('start', Carbon::today()->toDateString())->get();
+        $pays = Pay::where('type', 'NOT LIKE', 'lesson%')->whereDate('created_at', Carbon::today()->toDateString())->get();
 
         // глобальні змінні
         $lessonsPay = 0;// дохід за заняття
@@ -51,12 +52,15 @@ class LessonsProcessing extends Command
         $students_count = 0;// кількість студентів
         $pass_count = 0;// кількість пропусків
         $pass_notpayed_count = 0;// кількість неоплачуваних пропусків
-        $computed_err = 0;// помилки обробки
+        $incoming = 0;// вхідні платежі
+        $outgoing = 0;// вихідні платежі
+        $income_err = 0;// помилки обробки заробітку
+        $copy_err = 0;// помилки обробки копіювання
+        $finances_err = 0;// помилки обробки фінансів
 
+        // ПЕРЕБИРАЄМО БІЗНЕС ЛОГІКУ
         foreach ($lessons as $lesson) {
-
           try {
-
             // отримуємо студентів з пропусками та формуємо масив з їх ID
             $passStud = json_decode($lesson->pass);
             $pStudents = [];
@@ -72,7 +76,6 @@ class LessonsProcessing extends Command
                 array_push($pStudents, $ps->id);
               }
             }
-
             // отримуємо студентів записаних на заняття
             $students = json_decode($lesson->students);
             $students_count = $students_count + count($students);// рахуємо кількість студентів
@@ -83,9 +86,7 @@ class LessonsProcessing extends Command
                 $pay->student_id = $st->id;
                 $pay->sum = $lesson->price_student;
                 $pay->save();
-
                 $lessonsPay = $lessonsPay + $lesson->price_student;// сумуємо дохід за заняття
-
               } else if (in_array($st->id, $pStudents)) {
                 // оновлюємо лічильник неоплачених занять
                 $pass_notpayed_count++;
@@ -95,11 +96,9 @@ class LessonsProcessing extends Command
                 $pay->student_id = $st->id;
                 $pay->sum = $lesson->price_student;
                 $pay->save();
-
                 $lessonsPay = $lessonsPay + $lesson->price_student;// сумуємо дохід за заняття
               }
             }
-
             // рахуємо оплату праці тьютора
             if ($lesson->price_tutor > 0) {
                   $pay = new Pay;
@@ -107,15 +106,47 @@ class LessonsProcessing extends Command
                   $pay->tutor_id = $lesson->tutor_id;
                   $pay->sum = $lesson->price_tutor;
                   $pay->save();
-
                   $wagePay = $wagePay + $lesson->price_tutor;// сумуємо комісію тьюторів
             }
-
           } catch (\Exception $e) {
-            $computed_err++;
+            $income_err++;
           }
-
           usleep(200000);//чекаємо 0.2 секунди
+        }
+
+        // КОПІЮЄМО УРОКИ
+        foreach ($lessons as $lesson) {
+          try {
+            // створюємо нові уроки на наступний тиждень
+            $newLesson = $lesson->replicate();
+            $newLesson->pass = null;
+            $newLesson->start = Carbon::create($lesson->start)->addWeek();
+            $newLesson->end = Carbon::create($lesson->end)->addWeek();
+            $newLesson->pass_paid = null;
+            $newLesson->computed = 0;
+            if ($lesson->period_end === null OR $newLesson->start < $lesson->period_end) {
+              $newLesson->save();
+            }
+            // помічаємо заняття як опрацьоване
+            $lesson->computed = 1;
+            $lesson->save();
+          } catch (\Exception $e) {
+            $copy_err++;
+          }
+          usleep(200000);//чекаємо 0.2 секунди
+        }
+
+        // ПЕРЕБИРАЄМО ПЛАТЕЖІ
+        foreach ($pays as $pay) {
+          try {
+            if ($pay->type === 'refill') {
+              $incoming = $incoming + $pay->sum;
+            } else {
+              $outgoing = $outgoing + $pay->sum;
+            }
+          } catch (\Exception $e) {
+            $finances_err++;
+          }
         }
 
         // записуємо дані в звіт
@@ -130,15 +161,12 @@ class LessonsProcessing extends Command
           $report->pass_notpayed_count = $pass_notpayed_count;// кількість неоплачуваних пропусків
           $report->period = Carbon::today()->toDateString();
           $report->type = 'daily';
-          $report->errors = $computed_err;
+          $report->pays_in = $incoming;
+          $report->pays_out = $outgoing;
+          $report->pays_profit = $incoming - $outgoing;
+          $report->errors = $income_err . '/' . $copy_err . '/' . $finances_err;
           $report->save();
 
-          usleep(200000);//чекаємо 0.2 секунди
-
-          echo "1 step ";
-
-          // переходимо до копіювання уроків
-          $this->call('lessons:copy');
         }
 
     }

@@ -129,7 +129,9 @@ class LessonsProcessing extends Command
             }
             // помічаємо заняття як опрацьоване
             $lesson->computed = 1;
+            $lesson->timestamps = false;
             $lesson->save();
+
           } catch (\Exception $e) {
             $copy_err++;
           }

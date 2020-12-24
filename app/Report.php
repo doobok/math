@@ -13,10 +13,6 @@ class Report extends Model
     {
         static::saving(function($instance)
         {
-          // перевіряємо звіт на валідність
-          if ($instance->pays_in === NULL) {
-            // echo "NULL";
-          } else {
 
             $type = $instance->type;
             $period = $instance->period;
@@ -33,9 +29,6 @@ class Report extends Model
             $errors = $instance->errors;
 
             Notification::send('', new TelegramSendReport($type, $period, $lessons, $wage, $profit, $lessons_count, $students_count, $pass_count, $pass_notpayed_count, $pays_in, $pays_out, $pays_profit, $errors));
-
-          }
-
 
         });
         parent::boot();

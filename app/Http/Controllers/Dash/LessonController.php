@@ -25,8 +25,9 @@ class LessonController extends Controller
         array_push($params, ['classroom_id', $request->classroom]);
       }
 
-      $lessons = Lesson::
-          where($params)
+      $lessons = Lesson::where($params)
+        ->where('start', '>', $request->start)
+        ->where('end', '<', $request->end)
         ->get();
 
       return $lessons;

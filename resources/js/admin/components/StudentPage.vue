@@ -23,13 +23,13 @@
 
                 <v-spacer></v-spacer>
                 <v-chip class="ma-2" color="blue-grey" text-color="white">
-                  занять оплачено: {{pays.length}}
+                  занять оплачено: {{stat.lessons}}
                 </v-chip>
                 <v-chip class="ma-2" color="blue-grey" text-color="white">
                   <v-icon color="white">
                     mdi-currency-usd
                   </v-icon>
-                  {{getSumm}}
+                  {{stat.summ}}
                 </v-chip>
                 <v-chip class="ma-2" color="red" text-color="white">
                   пропусків: {{passes.length}}
@@ -155,6 +155,10 @@
         },
         pays: [],
         passes: [],
+        stat: {
+          lessons: '',
+          summ: '',
+        }
     }
   },
 
@@ -164,18 +168,23 @@
           .then(response => {
               this.pays = response.data.pays;
               this.passes = response.data.passes;
+              this.statS();
           });
   },
-  computed: {
-    getSumm () {
-      let sum = 0;
-      this.pays.forEach((pay, i) => {
-        sum = sum + pay.sum
-      });
-      return sum;
-    }
-  },
   methods: {
+    statS () {
+      console.log('runed');
+      let sum = 0;
+      let les = 0;
+      this.pays.forEach((pay, i) => {
+        if (pay.type === 'lesson-pay') {
+          sum = sum + pay.sum;
+          les = les + 1;
+        }
+      });
+      this.stat.lessons = les;
+      this.stat.summ = sum;
+    },
     getColor (type) {
       return type === 'refill' ? 'green' : 'red'
     },

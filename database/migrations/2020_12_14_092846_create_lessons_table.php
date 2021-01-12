@@ -16,7 +16,7 @@ class CreateLessonsTable extends Migration
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->timestamp('start');
+            $table->timestamp('start')->nullable();
             $table->timestamp('end')->nullable();
             $table->string('color')->nullable();
             $table->integer('price_student')->nullable();

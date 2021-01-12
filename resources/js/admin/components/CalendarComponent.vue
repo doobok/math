@@ -526,6 +526,8 @@
       filter: {
         tutor: 'all',
         classroom: 'all',
+        start: '',
+        end: '',
       },
       tmp: {
         start: '',
@@ -547,7 +549,6 @@
         });
 
       this.$refs.calendar.checkChange();
-      this.getLessons();
     },
     methods: {
       getLessons () {
@@ -645,7 +646,9 @@
         nativeEvent.stopPropagation()
       },
       updateRange ({ start, end }) {
-        // console.log('обновлено');
+        this.filter.start = start.date + ' 00:00:00';
+        this.filter.end = end.date + ' 23:59:59';
+        this.getLessons();
       },
       startDrag ({ event, timed }) {
         // console.log('Начало перетаскивания');

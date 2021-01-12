@@ -27,6 +27,7 @@ class StudentController extends Controller
       // конкатенація імені і прізвища
       $student->concname = $request->lname . ' ' . $request->name;
       $student->save();
+      $student->balance = 0;
 
       return response()->json(['success' => 'true', 'data' => $student]);
     }

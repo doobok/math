@@ -13,13 +13,27 @@ use Illuminate\Support\Facades\Auth;
 
 class LessonController extends Controller
 {
+    // доступно лише для авторизованих
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function getLesson(Request $request)
     {
       $params = [];
 
-      if ($request->tutor != 'all') {
+      $user = Auth::user();
+
+      if ($user->role === 'tutor') {
+        array_push($params, ['tutor_id', $user->role_id]);
+      } elseif ($request->tutor != 'all') {
         array_push($params, ['tutor_id', $request->tutor]);
       }
+
+      // if ($request->tutor != 'all') {
+      //   array_push($params, ['tutor_id', $request->tutor]);
+      // }
 
       if ($request->classroom != 'all') {
         array_push($params, ['classroom_id', $request->classroom]);
@@ -35,8 +49,14 @@ class LessonController extends Controller
     // start data
     public function getStartData()
     {
+      $user = Auth::user();
+
+      if ($user->role === 'tutor') {
+        $tutors = Tutor::where('id', $user->role_id)->get();
+      } else {
+        $tutors = Tutor::where('active', true)->get();
+      }
       $students = Student::where('active', true)->get();
-      $tutors = Tutor::where('active', true)->get();
       $classrooms = Classroom::where('active', true)->get();
 
       return response()->json([
@@ -88,6 +108,11 @@ class LessonController extends Controller
     // edit Lesson time
     public function updLessonTime(Request $request, $id)
     {
+      // відсікаємо не адміністратора
+      if (Auth::user()->cannot('admin')) {
+        return response()->json(['success' => 'false', 'msg' => 'Дія доступна лише для адміністратора!']);
+      }
+
       // відсікаємо заняття які переносяться до минулого часу
       if (Carbon::today() > Carbon::create($request->start)) {
         return response()->json(['success' => 'false', 'msg' => 'Неможливо перемістити в минулий час, заняття не збережене!']);

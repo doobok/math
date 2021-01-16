@@ -29,6 +29,16 @@
 						<a class="uk-logo uk-margin-small uk-margin-small-top" href="{{route('mainpage')}}" target="_blank">
 							Tutor-Math
 						</a>
+						@auth
+					    <div class="uk-navbar-left uk-margin-left">
+								<form class="" action="/logout" method="post">
+									@csrf
+									<button class="uk-button uk-button-text uk-text-large" type="submit" name="logout" title="Вийти">
+										<i class="fas fa-sign-out-alt"></i>
+									</button>
+								</form>
+					    </div>
+						@endauth
 			    </div>
 			</div>
 			<div class="uk-container uk-container-xlarge">
@@ -45,7 +55,7 @@
 
 	        <ul class="uk-nav uk-nav-primary uk-margin-auto-vertical">
 						@can ('tutor')
-							<li @if(str_contains(url()->current(), 'admin')) class="uk-active" @endif><a href="{{route('admin')}}"><i class="far fa-calendar-alt"></i> Розклад</a></li>							
+							<li @if(str_contains(url()->current(), 'admin')) class="uk-active" @endif><a href="{{route('admin')}}"><i class="far fa-calendar-alt"></i> Розклад</a></li>
 						@endcan
 						@can ('admin')
 							<li @if(str_contains(url()->current(), 'students')) class="uk-active" @endif><a href="{{route('students')}}"><i class="fas fa-user-graduate"></i> Учні</a></li>

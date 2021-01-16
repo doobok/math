@@ -33,6 +33,8 @@ Route::group(['prefix' => 'v1'], function () {
 
   // отримуємо уроки
   Route::get('lesson-get', 'Dash\LessonController@getLesson');
+  Route::get('lesson-start-data', 'Dash\LessonController@getStartData');
+
   // група роутів доступна лише адміністратору
   Route::middleware('can:admin')->group(function () {
     // Classrooms
@@ -50,7 +52,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('student-set', 'Dash\StudentController@setStudent');
     Route::patch('student-upd/{id}', 'Dash\StudentController@updStudent');
     // Lessons
-    Route::get('lesson-start-data', 'Dash\LessonController@getStartData');
     Route::post('lesson-set', 'Dash\LessonController@setLesson');
     Route::patch('lesson-upd/{id}', 'Dash\LessonController@updLesson');
     Route::post('lesson-copy/{id}', 'Dash\LessonController@copyLesson');

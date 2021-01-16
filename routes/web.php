@@ -21,6 +21,7 @@ Route::get('/policy', 'MainPageController@policy')->name('policy');
 // Auth::routes();
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'API\AuthController@logout');
 
 // роут для реэстрації по інвайту
 Route::get('register/{invite}', 'API\AuthViewsController@register');

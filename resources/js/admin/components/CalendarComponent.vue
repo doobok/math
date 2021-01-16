@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-dialog
+      v-if="!theTutor"
       v-model="editForm"
       persistent
       width="800"
@@ -407,40 +408,44 @@
               :color="selectedEvent.color"
               dark
             >
-              <v-btn @click="edit" icon>
+              <v-btn
+                v-if="!theTutor"
+                @click="edit" icon>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-menu v-if="!selectedEvent.computed" bottom left>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    dark
-                    icon
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <v-icon>mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </template>
+              <template v-if="!theTutor">
+                <v-menu v-if="!selectedEvent.computed" bottom left>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      dark
+                      icon
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </template>
 
-                <v-list flat>
-                  <v-list-item-group
-                    color="primary"
-                  >
-                  <v-list-item @click="copyLesson">
-                    <v-list-item-title>
-                      <v-icon>mdi-content-copy</v-icon>
-                        Дублювати
-                    </v-list-item-title>
-                  </v-list-item>
-                  <v-list-item @click="delLesson">
-                    <v-icon>mdi-delete</v-icon>
-                      <v-list-item-title>Видалити</v-list-item-title>
-                  </v-list-item>
-                  </v-list-item-group>
-                </v-list>
-              </v-menu>
+                  <v-list flat>
+                    <v-list-item-group
+                      color="primary"
+                    >
+                    <v-list-item @click="copyLesson">
+                      <v-list-item-title>
+                        <v-icon>mdi-content-copy</v-icon>
+                          Дублювати
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="delLesson">
+                      <v-icon>mdi-delete</v-icon>
+                        <v-list-item-title>Видалити</v-list-item-title>
+                    </v-list-item>
+                    </v-list-item-group>
+                  </v-list>
+                </v-menu>
+              </template>
             </v-toolbar>
             <v-card-text>
               <span>Тьютор: {{getTutorbyId}}</span><br>
@@ -464,6 +469,7 @@
 
 <script>
   export default {
+    props: ['user'],
     data: () => ({
       focus: '',
       type: 'week',
@@ -650,18 +656,21 @@
         this.getLessons();
       },
       startDrag ({ event, timed }) {
-        // console.log('Начало перетаскивания');
-        if (event && timed) {
-          this.dragEvent = event
-          // временое хранение времени при перемещении
-          this.tmp.start = event.start
-          this.tmp.end = event.end
+        // не доступно для тьютора
+        if (!this.theTutor) {
+          // console.log('Начало перетаскивания');
+          if (event && timed) {
+            this.dragEvent = event
+            // временое хранение времени при перемещении
+            this.tmp.start = event.start
+            this.tmp.end = event.end
 
-          this.dragEvent.start = new Date(event.start)
-          this.dragEvent.end = new Date(event.end)
-          this.dragTime = null
-          this.extendOriginal = null
-        }
+            this.dragEvent.start = new Date(event.start)
+            this.dragEvent.end = new Date(event.end)
+            this.dragTime = null
+            this.extendOriginal = null
+          }
+        }        
       },
       startTime (tms) {
         // console.log('Мышка опустилась на шкалу времени');
@@ -864,6 +873,9 @@
         let date = seconds * 1000;
 
         return date
+      },
+      theTutor () {
+        return this.user.role === 'tutor';
       }
     },
   }

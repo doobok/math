@@ -5,7 +5,7 @@
 <h1>Розклад занять</h1>
 
 <v-app>
-  <calendar-component></calendar-component>
+  <calendar-component :user="{{auth()->user()}}"></calendar-component>
 </v-app>
 
 @endsection

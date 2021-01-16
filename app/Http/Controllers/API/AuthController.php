@@ -30,6 +30,13 @@ class AuthController extends Controller
       return response()->json(['status' => 201]);
     }
 
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect('login');
+    }
+
     // public function login()
     // {
     //     $client = DB::table('oauth_clients')

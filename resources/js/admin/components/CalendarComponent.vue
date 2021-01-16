@@ -590,7 +590,6 @@
         if (this.editedIndex > -1) {
             this.$store.dispatch('EDIT_LESSON', this.collector).then((res) => {
               if (res === false) {
-                console.log('not yet');
                 this.selectedEvent.start = this.tmp.start
                 this.selectedEvent.end = this.tmp.end
               }

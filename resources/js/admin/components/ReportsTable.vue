@@ -48,6 +48,7 @@
           'weekly': 'Тижневий',
           'monthly': 'Місячний',
           'quarterly': 'Квартальний',
+          'yearly': 'Річний',
         },
         search: '',
         headers: [
@@ -82,7 +83,6 @@
         axios
             .get('/api/v1/reports-get', {params: {skip: this.skiped}})
             .then(response => {
-              console.log(response.data.length);
               if (response.data.length < 50) {
                 this.download = false;
               }

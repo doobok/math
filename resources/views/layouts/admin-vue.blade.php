@@ -18,11 +18,13 @@
 	<body>
 		<div id="app">
 			<div class="uk-navbar-container" uk-navbar>
-			    <div class="uk-navbar-left uk-margin-left">
-		        <a class="uk-navbar-toggle uk-text-large" href="#sidebar" uk-toggle>
-							<i class="fas fa-bars"></i>
-						</a>
-			    </div>
+				  @auth
+				    <div class="uk-navbar-left uk-margin-left">
+			        <a class="uk-navbar-toggle uk-text-large" href="#sidebar" uk-toggle>
+								<i class="fas fa-bars"></i>
+							</a>
+				    </div>
+					@endauth
 					<div class="uk-navbar-right uk-margin-right">
 						<a class="uk-logo uk-margin-small uk-margin-small-top" href="{{route('mainpage')}}" target="_blank">
 							Tutor-Math
@@ -42,13 +44,16 @@
 
 
 	        <ul class="uk-nav uk-nav-primary uk-margin-auto-vertical">
-						<li @if(str_contains(url()->current(), 'admin')) class="uk-active" @endif><a href="{{route('admin')}}"><i class="far fa-calendar-alt"></i> Розклад</a></li>
+						@can ('tutor')
+							<li @if(str_contains(url()->current(), 'admin')) class="uk-active" @endif><a href="{{route('admin')}}"><i class="far fa-calendar-alt"></i> Розклад</a></li>							
+						@endcan
 						@can ('admin')
 							<li @if(str_contains(url()->current(), 'students')) class="uk-active" @endif><a href="{{route('students')}}"><i class="fas fa-user-graduate"></i> Учні</a></li>
 							<li @if(str_contains(url()->current(), 'tutors')) class="uk-active" @endif><a href="{{route('tutors')}}"><i class="fas fa-chalkboard-teacher"></i> Тьютори</a></li>
 							<li @if(str_contains(url()->current(), 'classrooms')) class="uk-active" @endif><a href="{{route('classrooms')}}"><i class="fas fa-puzzle-piece"></i> Кабінети</a></li>
 							<li @if(str_contains(url()->current(), 'finance')) class="uk-active" @endif><a href="{{route('finance')}}"><i class="fas fa-dollar-sign"></i> Фінансова історія</a></li>
-	            <li @if(str_contains(url()->current(), 'reports')) class="uk-active" @endif><a href="{{route('reports')}}"><i class="fas fa-clipboard-check"></i> Звіти</a></li>
+							<li @if(str_contains(url()->current(), 'reports')) class="uk-active" @endif><a href="{{route('reports')}}"><i class="fas fa-clipboard-check"></i> Звіти</a></li>
+	            <li @if(str_contains(url()->current(), 'invites')) class="uk-active" @endif><a href="{{route('invites')}}"><i class="fas fas fa-ticket-alt"></i> Запрошення</a></li>
 						@endcan
 
             <li class="uk-nav-divider"></li>

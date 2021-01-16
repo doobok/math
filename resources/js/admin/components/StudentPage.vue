@@ -173,7 +173,6 @@
   },
   methods: {
     statS () {
-      console.log('runed');
       let sum = 0;
       let les = 0;
       this.pays.forEach((pay, i) => {

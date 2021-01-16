@@ -213,7 +213,6 @@
           .post('/api/v1/other-pay-add', {sum: this.paySum, comment: this.payComment})
           .then(response => {
             if (response.data.success === true) {
-              console.log(response.data);
 
               this.items.unshift(response.data.pay);
 

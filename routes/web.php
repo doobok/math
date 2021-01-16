@@ -22,9 +22,13 @@ Route::get('/policy', 'MainPageController@policy')->name('policy');
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 
+// роут для реэстрації по інвайту
+Route::get('register/{invite}', 'API\AuthViewsController@register');
+
 // роуты администратора
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/admin', 'Dash\PublicController@index')->name('admin');
+    Route::get('/admin', 'Dash\PublicController@index')->name('admin')->middleware('can:tutor');
+
     Route::get('/students', 'AdminController@students')->name('students');
     Route::get('/students/{id}', 'AdminController@studentsPage')->name('student');
     Route::get('/tutors', 'AdminController@tutors')->name('tutors');
@@ -33,40 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/settings', 'AdminController@settings')->name('settings');
     Route::get('/finance', 'AdminController@finance')->name('finance');
     Route::get('/reports', 'AdminController@reports')->name('reports');
+    Route::get('/invites', 'AdminController@invites')->name('invites');
     // options
     Route::post('/option/new', 'OptionsController@create')->name('addoption');
     Route::patch('/option/{id}', 'OptionsController@update')->name('updoption');
-});
-
-// Публичные роуты компонентов Vue API
-Route::group(['prefix' => 'v1'], function () {
-  // Classrooms
-  Route::get('classroom-get', 'Dash\ClassroomController@getClass');
-  Route::post('classroom-set', 'Dash\ClassroomController@setClass');
-  Route::patch('classroom-upd/{id}', 'Dash\ClassroomController@updClass');
-  // Tutors
-  Route::get('tutor-get', 'Dash\TutorController@getTutor');
-  Route::get('tutor-get-stat', 'Dash\TutorController@getTutorStat');
-  Route::post('tutor-set', 'Dash\TutorController@setTutor');
-  Route::patch('tutor-upd/{id}', 'Dash\TutorController@updTutor');
-  // Students
-  Route::get('student-get', 'Dash\StudentController@getStudent');
-  Route::get('student-get-stat', 'Dash\StudentController@getStudentStat');
-  Route::post('student-set', 'Dash\StudentController@setStudent');
-  Route::patch('student-upd/{id}', 'Dash\StudentController@updStudent');
-  // Lessons
-  Route::get('lesson-get', 'Dash\LessonController@getLesson');
-  Route::get('lesson-start-data', 'Dash\LessonController@getStartData');
-  Route::post('lesson-set', 'Dash\LessonController@setLesson')->middleware('can:admin');
-  Route::patch('lesson-upd/{id}', 'Dash\LessonController@updLesson');
-  Route::post('lesson-copy/{id}', 'Dash\LessonController@copyLesson');
-  Route::delete('lesson-del/{id}', 'Dash\LessonController@delLesson');
-  Route::patch('lesson-time-upd/{id}', 'Dash\LessonController@updLessonTime');
-  // Finances
-  Route::get('finances-get', 'Dash\LogisticController@getFinances');
-  Route::post('refill-student', 'Dash\LogisticController@refillStud');
-  Route::post('wage-pay', 'Dash\LogisticController@wagePay');
-  Route::post('other-pay-add', 'Dash\LogisticController@otherPay');
-  // Reports
-  Route::get('reports-get', 'Dash\LogisticController@getReports');
 });

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -19,17 +20,18 @@ class AuthServiceProvider extends ServiceProvider
     public function DashboardRules()
     {
       Gate::before(function ($user) {
-        if ($user->id === 2) {
+        if ($user->id === 2 || $user->role === 'admin') {
           return true;
         }
       });
       Gate::define('admin', function ($user) {
-          return $user->id === 1;
-          // return $user->role->name === 'director';
+          return $user->role === 'admin';
       });
       Gate::define('tutor', function ($user) {
-          return $user->id === 2;
-          // return $user->role->name === 'director';
+          return $user->role === 'tutor';
+      });
+      Gate::define('student', function ($user) {
+          return $user->role === 'student';
       });
     }
 
@@ -43,6 +45,9 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
         $this->DashboardRules();
 
-        //
+        Passport::routes(function ($router) {
+            $router->forAccessTokens();
+        });
+
     }
 }

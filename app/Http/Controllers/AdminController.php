@@ -77,4 +77,12 @@ class AdminController extends Controller
           'options' => $options,
         ]);
     }
+
+    // reports
+    public function invites()
+    {
+      return view('admin.invites', [
+        // 'options' => $options,
+      ]);
+    }
 }

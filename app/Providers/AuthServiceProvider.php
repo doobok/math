@@ -20,7 +20,7 @@ class AuthServiceProvider extends ServiceProvider
     public function DashboardRules()
     {
       Gate::before(function ($user) {
-        if ($user->id === 2 || $user->role === 'admin') {
+        if ($user->id === 1 || $user->role === 'admin') {
           return true;
         }
       });

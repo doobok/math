@@ -52,7 +52,9 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <v-col class="d-flex" cols="8" sm="4">
+              <v-col class="d-flex" cols="8" sm="4"
+              :class="{ 'rounded-pill amber lighten-4': editedItem.pass.length > 0 && editedItem.price_tutor}"
+              >
                 <validation-provider rules="integer" v-slot="{ errors }">
                   <v-text-field
                     v-model="editedItem.price_tutor"
@@ -62,6 +64,16 @@
                     :error-messages="errors"
                   ></v-text-field>
                 </validation-provider>
+              </v-col>
+              <v-col class="d-flex" cols="2"
+                :class="profitStyle"
+              >
+                <v-text-field
+                  prepend-icon="mdi-cash-multiple"
+                  :value="profitCash"
+                  label="Профіт"
+                  disabled
+                ></v-text-field>
               </v-col>
               <v-col class="d-flex" cols="9" sm="3">
                   <v-menu
@@ -670,7 +682,7 @@
             this.dragTime = null
             this.extendOriginal = null
           }
-        }        
+        }
       },
       startTime (tms) {
         // console.log('Мышка опустилась на шкалу времени');
@@ -876,6 +888,16 @@
       },
       theTutor () {
         return this.user.role === 'tutor';
+      },
+      profitCash () {
+        return (this.editedItem.students.length - this.editedItem.pass.length) * this.editedItem.price_student - this.editedItem.price_tutor;
+      },
+      profitStyle () {
+        if (this.profitCash > 0) {
+          return 'rounded-pill green lighten-4';
+        } else if (this.profitCash < 0) {
+          return 'rounded-pill red lighten-4';
+        }
       }
     },
   }

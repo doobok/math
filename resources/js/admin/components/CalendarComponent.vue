@@ -53,7 +53,7 @@
                 </validation-provider>
               </v-col>
               <v-col class="d-flex" cols="8" sm="4"
-              :class="{ 'rounded-pill amber lighten-4': editedItem.pass.length > 0 && editedItem.price_tutor}"
+              :class="activeTutorprice"
               >
                 <validation-provider rules="integer" v-slot="{ errors }">
                   <v-text-field
@@ -890,13 +890,40 @@
         return this.user.role === 'tutor';
       },
       profitCash () {
-        return (this.editedItem.students.length - this.editedItem.pass.length) * this.editedItem.price_student - this.editedItem.price_tutor;
+        let cnt;
+        let sum;
+        let dif = 0;
+        let deficiency = 0;
+        // якщо заняття оплачуються
+        if (this.editedItem.pass_paid) {
+
+          sum = this.editedItem.students.length * this.editedItem.price_student - this.editedItem.price_tutor
+
+        // якщо не оплачуються
+        } else {
+
+          if (this.editedItem.pass) {
+            cnt = this.editedItem.students.length - this.editedItem.pass.length;
+          } else {
+            cnt = this.editedItem.students.length;
+          }
+          sum = cnt * this.editedItem.price_student - this.editedItem.price_tutor;
+
+        }
+        return sum;
       },
       profitStyle () {
         if (this.profitCash > 0) {
           return 'rounded-pill green lighten-4';
         } else if (this.profitCash < 0) {
           return 'rounded-pill red lighten-4';
+        }
+      },
+      activeTutorprice () {
+        if (this.editedItem.pass) {
+          if (this.editedItem.pass.length > 0 && this.editedItem.price_tutor) {
+            return 'rounded-pill amber lighten-4';
+          }
         }
       }
     },

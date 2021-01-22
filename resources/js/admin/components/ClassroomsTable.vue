@@ -15,6 +15,8 @@
       :headers="headers"
       :items="items"
       :search="search"
+      :sort-by="['active']"
+      :sort-desc="[true]"
       >
       <template v-slot:item.active="{ item }">
         <v-checkbox

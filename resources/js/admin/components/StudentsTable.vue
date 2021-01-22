@@ -15,6 +15,8 @@
       :headers="headers"
       :items="items"
       :search="search"
+      :sort-by="['active', 'balance']"
+      :sort-desc="[true, false]"
       >
       <template v-slot:item.balance="{ item }">
         <span :class="getColor(item.balance)">

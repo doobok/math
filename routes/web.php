@@ -43,3 +43,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/option/new', 'OptionsController@create')->name('addoption');
     Route::patch('/option/{id}', 'OptionsController@update')->name('updoption');
 });
+Route::post(Telegram::getAccessToken(), function () {
+  Telegram::commandsHandler(true);
+});

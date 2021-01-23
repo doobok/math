@@ -71,6 +71,15 @@ Route::group(['prefix' => 'v1'], function () {
     // Invites
     Route::get('users-get', 'Dash\InvitesController@getUsers');
     Route::delete('user-del/{id}', 'Dash\InvitesController@delUser');
+    // Settings
+    Route::get('settings-get', 'Dash\SettingsController@getSettings');
+    Route::post('setting-set', 'Dash\SettingsController@setSetting');
+    Route::patch('setting-upd/{id}', 'Dash\SettingsController@updSetting');
+    Route::get('telegram-status-get', 'Dash\SettingsController@getTelegramSettings');
+    Route::get('telegram-set-webhook', 'Dash\SettingsController@getTelegramSetWebhook');
+    Route::get('telegram-del-webhook', 'Dash\SettingsController@getTelegramDelWebhook');
+    Route::get('telegram-get-webhook', 'Dash\SettingsController@getTelegramGetWebhook');
+
   });
 
 });

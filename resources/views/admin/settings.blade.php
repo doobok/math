@@ -1,4 +1,18 @@
-@extends('layouts.admin')
+@extends('layouts.admin-vue')
+
+@section('content')
+
+<h1>Налаштування</h1>
+
+<v-app>
+  <settings-table></settings-table>
+  <hr>
+  <telegram-webhook></telegram-webhook>
+</v-app>
+<p></p>
+@endsection
+
+{{-- @extends('layouts.admin')
 
 @section('content')
 
@@ -74,4 +88,4 @@
 <!-- action buttons -->
 
 
-@endsection
+@endsection --}}

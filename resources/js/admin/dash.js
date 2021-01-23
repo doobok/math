@@ -56,6 +56,8 @@ Vue.component('finance-table', require('./components/FinanceTable.vue').default)
 Vue.component('reports-table', require('./components/ReportsTable.vue').default);
 Vue.component('invites-table', require('./components/InvitesTable.vue').default);
 Vue.component('users-table', require('./components/UsersTable.vue').default);
+Vue.component('settings-table', require('./components/SettingsTable.vue').default);
+Vue.component('telegram-webhook', require('./components/TelegramWebhook.vue').default);
 
 Vue.component('register-card', require('./components/auth/RegisterCard.vue').default);
 

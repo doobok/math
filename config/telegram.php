@@ -38,6 +38,13 @@ return [
             'certificate_path'    => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
             'webhook_url'         => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
             'commands'            => [
+                App\Telegram\Commands\StartCommand::class,
+
+                App\Telegram\Commands\StudentsCommand::class,
+                App\Telegram\Commands\TutorsCommand::class,
+                App\Telegram\Commands\SheduleCommand::class,
+                App\Telegram\Commands\ReportsCommand::class,
+                
                 App\Telegram\Commands\HelpCommand::class,
             ],
         ],

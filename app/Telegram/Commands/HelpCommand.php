@@ -3,6 +3,7 @@
 namespace App\Telegram\Commands;
 
 use Telegram\Bot\Commands\Command;
+use Telegram\Bot\Actions;
 use Telegram;
 
 /**
@@ -18,27 +19,39 @@ class HelpCommand extends Command
     /**
      * @var array Command Aliases
      */
-    protected $aliases = ['listcommands'];
+    // protected $aliases = ['listcommands'];
 
     /**
      * @var string Command Description
      */
-    protected $description = 'Help command, Get a list of all commands';
+    protected $description = 'довідка';
 
     /**
      * {@inheritdoc}
      */
-    public function handle()
+    public function handle($arguments)
 
     {
-        $response = $this->getUpdate();
+        $this->replyWithMessage(['text' => '🐼 Привіт! Давай знайомитись! Мене звати Панда-Трофим, я допомагатиму тобі працювати з твоєю роботою. Тільки мої можливості не безмежні. Наразі я вмію виконувати наступні команди:']);
 
-        $text = 'Hey stranger, thanks for visiting me.'.chr(10).chr(10);
-        $text .= 'I am a bot and working for'.chr(10);
-        $text .= env('APP_URL').chr(10).chr(10);
-        $text .= 'Please come and visit me there.'.chr(10);
+        $this->replyWithChatAction(['action' => Actions::TYPING]);
 
-        $this->replyWithMessage(compact('text'));
+        $commands = $this->getTelegram()->getCommands();
+
+        $response = '';
+        foreach ($commands as $name => $command) {
+            $response .= sprintf('/%s - %s' . PHP_EOL, $name, $command->getDescription());
+        }
+        $this->replyWithMessage(['text' => $response]);
+
+        // $response = $this->getUpdate();
+        //
+        // $text = 'Привіт! Дякую що завітали.'.chr(10).chr(10);
+        // $text .= 'Я бот, який працює для'.chr(10);
+        // $text .= env('APP_URL').chr(10).chr(10);
+        // $text .= 'Для того щоб ознайомитись із нашою діяльністю відвідайте наш сайт.'.chr(10);
+        //
+        // $this->replyWithMessage(compact('text'));
 
     }
 }

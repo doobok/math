@@ -117,7 +117,6 @@
         axios
           .get('/api/v1/telegram-get-webhook')
           .then(response => {
-            console.log(response);
             if (response.data != '') {
               this.info = 'Вебхук знайдено';
               this.status = 1;

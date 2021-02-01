@@ -20,7 +20,7 @@ class BotController extends Controller
     public function __construct()
     {
       $update = Telegram::getWebhookUpdates();
-      $admin_id = Option::where('name', 'telegram_admin_id')->pluck('value')->first();
+      $admins_str = Option::where('name', 'telegram_admin_id')->pluck('value')->first();
       if ($update->isType('message')) {
         $chat_id = $update['message']['from']['id'];
       } elseif ($update->isType('callback_query')) {
@@ -37,8 +37,17 @@ class BotController extends Controller
           'userId' => $chat_id,
         ]);
       }
+      // перетворюэмо рядок в масив
+      $admins = explode(",", $admins_str);
+      // перебираємо користувачів і порівнюємо з масивом адміністраторів
+      $foul = true;
+      foreach ($admins as $admin) {
+        if ($chat_id == $admin) {
+          $foul = false;
+        }
+      }
       // якщо користувач не адмін нічого не робимо
-      if ($chat_id != $admin_id) {
+      if ($foul) {
         die;
       }
     }

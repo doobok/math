@@ -36,27 +36,9 @@ class ReportsCommand extends Command
         $update = Telegram::getWebhookUpdates();
         $chat_id = $update['message']['from']['id'];
 
-        $keyboard = [
-          [
-            ['text'=>'🌞 Денний','callback_data'=>json_encode(['action'=>'showlist','type'=>'daily','offset'=>0,])],
-            ['text'=>'📅 Тижневий','callback_data'=>json_encode(['action'=>'showlist','type'=>'weekly','offset'=>0,])],
-            ['text'=>'🌖 Місячний','callback_data'=>json_encode(['action'=>'showlist','type'=>'monthly','offset'=>0,])],
-            ['text'=>'📊 Квартальний','callback_data'=>json_encode(['action'=>'showlist','type'=>'quarterly','offset'=>0,])],
-          ]
-        ];
-
-        $reply_markup = Keyboard::make([
-           'inline_keyboard' => $keyboard,
-           'resize_keyboard' => true,
-           'one_time_keyboard' => true
-        ]);
-        $encodedMarkup = json_encode($reply_markup);
-
-        $response = Telegram::sendMessage([
-            'text' => 'Оберіть тип звіту',
-            'reply_markup' => $encodedMarkup,
-            'chat_id' => $chat_id
-        ]);
+        // викликаємо меню з контролера
+        $res = new \App\Http\Controllers\Telegram\ReportsBotController();
+        $res->mainMenu($chat_id);
 
     }
 

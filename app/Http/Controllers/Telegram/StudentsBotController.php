@@ -56,13 +56,7 @@ class StudentsBotController extends Controller
           ]);
           break;
       }
-      // $string = $update['callback_query']['data'];
 
-      // $text = sprintf('%s: %s, %s: %s'.PHP_EOL, 'Callback', $callback['callback_query']['data'], 'state', $state);
-      //   Telegram::sendMessage([
-      //     'chat_id' => $chat_id,
-      //     'text' => $text
-      //   ]);
     }
 
     // обробляємо звичайний ввід

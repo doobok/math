@@ -697,7 +697,7 @@
           this.editForm = true;
           this.datePic.date = this.formatDate(this.createStart);
           this.datePic.start = this.formatTime(this.createStart);
-          this.datePic.end = this.formatTime(this.createStart+3600000);
+          this.datePic.end = this.formatTime(this.createStart+3000000);
         }
       },
       extendBottom (event) {

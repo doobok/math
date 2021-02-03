@@ -49,7 +49,8 @@ class TutorsCommand extends Command
              ['text'=>'💵 Видати ЗП','callback_data'=>json_encode(['action'=>'pay','id'=>$tutor->id])],
           ]
         ];
-          $text = sprintf('ID%s: %s %s %s, баланс: %s грн.' . PHP_EOL, $tutor->id, $tutor->lname, $tutor->name, $tutor->mname, $tutor->balance );
+          $text = sprintf('ID%s: %s %s %s' . PHP_EOL, $tutor->id, $tutor->lname, $tutor->name, $tutor->mname );
+          $text .= sprintf('💵 баланс: %s грн.' . PHP_EOL, $tutor->balance );
 
           $reply_markup = Keyboard::make([
              'inline_keyboard' => $keyboard,

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Telegram;
 use App\Tutor;
 use Telegram\Bot\Keyboard\Keyboard;
+use App\Pay;
 
 class TutorsBotController extends Controller
 {
@@ -159,9 +160,11 @@ class TutorsBotController extends Controller
     {
       $params = json_decode($state['params']);
 
-      $tutor = Tutor::findorfail($params->id);
-      $tutor->balance = $tutor->balance - $params->summ;
-      $tutor->save();
+      $wage = new Pay;
+      $wage->sum = $params->summ;
+      $wage->tutor_id = $params->id;
+      $wage->type = 'wage';
+      $wage->save();
 
       Telegram::sendMessage([
        'chat_id' => $chat_id,

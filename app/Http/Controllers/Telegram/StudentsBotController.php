@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Telegram;
 use App\Student;
 use Telegram\Bot\Keyboard\Keyboard;
+use App\Pay;
 
 class StudentsBotController extends Controller
 {
@@ -189,9 +190,11 @@ class StudentsBotController extends Controller
     {
       $params = json_decode($state['params']);
 
-      $student = Student::findorfail($params->id);
-      $student->balance = $student->balance + $params->summ;
-      $student->save();
+      $refill = new Pay;
+      $refill->sum = $params->summ;
+      $refill->student_id = $params->id;
+      $refill->type = 'refill';
+      $refill->save();
 
       Telegram::sendMessage([
        'chat_id' => $chat_id,

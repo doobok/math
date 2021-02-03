@@ -40,7 +40,7 @@ export default {
     // получаем Уроки
     GET_LESSONS : async (context, payload) => {
       let {data} = await Axios.get('/api/v1/lesson-get', payload);
-      context.commit('SET_LESSONS', setColor(data));
+      context.commit('SET_LESSONS', data);
     },
     // отправка Урока
     SET_LESSON : async (context, payload) => {
@@ -94,15 +94,15 @@ export default {
   }
 }
 
-function setColor(lessons) {
-  let colored = [];
-  lessons.forEach((lesson, i) => {
-    if (lesson.pass == lesson.students) {
-      lesson.color = lesson.color + ' lighten-3';
-      colored.push(lesson);
-    } else {
-      colored.push(lesson);
-    }
-  });
-  return colored;
-}
+// function setColor(lessons) {
+//   let colored = [];
+//   lessons.forEach((lesson, i) => {
+//     if (lesson.pass == lesson.students) {
+//       lesson.color = lesson.color + ' lighten-3';
+//       colored.push(lesson);
+//     } else {
+//       colored.push(lesson);
+//     }
+//   });
+//   return colored;
+// }

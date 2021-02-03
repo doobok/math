@@ -28,8 +28,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('lessons:calculate')->dailyAt('21:30');
-        $schedule->command('report:weekly')->weekly()->saturdays()->at('21:45');
+        $schedule->command('lessons:calculate')->dailyAt('23:59');
+        $schedule->command('report:weekly')->weekly()->sundays()->at('09:00');
         $schedule->command('report:monthly')->monthlyOn(1, '10:00');
         $schedule->command('report:quarterly')->quarterly()->at('11:00');
         $schedule->command('report:yearly')->yearly()->at('12:00');

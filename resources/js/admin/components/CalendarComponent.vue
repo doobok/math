@@ -844,18 +844,28 @@
       },
       getColor () {
         let cl = this.editedItem.students[0].class;
-        if (cl === 1) return 'light-blue';
-        if (cl === 2) return 'cyan';
-        if (cl === 3) return 'teal';
-        if (cl === 4) return 'green';
-        if (cl === 5) return 'light-green';
-        if (cl === 6) return 'lime darken-1';
-        if (cl === 7) return 'amber';
-        if (cl === 8) return 'orange';
-        if (cl === 9) return 'deep-orange';
-        if (cl === 10) return 'red';
-        if (cl === 11) return 'pink';
-        else return 'blue-grey';
+        let color;
+        switch (cl) {
+          case 1: color = 'light-blue'; break;
+          case 2: color = 'cyan'; break;
+          case 3: color = 'teal'; break;
+          case 4: color = 'green'; break;
+          case 5: color = 'light-green'; break;
+          case 6: color = 'lime'; break;
+          case 7: color = 'amber'; break;
+          case 8: color = 'orange'; break;
+          case 9: color = 'deep-orange'; break;
+          case 10: color = 'red'; break;
+          case 11: color = 'pink'; break;
+          default:
+            color = 'blue-grey';
+        }
+        if (this.editedItem.pass) {
+          if (this.editedItem.students.length == this.editedItem.pass.length) {
+            color = color + ' lighten-4';
+          }
+        }
+        return color;
       },
       getLastdate () {
         if (this.datePic.last) {

@@ -42,7 +42,7 @@ class SheduleCommand extends Command
 
       Telegram::sendMessage([
         'chat_id' => $chat_id,
-        'text' => 'Оберіть потрібний період'
+        'text' => '🐼 щоб побачити розклад, обери потрібний період'
       ]);
 
       // Build the list
@@ -51,14 +51,12 @@ class SheduleCommand extends Command
         $keyboard = [
           [
             ['text'=>'🔍 Найближче заняття','callback_data'=>json_encode(['action'=>'show','day'=>'soon','id'=>$tutor->id])],
-          ],
-          [
             ['text'=>'🌞 Сьогодні','callback_data'=>json_encode(['action'=>'show','day'=>'today','id'=>$tutor->id])],
             ['text'=>'➡ Завтра','callback_data'=>json_encode(['action'=>'show','day'=>'tomorrow','id'=>$tutor->id])],
             ['text'=>'➡➡ Післязавтра','callback_data'=>json_encode(['action'=>'show','day'=>'aftertomorrow','id'=>$tutor->id])],
           ]
         ];
-          $text = sprintf('ID%s: %s %s %s' . PHP_EOL, $tutor->id, $tutor->lname, $tutor->name, $tutor->mname );
+          $text = sprintf('🎓 ID%s: %s %s %s' . PHP_EOL, $tutor->id, $tutor->lname, $tutor->name, $tutor->mname );
 
           $reply_markup = Keyboard::make([
              'inline_keyboard' => $keyboard,

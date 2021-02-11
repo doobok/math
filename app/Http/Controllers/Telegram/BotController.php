@@ -19,6 +19,7 @@ class BotController extends Controller
 {
     public function __construct()
     {
+      $chat_id = '';
       $update = Telegram::getWebhookUpdates();
       $admins_str = Option::where('name', 'telegram_admin_id')->pluck('value')->first();
       if ($update->isType('message')) {

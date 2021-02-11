@@ -20,6 +20,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "lcobucci/jwt": "3.3.3",
+        "pusher/pusher-php-server": "^4.1",
         "retailcrm/api-client-php": "~5.0"
     },
     "require-dev": {

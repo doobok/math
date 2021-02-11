@@ -35,6 +35,10 @@ Route::group(['prefix' => 'v1'], function () {
   Route::get('lesson-get', 'Dash\LessonController@getLesson');
   Route::get('lesson-start-data', 'Dash\LessonController@getStartData');
 
+  // Online Chat
+  Route::get('online-rooms-get', 'Dash\VideoChatController@getRooms');
+  Route::get('online-start-data', 'Dash\VideoChatController@getStartData');
+
   // група роутів доступна лише адміністратору
   Route::middleware('can:admin')->group(function () {
     // Classrooms

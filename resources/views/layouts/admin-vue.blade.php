@@ -6,7 +6,7 @@
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta name="robots" content="noindex, nofollow">
-		<title>Адмінпанель TutorMath</title>
+		<title>TutorMath - ти зможеш все! (ну майже все 😉)</title>
 	  <!--[if IE]><link rel="shortcut icon" href="path/to/favicon.ico"><![endif]-->
 	  <link rel="shortcut icon" href="{{asset('favicon.ico')}}" type="image/x-icon" />
 	  <link rel="apple-touch-icon" href="{{asset('apple-touch-icon.png')}}" />
@@ -31,6 +31,10 @@
 						</a>
 						@auth
 					    <div class="uk-navbar-left uk-margin-left">
+								<span class="uk-margin-right">
+									<i class="fas fa-user"></i>
+									<span>{{'{' . $userName . '}'}}</span>
+								</span>
 								<form class="" action="/logout" method="post">
 									@csrf
 									<button class="uk-button uk-button-text uk-text-large" type="submit" name="logout" title="Вийти">
@@ -63,7 +67,9 @@
 							<li @if(str_contains(url()->current(), 'classrooms')) class="uk-active" @endif><a href="{{route('classrooms')}}"><i class="fas fa-puzzle-piece"></i> Кабінети</a></li>
 							<li @if(str_contains(url()->current(), 'finance')) class="uk-active" @endif><a href="{{route('finance')}}"><i class="fas fa-dollar-sign"></i> Фінансова історія</a></li>
 							<li @if(str_contains(url()->current(), 'reports')) class="uk-active" @endif><a href="{{route('reports')}}"><i class="fas fa-clipboard-check"></i> Звіти</a></li>
-	            <li @if(str_contains(url()->current(), 'invites')) class="uk-active" @endif><a href="{{route('invites')}}"><i class="fas fas fa-ticket-alt"></i> Запрошення</a></li>
+								<li @if(str_contains(url()->current(), 'invites')) class="uk-active" @endif><a href="{{route('invites')}}"><i class="fas fa-ticket-alt"></i> Запрошення</a></li>
+
+	            <li @if(str_contains(url()->current(), 'online')) class="uk-active" @endif><a href="{{route('online')}}"><i class="fas fa-video"></i> Online заняття</a></li>
 						@endcan
 
             <li class="uk-nav-divider"></li>

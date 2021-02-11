@@ -39,6 +39,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/finance', 'AdminController@finance')->name('finance');
     Route::get('/reports', 'AdminController@reports')->name('reports');
     Route::get('/invites', 'AdminController@invites')->name('invites');
+    Route::get('/online', 'Dash\VideoChatController@onlineDash')->name('online');
+    Route::get('/online/{id}', 'Dash\VideoChatController@onlineRoom')->name('onlineroom');
+    Route::post('/online/auth', 'Dash\VideoChatController@auth');
     // options
     Route::post('/option/new', 'OptionsController@create')->name('addoption');
     Route::patch('/option/{id}', 'OptionsController@update')->name('updoption');

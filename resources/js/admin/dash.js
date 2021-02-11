@@ -1,5 +1,15 @@
 require('./../bootstrap');
 
+// Echo
+import Echo from 'laravel-echo';
+window.Pusher = require('pusher-js');
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    forceTLS: true
+});
+
 // Vue
 window.Vue = require('vue');
 
@@ -58,6 +68,8 @@ Vue.component('invites-table', require('./components/InvitesTable.vue').default)
 Vue.component('users-table', require('./components/UsersTable.vue').default);
 Vue.component('settings-table', require('./components/SettingsTable.vue').default);
 Vue.component('telegram-webhook', require('./components/TelegramWebhook.vue').default);
+Vue.component('video-rooms', require('./components/VideoRooms.vue').default);
+Vue.component('video-chat', require('./components/VideoChat.vue').default);
 
 Vue.component('register-card', require('./components/auth/RegisterCard.vue').default);
 

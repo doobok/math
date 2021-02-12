@@ -69,7 +69,7 @@ Vue.component('users-table', require('./components/UsersTable.vue').default);
 Vue.component('settings-table', require('./components/SettingsTable.vue').default);
 Vue.component('telegram-webhook', require('./components/TelegramWebhook.vue').default);
 Vue.component('video-rooms', require('./components/VideoRooms.vue').default);
-Vue.component('video-chat', require('./components/VideoChat.vue').default);
+Vue.component('video-room', require('./components/VideoRoom.vue').default);
 
 Vue.component('register-card', require('./components/auth/RegisterCard.vue').default);
 

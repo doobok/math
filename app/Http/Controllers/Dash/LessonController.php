@@ -56,7 +56,7 @@ class LessonController extends Controller
       } else {
         $tutors = Tutor::where('active', true)->get();
       }
-      $students = Student::where('active', true)->get();
+      $students = Student::where('active', true)->select('id', 'lname', 'concname', 'class')->get();
       $classrooms = Classroom::where('active', true)->get();
 
       return response()->json([

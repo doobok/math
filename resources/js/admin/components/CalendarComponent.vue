@@ -235,10 +235,10 @@
                     ></v-select>
                   </v-col>
                   <v-col class="d-flex" ols="10" sm="3">
-                    <v-checkbox
+                    <v-switch
                       v-model="editedItem.pass_paid"
                       :label="passPaid"
-                    ></v-checkbox>
+                    ></v-switch>
                   </v-col>
                 </template>
               <v-col cols="10">

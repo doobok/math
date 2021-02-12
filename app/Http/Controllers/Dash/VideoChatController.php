@@ -29,7 +29,9 @@ class VideoChatController extends Controller
     public function onlineRoom($id)
     {
       $user = Auth::user();
-      
+
+      // \App\Events\VideoChat::dispatch(['room_id' => $id]);
+
       return view('admin.online-room', [
         'user' => $user,
       ]);

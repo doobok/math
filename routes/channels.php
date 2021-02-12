@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
+use App\Lesson;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +19,8 @@ use Illuminate\Support\Facades\Broadcast;
 //     // return (int) $user->id === (int) $id;
 // });
 
-Broadcast::channel('room.1', function ($user) {
-  if ($user) {
+Broadcast::channel('room.{room_id}', function ($user, $room_id) {
+  // if ($user->role === "admin") {
     return $user;
-  }
+  // } 
 });

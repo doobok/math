@@ -1,5 +1,14 @@
 <template>
-  <div class="container">
+  <div class="uk-container">
+    <div class="uk-inline">
+        <img src="math-bg.jpg" alt="">
+        <div class="uk-overlay uk-light uk-position-bottom">
+            <p>Default Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+    </div>
+  </div>
+
+  <!-- <div class="container">
     <div class="video-container" ref="video-container">
       <video class="video-here" ref="video-here" autoplay></video>
       <video class="video-there" ref="video-there" autoplay></video>
@@ -10,14 +19,14 @@
         <li v-for="user in activeUsers">{{user.name}}</li>
       </ul>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
 import Pusher from 'pusher-js';
 import Peer from 'simple-peer';
 export default {
-  props: ['user', 'others', 'pusherKey', 'pusherCluster'],
+  props: ['user', 'pusherKey', 'pusherCluster'],
   data() {
     return {
       channel: null,
@@ -25,6 +34,7 @@ export default {
       peers: {},
       activeUsers: [],
       room_id: 1,
+      others: []
     }
   },
   computed: {

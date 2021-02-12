@@ -33,6 +33,6 @@ class VideoChat implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('room.' . 1);
+        return new PresenceChannel('room.' . $this->data['room_id']);
     }
 }

@@ -15,7 +15,7 @@
     <div id="app">
 
       <v-app>
-        <video-room :user="{{ $user }}" pusher-key="{{ config('broadcasting.connections.pusher.key') }}" pusher-cluster="{{ config('broadcasting.connections.pusher.options.cluster') }}"></video-room>
+        <video-room :user="{{ $user }}" :room_id="{{ $room_id }}" pusher-key="{{ config('broadcasting.connections.pusher.key') }}" pusher-cluster="{{ config('broadcasting.connections.pusher.options.cluster') }}"></video-room>
       </v-app>
 
     </div>

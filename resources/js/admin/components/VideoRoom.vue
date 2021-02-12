@@ -1,40 +1,67 @@
 <template>
-  <div class="uk-container">
-    <div class="uk-inline">
-        <img src="math-bg.jpg" alt="">
-        <div class="uk-overlay uk-light uk-position-bottom">
-            <p>Default Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-    </div>
+  <v-container
+  class="black fill-height pa-0"
+  fluid
+  >
+  <span class="uk-h2 logo-icon">TutorMath</span>
+
+  <div class="user-list">
+    <span><b>В кімнаті:</b></span>
+    <!-- <ul class="uk-list-bullet"> -->
+      <li v-for="user in activeUsers">{{user.name}}</li>
+    <!-- </ul> -->
   </div>
 
-  <!-- <div class="container">
-    <div class="video-container" ref="video-container">
-      <video class="video-here" ref="video-here" autoplay></video>
-      <video class="video-there" ref="video-there" autoplay></video>
-      <div class="text-right" v-for="(name,userId) in others" :key="userId">
-        <button @click="startVideoChat(userId)" v-text="`Talk with ${name}`"/>
-      </div>
-      <ul>
-        <li v-for="user in activeUsers">{{user.name}}</li>
-      </ul>
-    </div>
-  </div> -->
+  <span class="exit-icon">
+    <a href="/online" title="До списку кімнат">
+      <v-icon
+        x-large
+        color="grey"
+      >mdi-backburger</v-icon>
+    </a>
+  </span>
+
+
+    <video class="main-video" ref="video-there" autoplay></video>
+    <video class="pre-video" ref="video-here" autoplay></video>
+
+    <span class="screen-share-icon">
+      <v-icon
+        x-large
+        :color="getmicColor()"
+        @click="shareScreen()"
+      >mdi-image</v-icon>
+    </span>
+
+    <span class="mute-icon">
+      <v-icon
+        x-large
+        :color="getmicColor()"
+        @click="voiseControll()"
+      >mdi-microphone</v-icon>
+    </span>
+
+
+
+
+
+  </v-container>
+
 </template>
 
 <script>
 import Pusher from 'pusher-js';
 import Peer from 'simple-peer';
 export default {
-  props: ['user', 'pusherKey', 'pusherCluster'],
+  props: ['user', 'room_id', 'pusherKey', 'pusherCluster'],
   data() {
     return {
       channel: null,
       stream: null,
       peers: {},
       activeUsers: [],
-      room_id: 1,
-      others: []
+      voice: false,
+      screenShare: false,
     }
   },
   computed: {
@@ -49,6 +76,7 @@ export default {
       })
       .joining((user) => {
           this.activeUsers.push(user);
+          this.startVideoChat(user.id);
           console.log(user.name + ' приєднався');
       })
       .leaving((user) => {
@@ -59,11 +87,40 @@ export default {
     //     .listen('VideoChat', (e) => {
     //       console.log(e);
     //     });
-    // this.setupVideoChat();
+    this.setupVideoChat();
   },
   methods: {
     startVideoChat(userId) {
       this.getPeer(userId, true);
+      console.log('Chat started!');
+    },
+    voiseControll() {
+      this.voice = !this.voice;
+      this.setupVideoChat();
+    },
+    getmicColor() {
+      if (this.voice) {
+        return 'red';
+      } else {
+        return 'grey';
+      }
+    },
+    shareScreen(){
+      this.screenShare = !this.screenShare;
+      this.setupVideoChat();
+      // this.activeUsers.forEach(function(user) {
+      //   console.log(user);
+      //   // if (user.id != this.user.id) {
+      //   //   this.startVideoChat(user.id);
+      //   // }
+      // });
+      this.activeUsers.forEach((user, i) => {
+        console.log(user);
+        console.log(i);
+      });
+
+
+      console.log('shared');
     },
     getPeer(userId, initiator) {
       if(this.peers[userId] === undefined) {
@@ -88,6 +145,9 @@ export default {
             peer.destroy();
           }
           delete this.peers[userId];
+        })
+        .on('error', (err) => {
+          console.log(err);
         });
         this.peers[userId] = peer;
       }
@@ -95,8 +155,18 @@ export default {
     },
     async setupVideoChat() {
       // To show pusher errors
-      Pusher.logToConsole = true;
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      // Pusher.logToConsole = true;
+
+      const stream = await this.getStrim();
+
+
+      // if (this.screenShare) {
+      //   const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: this.voice });
+      // } else {
+      //   const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: this.voice });
+      // }
+
+
       const videoHere = this.$refs['video-here'];
       videoHere.srcObject = stream;
       this.stream = stream;
@@ -107,6 +177,13 @@ export default {
         const peer = this.getPeer(signal.userId, false);
         peer.signal(signal.data);
       });
+    },
+    getStrim() {
+      if (this.screenShare) {
+        return navigator.mediaDevices.getDisplayMedia({ video: true, audio: this.voice });
+      } else {
+        return navigator.mediaDevices.getUserMedia({ video: true, audio: this.voice });
+      }
     },
     getPusherInstance() {
       return new Pusher(this.pusherKey, {
@@ -143,10 +220,67 @@ export default {
 }
 .video-there {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 100%;
   z-index: 1;
 }
 .text-right {
   text-align: right;
+}
+
+.main-video {
+  width: 100vw; /* Could also use width: 100%; */
+  height: 100vh;
+  object-fit: cover;
+  position: fixed; /* Change position to absolute if you don't want it to take up the whole page */
+  left: 0px;
+  top: 0px;
+  z-index: 1;
+}
+.pre-video {
+  width: 130px;
+  position: absolute;
+  left: 10px;
+  bottom: 16px;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  z-index: 2;
+}
+.mute-icon {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  z-index: 3;
+}
+.screen-share-icon {
+  position: absolute;
+  left: 10px;
+  bottom: 140px;
+  z-index: 3;
+}
+.logo-icon {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  opacity: 0.4;
+  z-index: 3;
+}
+.exit-icon {
+  position: absolute;
+  left: 20px;
+  top: 10px;
+  opacity: 0.4;
+  z-index: 3;
+}
+.user-list {
+  position: absolute;
+  left: 10px;
+  top: 50px;
+  z-index: 3;
+  background-color: #fff;
+  opacity: 0.2;
+  color: #555;
+  padding: 15px;
+  border-radius: 10px;
 }
 </style>

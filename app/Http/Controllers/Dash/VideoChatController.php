@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Lesson;
 use App\Tutor;
+use Carbon\Carbon;
 
 class VideoChatController extends Controller
 {
@@ -34,6 +35,7 @@ class VideoChatController extends Controller
 
       return view('admin.online-room', [
         'user' => $user,
+        'room_id' => $id
       ]);
     }
 
@@ -59,7 +61,7 @@ class VideoChatController extends Controller
     public function getRooms()
     {
         $user = Auth::user();
-        $lessons = Lesson::where('classroom_id', 3)->get();
+        $lessons = Lesson::where('classroom_id', 3)->whereDate('start', Carbon::today()->toDateString())->where('end', '>', Carbon::now()->toDateTimeString())->orderBy('start')->get();
         $rooms = [];
         if ($user->role === 'admin') {
             // для адміністратора повертаємо усі

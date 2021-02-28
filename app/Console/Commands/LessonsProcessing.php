@@ -151,7 +151,7 @@ class LessonsProcessing extends Command
         }
 
         // записуємо дані в звіт
-        if ($lessons->count() > 0) {
+        if ($lessons->count() > 0 || $pays->count() > 0) {
           $report = new Report;
           $report->lessons = $lessonsPay;
           $report->wage = $wagePay;

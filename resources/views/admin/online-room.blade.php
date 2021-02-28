@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 		<title>TutorMath - онлайн заняття</title>
-		<link rel="icon" href="favicon.ico">
+		<link rel="icon" href="/favicon.ico">
     <link href="{{ mix('css/app.css')}}" rel="stylesheet">
 	  <link href="{{ mix('css/dash.css')}}" rel="stylesheet">
 	</head>

@@ -1,6 +1,6 @@
 <template>
   <v-container
-  class="black fill-height pa-0"
+  class="green fill-height pa-0"
   fluid
   >
   <span class="uk-h2 logo-icon">TutorMath</span>
@@ -60,14 +60,14 @@ export default {
       stream: null,
       peers: {},
       activeUsers: [],
-      voice: false,
+      voice: true,
       screenShare: false,
     }
   },
   computed: {
     chat() {
       return window.Echo.join('room.' + this.room_id);
-    }
+    },
   },
   mounted() {
     this.chat
@@ -81,6 +81,7 @@ export default {
       })
       .leaving((user) => {
           this.activeUsers.splice(this.activeUsers.indexOf(user), 1);
+          this.delPeer(user.id);
           console.log(user.name + ' відʼєднався');
       });
     // this.chat
@@ -89,13 +90,29 @@ export default {
     //     });
     this.setupVideoChat();
   },
+  watch: {
+    activeUsers(users) {
+      if (users.length < 2 ) {
+        const videoThere = this.$refs['video-there'];
+        videoThere.srcObject = null;
+
+      }
+    }
+  },
   methods: {
     startVideoChat(userId) {
       this.getPeer(userId, true);
-      console.log('Chat started!');
+    },
+    leaveVideochat(userId) {
+      const peer = this.peers[userId];
+      if(peer !== undefined) {
+        peer.destroy();
+      }
+      delete this.peers[userId];
     },
     voiseControll() {
       this.voice = !this.voice;
+      this.clearVideoChat();
       this.setupVideoChat();
     },
     getmicColor() {
@@ -120,7 +137,6 @@ export default {
       });
 
 
-      console.log('shared');
     },
     getPeer(userId, initiator) {
       if(this.peers[userId] === undefined) {
@@ -138,6 +154,7 @@ export default {
         .on('stream', (stream) => {
           const videoThere = this.$refs['video-there'];
           videoThere.srcObject = stream;
+          // console.log(stream);
         })
         .on('close', () => {
           const peer = this.peers[userId];
@@ -145,30 +162,35 @@ export default {
             peer.destroy();
           }
           delete this.peers[userId];
+          // const videoThere = this.$refs['video-there'];
+          // videoThere.srcObject = undefined;
         })
         .on('error', (err) => {
           console.log(err);
+          // location.reload();
         });
         this.peers[userId] = peer;
       }
       return this.peers[userId];
     },
+    delPeer(userId) {
+      const peer = this.peers[userId];
+      if(peer !== undefined) {
+        peer.destroy();
+      }
+      delete this.peers[userId];
+    },
     async setupVideoChat() {
       // To show pusher errors
       // Pusher.logToConsole = true;
 
-      const stream = await this.getStrim();
+      let mystream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: this.voice });
 
 
-      // if (this.screenShare) {
-      //   const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: this.voice });
-      // } else {
-      //   const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: this.voice });
-      // }
-
-
+      // let stream = await this.getStrim();
       const videoHere = this.$refs['video-here'];
-      videoHere.srcObject = stream;
+      videoHere.srcObject = mystream;
       this.stream = stream;
       const pusher = this.getPusherInstance();
       this.channel = pusher.subscribe('presence-video-chat');
@@ -177,6 +199,12 @@ export default {
         const peer = this.getPeer(signal.userId, false);
         peer.signal(signal.data);
       });
+    },
+    clearVideoChat() {
+      const videoHere = this.$refs['video-here'];
+      videoHere.srcObject = null;
+      this.stream = null;
+      this.channel = null;
     },
     getStrim() {
       if (this.screenShare) {

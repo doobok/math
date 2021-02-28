@@ -38,7 +38,7 @@ class TelegramSendReport extends Notification
      public function toTelegram($notifiable)
      {
          return TelegramMessage::create()
-             ->to(config('app.telegramchat'))
+             ->to(config('app.telegramadmin'))
              ->content("📈 *Звіт $this->type за $this->period* \nзанять 📚*$this->lessons_count* | учнів 🎓*$this->students_count* | пропусків *$this->pass_count*/*$this->pass_notpayed_count* \nдохід 💰*$this->lessons грн.* | тьюторам 💸*$this->wage грн.* | профіт 💲*$this->profit грн.* \nготівка 💳*$this->pays_in грн.* | видатки 💸*$this->pays_out грн.* | каса 💲*$this->pays_profit грн.* \n⚠ *$this->errors*");
      }
 

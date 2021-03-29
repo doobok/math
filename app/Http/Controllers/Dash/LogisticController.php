@@ -42,7 +42,7 @@ class LogisticController extends Controller
         $data->push(array('period', 'Надходження', 'Видатки', 'Профіт'));
       }
 
-      $sorted = $reports->sortBy('period');
+      $sorted = $reports->reverse();
 
       foreach ($sorted as $report) {
         $data->push(array_values($report->toArray()));

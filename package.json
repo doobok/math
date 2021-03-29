@@ -24,6 +24,7 @@
         "simple-peer": "^9.9.3",
         "uikit": "^3.5.4",
         "vue": "^2.6.11",
+        "vue-google-charts": "^0.3.3",
         "vue-multilanguage": "^4.0.10",
         "vue-template-compiler": "^2.6.11",
         "vuelidate": "^0.7.5",

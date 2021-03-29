@@ -66,7 +66,7 @@
 							<li @if(str_contains(url()->current(), 'tutors')) class="uk-active" @endif><a href="{{route('tutors')}}"><i class="fas fa-chalkboard-teacher"></i> Тьютори</a></li>
 							<li @if(str_contains(url()->current(), 'classrooms')) class="uk-active" @endif><a href="{{route('classrooms')}}"><i class="fas fa-puzzle-piece"></i> Кабінети</a></li>
 							<li @if(str_contains(url()->current(), 'finance')) class="uk-active" @endif><a href="{{route('finance')}}"><i class="fas fa-dollar-sign"></i> Фінансова історія</a></li>
-							<li @if(str_contains(url()->current(), 'reports')) class="uk-active" @endif><a href="{{route('reports')}}"><i class="fas fa-clipboard-check"></i> Звіти</a></li>
+							<li @if(str_contains(url()->current(), 'reports')) class="uk-active" @endif><a href="{{route('reports')}}"><i class="fas fa-clipboard-check"></i> Аналітика</a></li>
 								<li @if(str_contains(url()->current(), 'invites')) class="uk-active" @endif><a href="{{route('invites')}}"><i class="fas fa-ticket-alt"></i> Запрошення</a></li>
 
 	            <li @if(str_contains(url()->current(), 'online')) class="uk-active" @endif><a href="{{route('online')}}"><i class="fas fa-video"></i> Online заняття</a></li>

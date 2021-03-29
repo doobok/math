@@ -65,7 +65,7 @@ class AdminController extends Controller
     public function reports()
     {
       return view('admin.reports', [
-        // 'options' => $options,
+        // 'data' => $data,
       ]);
     }
 

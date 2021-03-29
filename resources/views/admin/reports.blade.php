@@ -2,9 +2,11 @@
 
 @section('content')
 
-<h1>Звіти</h1>
+<h1>Аналітика</h1>
+
 
 <v-app>
+  <stats-graph></stats-graph>
   <reports-table></reports-table>
 </v-app>
 

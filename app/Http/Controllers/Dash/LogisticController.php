@@ -26,6 +26,30 @@ class LogisticController extends Controller
       return Report::skip($request->skip)->limit(50)->orderBy('created_at', 'desc')->get();
     }
 
+    // get Statistic for charts
+    public function getStats(Request $request)
+    {
+      $data = collect();
+
+      if ($request->type == 'productivity') {
+        $reports = Report::where('type', $request->period)->select('period', 'lessons', 'wage', 'profit')->latest()->take($request->count)->get();
+        $data->push(array('period', 'За уроки', 'Дохід тьюторів', 'Профіт'));
+      } elseif ($request->type == 'attendance') {
+        $reports = Report::where('type', $request->period)->select('period', 'lessons_count', 'students_count', 'pass_count', 'pass_notpayed_count')->latest()->take($request->count)->get();
+        $data->push(array('period', 'Кількість уроків', 'Кількість учнів', 'Кількість пропусків', 'Неоплатних пропусків'));
+      } elseif ($request->type == 'finances') {
+        $reports = Report::where('type', $request->period)->select('period', 'pays_in', 'pays_out', 'pays_profit')->latest()->take($request->count)->get();
+        $data->push(array('period', 'Надходження', 'Видатки', 'Профіт'));
+      }
+
+      $sorted = $reports->sortBy('period');
+
+      foreach ($sorted as $report) {
+        $data->push(array_values($report->toArray()));
+      }
+      return $data;
+    }
+
     // поповнюємобаланс студента
     public function refillStud(Request $request)
     {

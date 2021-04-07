@@ -35,8 +35,18 @@ class SheduleBotController extends Controller
           if (count($lessons) > 0) {
             $response = '🐼 Ось заняття за твоїм запитом:'. PHP_EOL. PHP_EOL;
             foreach ($lessons as $lesson) {
-                $response .= sprintf('👉 %s' . PHP_EOL, $lesson->start);
-                $response .= sprintf('   клас %s (cab-%s)' . PHP_EOL, $lesson->name, $lesson->classroom_id);
+                if ($lesson->students == $lesson->pass) {
+                  $response .= sprintf('❌ %s' . PHP_EOL, $lesson->start);
+                } else {
+                  $response .= sprintf('👉 %s' . PHP_EOL, $lesson->start);
+                }
+
+                if ($lesson->classroom_id == 3) {
+                  $response .= sprintf('   клас %s 🌏' . PHP_EOL, $lesson->name);
+                } else {
+                  $response .= sprintf('   клас %s (cab-%s)' . PHP_EOL, $lesson->name, $lesson->classroom_id);
+                }
+
             }
             $response .= PHP_EOL . 'всього занять: '. count($lessons) .PHP_EOL. 'головне меню розкладу /shedule';
           } else {

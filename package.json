@@ -12,7 +12,7 @@
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.13.0",
         "@mycure/vue-jitsi-meet": "^0.0.7",
-        "axios": "^0.19",
+        "axios": "^0.21",
         "cross-env": "^7.0",
         "deepmerge": "^4.2.2",
         "inputmask": "^5.0.3",

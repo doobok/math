@@ -14,10 +14,13 @@
 
     <div id="app">
 
-      <v-app>
-        <video-room :user="{{ $user }}" room_id="{{ $room_id }}" end="{{ $end }}" domain="{{config('app.jitsi_domain')}}"></video-room>
-      </v-app>
-
+			<div uk-height-viewport class="uk-inline uk-light uk-width-1-1 uk-height-1-1" style="background-image: url(/title_apple.jpg);">
+            <div class="uk-position-center uk-text-center">
+								<h1>Заняття завершилось</h1>
+								<p class="uk-text-bold">Наступне згідно розкладу</p>
+            </div>
+        </div>
+				
     </div>
 
     <script src="{{ mix('js/dash.js') }}"></script>

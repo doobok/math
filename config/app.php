@@ -8,6 +8,7 @@ return [
     'telegramadmin' => env('TELEGRAM_ADMIN', null),
     'retailcrm_url' => env('RETAILCRM_URL', null),
     'retailcrm_api' => env('RETAILCRM_API', null),
+    'jitsi_domain' => env('JITSI_DOMAIN', null),    
 
     /*
     |--------------------------------------------------------------------------

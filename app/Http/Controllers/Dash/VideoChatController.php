@@ -30,13 +30,48 @@ class VideoChatController extends Controller
     public function onlineRoom($id)
     {
       $user = Auth::user();
+      $lesson = Lesson::findOrFail($id);
 
-      // \App\Events\VideoChat::dispatch(['room_id' => $id]);
+      $approved = false;
 
-      return view('admin.online-room', [
-        'user' => $user,
-        'room_id' => $id
-      ]);
+      // check user
+      switch ($user->role) {
+        case 'admin':
+          $approved = true;
+          break;
+        case 'tutor':
+          if ($user->role_id === $lesson->tutor_id) {
+            $approved = true;
+          }
+          break;
+        case 'student':
+          $students = json_decode($room->students);
+          foreach ($students as $student) {
+            if ($student->id === $user->role_id) {
+              $approved = true;
+            }
+          }
+          break;
+        default:
+          $approved = false;
+          break;
+      }
+
+      // check date
+      if ($lesson->end < Carbon::now()->toDateTimeString()) {
+        $approved = false;
+      }
+
+      if ($approved) {
+        return view('admin.online-room', [
+          'user' => $user,
+          'room_id' => $id,
+          'end' => strtotime($lesson->end) * 1000
+        ]);
+      } else {
+        return view('admin.online-no-room');
+      }
+
     }
 
     public function auth(Request $request) {
@@ -100,38 +135,3 @@ class VideoChatController extends Controller
       ]);
     }
 }
-
-
-// <?php
-// namespace App\Http\Controllers;
-// use Illuminate\Http\Request;
-// use Pusher\Pusher;
-// class VideoChatController extends Controller
-// {
-//     public function index(Request $request) {
-//         $user = $request->user();
-//         $others = \App\User::where('id', '!=', $user->id)->pluck('name', 'id');
-//         return view('video_chat.index')->with([
-//             'user' => collect($request->user()->only(['id', 'name'])),
-//             'others' => $others
-//         ]);
-//     }
-//
-//     public function auth(Request $request) {
-//         $user = $request->user();
-//         $socket_id = $request->socket_id;
-//         $channel_name = $request->channel_name;
-//         $pusher = new Pusher(
-//             config('broadcasting.connections.pusher.key'),
-//             config('broadcasting.connections.pusher.secret'),
-//             config('broadcasting.connections.pusher.app_id'),
-//             [
-//                 'cluster' => config('broadcasting.connections.pusher.options.cluster'),
-//                 'encrypted' => true
-//             ]
-//         );
-//         return response(
-//             $pusher->presence_auth($channel_name, $socket_id, $user->id)
-//         );
-//     }
-// }

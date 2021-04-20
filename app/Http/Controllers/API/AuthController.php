@@ -18,6 +18,7 @@ class AuthController extends Controller
       // створюємо користувача
       $user = User::create([
               'name' => request('name'),
+              'realname' => $invite->name,
               'password' => bcrypt(request('password')),
               'role' => $invite->role,
               'role_id' => $invite->role_id,

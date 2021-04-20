@@ -43,6 +43,7 @@
             value: 'id',
           },
           { text: 'Нікнейм', value: 'name' },
+          { text: 'Реальне Імʼя', value: 'realname' },
           { text: 'Роль', value: 'role' },
           { text: 'Роль ID', value: 'role_id' },
           { text: 'Зареєстрований', value: 'created_at' },
@@ -64,7 +65,7 @@
       },
 
       delItem(item) {
-        if (confirm('Ви дійсно бажаєте видалити користувача ' + item.name + '? Після підтвердження він буде видалений із системи назавжди')) {
+        if (confirm('Ви дійсно бажаєте видалити користувача ' + item.realname + '? Після підтвердження він буде видалений із системи назавжди')) {
           axios
             .delete('/api/v1/user-del/' + item.id)
             .then(response => {

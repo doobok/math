@@ -136,7 +136,7 @@
         },
         roles: [
           {slug: 'tutor', name: 'Тьютор'},
-          // {slug: 'student', name: 'Учень'},
+          {slug: 'student', name: 'Учень'},
         ],
         users: [],
     }

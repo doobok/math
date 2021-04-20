@@ -26,7 +26,7 @@ export default {
         noSSL: false,
         userInfo: {
           // email: 'user@email.com',
-          displayName: this.user.name,
+          displayName: this.user.realname,
         },
         configOverwrite: {
           enableNoisyMicDetection: false,

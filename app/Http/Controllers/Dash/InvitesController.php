@@ -32,7 +32,7 @@ class InvitesController extends Controller
   // Users
   public function getUsers()
   {
-    return User::where('id', '>', 2)->orderBy('id', 'desc')->select('id', 'name', 'role', 'role_id', 'created_at')->get();
+    return User::where('id', '>', 2)->orderBy('id', 'desc')->select('id', 'name', 'realname', 'role', 'role_id', 'created_at')->get();
   }
 
   public function delUser($id)

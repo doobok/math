@@ -15,7 +15,7 @@
     <div id="app">
 
       <v-app>
-        <video-room :user="{{ $user }}" room_id="{{ $room_id }}" end="{{ $end }}" domain="{{config('app.jitsi_domain')}}"></video-room>
+        <video-room :user="{{ $user }}" room_id="{{ $room_id }}" domain="{{config('app.jitsi_domain')}}"></video-room>
       </v-app>
 
     </div>

@@ -27,6 +27,7 @@ class VideoChatController extends Controller
       ]);
     }
 
+    // функція онлайн кімнати заняття
     public function onlineRoom($id)
     {
       $user = Auth::user();
@@ -66,12 +67,23 @@ class VideoChatController extends Controller
         return view('admin.online-room', [
           'user' => $user,
           'room_id' => $id,
-          'end' => strtotime($lesson->end) * 1000
         ]);
       } else {
         return view('admin.online-no-room');
       }
+    }
 
+    // отримуємо потрібні параметри часу
+    public function getRoomTimes(Request $request)
+    {
+      $lesson = Lesson::findOrFail($request->id);
+
+      return response()->json([
+        'now' => strtotime(Carbon::now()->toDateTimeString()) * 1000,
+        'start' => $lesson->start,
+        'end' => strtotime(Carbon::create($lesson->end)->toDateTimeString()) * 1000,
+      ]);
+      // code...
     }
 
     public function auth(Request $request) {

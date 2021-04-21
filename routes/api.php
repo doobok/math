@@ -38,6 +38,7 @@ Route::group(['prefix' => 'v1'], function () {
   // Online Chat
   Route::get('online-rooms-get', 'Dash\VideoChatController@getRooms');
   Route::get('online-start-data', 'Dash\VideoChatController@getStartData');
+  Route::get('online-room-times', 'Dash\VideoChatController@getRoomTimes');
 
   // група роутів доступна лише адміністратору
   Route::middleware('can:admin')->group(function () {

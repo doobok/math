@@ -164,8 +164,12 @@
       findUserbyId () {
         let user = this.users.find(element => element.id === this.invite.role_id);
         if (user) {
-          this.invite.name = user.lname +' '+ user.name;
-
+          // назначаэмо імʼя в залежності від ролі
+          if (this.invite.role == 'tutor') {
+            this.invite.name = user.name +' '+ user.mname;
+          } else {
+            this.invite.name = user.name;
+          }
           // генерируем случайную строку
           let s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
           this.invite.invite = Array(52).join().split(',').map(function() { return s.charAt(Math.floor(Math.random() * s.length)); }).join('');

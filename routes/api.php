@@ -40,6 +40,9 @@ Route::group(['prefix' => 'v1'], function () {
   Route::get('online-start-data', 'Dash\VideoChatController@getStartData');
   Route::get('online-room-times', 'Dash\VideoChatController@getRoomTimes');
 
+  // статистика про студента для студента
+  Route::get('student-get-profile-stat', 'Dash\StudentController@getStudentSelfStat')->middleware('can:student');
+
   // група роутів доступна лише адміністратору
   Route::middleware('can:admin')->group(function () {
     // Classrooms

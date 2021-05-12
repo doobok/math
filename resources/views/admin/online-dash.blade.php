@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>Кімнати онлайн занять</h1>
+<h1>Онлайн заняття</h1>
 
 <v-app>
   <video-rooms></video-rooms>

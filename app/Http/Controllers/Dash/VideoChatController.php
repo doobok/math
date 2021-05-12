@@ -46,7 +46,7 @@ class VideoChatController extends Controller
           }
           break;
         case 'student':
-          $students = json_decode($room->students);
+          $students = json_decode($lesson->students);
           foreach ($students as $student) {
             if ($student->id === $user->role_id) {
               $approved = true;

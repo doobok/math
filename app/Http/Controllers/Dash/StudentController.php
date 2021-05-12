@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dash;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Student;
 use App\Pay;
@@ -51,6 +52,36 @@ class StudentController extends Controller
       return response()->json([
         'pays' => $pays,
         'passes' => $passes,
+      ]);
+    }
+
+    // Публічна частина
+    //
+    // профіль студента
+    public function studentProfile()
+    {
+      $user = Auth::user();
+      if ($user->role == 'student') {
+        $student = Student::where('id', $user->role_id)->select('id', 'name', 'lname', 'balance', 'created_at')->firstorfail();;
+        return view('admin.students-profile', [
+            'student' => $student,
+          ]);
+      } else {
+        return redirect()->back();
+      }
+    }
+
+    // отримуємо статистику по учню
+    public function getStudentSelfStat(Request $request)
+    {
+      $pays = Pay::where('student_id', $request->id)->where('type', 'lesson-pay')->orderBy('id', 'desc')->get();
+      $passes = Pass::where('student_id', $request->id)->orderBy('id', 'desc')->get();
+
+      return response()->json([
+        'pays' => $pays,
+        'passes' => $passes,
+        'pays_cnt' => count($pays),
+        'passes_cnt' => count($passes),
       ]);
     }
 }

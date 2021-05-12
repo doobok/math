@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/students', 'AdminController@students')->name('students');
     Route::get('/students/{id}', 'AdminController@studentsPage')->name('student');
+    Route::get('/my-profile', 'Dash\StudentController@studentProfile')->name('my-profile')->middleware('can:student');
     Route::get('/tutors', 'AdminController@tutors')->name('tutors');
     Route::get('/tutors/{id}', 'AdminController@tutorsPage')->name('tutor');
     Route::get('/classrooms', 'AdminController@classrooms')->name('classrooms');

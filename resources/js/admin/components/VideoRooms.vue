@@ -1,15 +1,15 @@
 <template>
   <v-container>
     <v-alert
-      class="mt-16"
-      color="green"
+      class="py-5"
+      color="orange"
       dark
       dense
       icon="mdi-school"
       prominent
       v-if="rooms.length < 1"
     >
-      Сьогодні у Вас немає жодного онлайн заняття, або усі вони вже відбулися. Будь-ласка, повертайтесь пізніше!
+      Сьогодні у тебе немає жодного онлайн заняття, або усі вони вже відбулися. Будь-ласка, повертайся пізніше!
     </v-alert>
     <v-row>
       <template v-for="room in rooms">

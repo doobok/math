@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\User;
+
 
 class LoginController extends Controller
 {
@@ -44,6 +47,30 @@ class LoginController extends Controller
         return 'name';
     }
 
+    // кастомний метод авторизації
+    public function login(Request $request)
+    {
+        // перевіряємо існування користувача
+        $user = User::where('name', $request->name)->first();
+        if (!$user) {
+          return response()->json(['status' => 406, 'msg' => 'Користувача із таким логіном не існує.']);
+        }
+        // пробуємо його залогінити
+        if (Auth::attempt(['name' => $request->name, 'password' => $request->password], $request->remember)) {
+            $request->session()->regenerate();
+
+            if (Auth::user()->role == 'student') {
+              $url = '/my-profile';
+            } else {
+              $url =  '/admin';
+            }
+
+            return response()->json(['status' => 201, 'url' => $url]);
+        }
+        // якщо не вдалося повертаємо повідомлення про невірний пароль
+        return response()->json(['status' => 406, 'msg' => 'Не вірний пароль, перевірте правильність вводу та спробуйте ще раз.']);
+
+    }
 
     protected function redirectTo ()
     {

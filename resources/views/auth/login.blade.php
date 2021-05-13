@@ -3,12 +3,14 @@
 @section('content')
 <div class="uk-width-medium">
 
-  <div class="uk-text-center uk-margin">
+  <login-card csrf="{{ csrf_token() }}"></login-card>
+
+  {{-- <div class="uk-text-center uk-margin">
     <span class="uk-h3">Вхід</span>
-  </div>
+  </div> --}}
 
   <!-- login -->
-  <form class="toggle-class" method="POST" action="{{ route('login') }}">
+  {{-- <form class="toggle-class" method="POST" action="{{ route('login') }}">
     @csrf
     <fieldset class="uk-fieldset">
       <div class="uk-margin-small">
@@ -24,13 +26,15 @@
         </div>
       </div>
       <div class="uk-margin-small">
-        {{-- <label><input class="uk-checkbox" type="checkbox"> Keep me logged in</label> --}}
+        <label><input class="uk-checkbox" type="checkbox"> Keep me logged in</label>
       </div>
       <div class="uk-margin-bottom">
         <button type="submit" class="uk-button uk-button-primary uk-border-pill uk-width-1-1">Увійти</button>
       </div>
     </fieldset>
-  </form>
+
+
+  </form> --}}
   <!-- /login -->
 
   <!-- recover password -->
@@ -48,12 +52,12 @@
   <!-- /recover password -->
 
   <!-- action buttons -->
-  <div>
+  {{-- <div>
     <div class="uk-text-center">
-      {{-- <a class="uk-link-reset uk-text-small toggle-class" data-uk-toggle="target: .toggle-class ;animation: uk-animation-fade">Forgot your password?</a> --}}
+      <a class="uk-link-reset uk-text-small toggle-class" data-uk-toggle="target: .toggle-class ;animation: uk-animation-fade">Forgot your password?</a>
       <a class="uk-link-reset uk-text-small toggle-class" data-uk-toggle="target: .toggle-class ;animation: uk-animation-fade" hidden><span data-uk-icon="arrow-left"></span> Back to Login</a>
     </div>
-  </div>
+  </div> --}}
   <!-- action buttons -->
 
 </div>

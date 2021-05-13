@@ -74,6 +74,7 @@ Vue.component('video-rooms', require('./components/VideoRooms.vue').default);
 Vue.component('video-room', require('./components/VideoRoom.vue').default);
 
 Vue.component('register-card', require('./components/auth/RegisterCard.vue').default);
+Vue.component('login-card', require('./components/auth/LoginCard.vue').default);
 
 Vue.component('validation-provider', ValidationProvider);
 Vue.component('validation-observer', ValidationObserver);

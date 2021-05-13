@@ -9,6 +9,8 @@
 		<!-- CSS FILES -->
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/uikit@latest/dist/css/uikit.min.css">
 		<link rel="stylesheet" type="text/css" href="css/admin.css">
+		<link href="{{ mix('css/app.css')}}" rel="stylesheet">
+	  <link href="{{ mix('css/dash.css')}}" rel="stylesheet">
 	</head>
 	<body class="login uk-cover-container uk-background-secondary uk-flex uk-flex-center uk-flex-middle uk-height-viewport uk-overflow-hidden uk-light" data-uk-height-viewport>
 		<!-- overlay -->
@@ -17,7 +19,7 @@
 		<div class="uk-position-bottom-center uk-position-small uk-visible@m uk-position-z-index">
 			<span class="uk-text-small uk-text-muted">© 2020 @if (date('Y') != '2020')- {{date('Y')}}@endif Tutor-math.com.ua</span>
 		</div>
-		<div class="uk-padding-small uk-position-z-index" uk-scrollspy="cls: uk-animation-fade">
+		<div id="app" class="uk-padding-small uk-position-z-index" uk-scrollspy="cls: uk-animation-fade">
 
       @yield('content')
 
@@ -26,5 +28,6 @@
 		<!-- JS FILES -->
 		<script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit-icons.min.js"></script>
+		<script src="{{ mix('js/dash.js') }}"></script>
 	</body>
 </html>

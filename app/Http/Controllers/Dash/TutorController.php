@@ -39,7 +39,9 @@ class TutorController extends Controller
     {
       $pays = Pay::where('tutor_id', $request->id)->orderBy('id', 'desc')->limit(100)->get();
       $wage = Pay::where('tutor_id', $request->id)->where('type', 'wage')->get();
+      $lessons = Pay::where('tutor_id', $request->id)->where('type', 'lesson-wage')->get();
 
+      // обраховуємо виплачену зп
       $sum = 0;
       foreach ($wage as $pay) {
           $sum = $sum + $pay->sum;
@@ -48,6 +50,7 @@ class TutorController extends Controller
       return response()->json([
         'pays' => $pays,
         'sum' => $sum,
+        'lessonscount' => $lessons->count(),
       ]);
     }
 }

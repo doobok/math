@@ -20,12 +20,25 @@
                   із нами з {{getDate(tutor.created_at)}}
                 </v-chip>
                 <v-spacer></v-spacer>
+                <v-chip class="ma-2" color="blue" text-color="white">
+                  Всього занять
+                  <v-icon color="white" class="ma-1">
+                    mdi-book-education
+                  </v-icon>
+                  {{lessons}}
+                </v-chip>
                 <v-chip class="ma-2" color="blue-grey" text-color="white">
                   виплачено
                   <v-icon color="white">
                     mdi-currency-usd
                   </v-icon>
                   {{sum}} грн
+                </v-chip>
+                <v-chip class="ma-2" color="indigo" text-color="white">
+                  <v-icon color="white" class="mr-1">
+                    mdi-format-align-middle
+                  </v-icon>
+                  {{averageSum()}} грн./заняття
                 </v-chip>
 
               </v-app-bar>
@@ -166,6 +179,7 @@
         },
         pays: [],
         sum: 0,
+        lessons: 0,
         wageDialog: false,
         wageSum: '',
     }
@@ -177,6 +191,7 @@
           .then(response => {
               this.pays = response.data.pays;
               this.sum = response.data.sum;
+              this.lessons = response.data.lessonscount;
           });
   },
   methods: {
@@ -230,6 +245,11 @@
           alert('Виникла помилка, повторіть спробу трішки пізніше');
         });
 
+    },
+    averageSum () {
+      let avsum;
+      avsum = (this.sum + this.tutor.balance) / this.lessons;
+      return avsum.toFixed(0);
     }
 
   }

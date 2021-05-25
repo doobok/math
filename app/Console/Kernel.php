@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('report:monthly')->monthlyOn(1, '10:00');
         $schedule->command('report:quarterly')->quarterly()->at('11:00');
         $schedule->command('report:yearly')->yearly()->at('12:00');
-        $schedule->command('students:upclass')->yearlyOn(6, 5, '02:00');
+        $schedule->command('students:upclass')->cron('0 2 5 6 *');
     }
 
     /**

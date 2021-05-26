@@ -42,8 +42,10 @@ class LessonsProcessing extends Command
      */
     public function handle()
     {
-        $lessons = Lesson::where('computed', false)->whereDate('start', Carbon::today()->toDateString())->get();
-        $pays = Pay::where('type', 'NOT LIKE', 'lesson%')->whereDate('created_at', Carbon::today()->toDateString())->get();
+        //$lessons = Lesson::where('computed', false)->whereDate('start', Carbon::today()->toDateString())->get();
+        $lessons = Lesson::where('computed', false)->whereDate('start', '2021-05-23')->get();
+        // $pays = Pay::where('type', 'NOT LIKE', 'lesson%')->whereDate('created_at', Carbon::today()->toDateString())->get();
+        $pays = Pay::where('type', 'NOT LIKE', 'lesson%')->whereDate('created_at', '2021-05-23')->get();
 
         // глобальні змінні
         $lessonsPay = 0;// дохід за заняття
@@ -125,7 +127,7 @@ class LessonsProcessing extends Command
             $newLesson->pass_paid = null;
             $newLesson->computed = 0;
             if ($oldLesson->period_end === null OR $newLesson->start < $oldLesson->period_end) {
-              $newLesson->save();
+              // $newLesson->save();
             }
 
           } catch (\Exception $e) {
@@ -135,7 +137,8 @@ class LessonsProcessing extends Command
         }
 
         // помічаємо усі заняття як опрацьовані
-        $updated = Lesson::where('computed', false)->whereDate('start', Carbon::today()->toDateString())->update(['computed' => 1]);
+        // $updated = Lesson::where('computed', false)->whereDate('start', Carbon::today()->toDateString())->update(['computed' => 1]);
+        $updated = Lesson::where('computed', false)->whereDate('start', '2021-05-23')->update(['computed' => 1]);
 
         // ПЕРЕБИРАЄМО ПЛАТЕЖІ
         foreach ($pays as $pay) {
@@ -160,7 +163,8 @@ class LessonsProcessing extends Command
           $report->students_count = $students_count;// кількість студентів
           $report->pass_count = $pass_count;// кількість пропусків
           $report->pass_notpayed_count = $pass_notpayed_count;// кількість неоплачуваних пропусків
-          $report->period = Carbon::today()->toDateString();
+          // $report->period = Carbon::today()->toDateString();
+          $report->period = '2021-05-23';
           $report->type = 'daily';
           $report->pays_in = $incoming;
           $report->pays_out = $outgoing;

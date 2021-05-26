@@ -47,8 +47,8 @@ class TutorsAnalytics extends Command
 
           $c_profit = 0;
           $t_profit = 0;
-
-          $lessons = Lesson::where('computed', true)->where('tutor_id', $tutor->id)->get();
+          // отримуємо усі заняття за місяць який закінчився
+          $lessons = Lesson::where('computed', true)->where('tutor_id', $tutor->id)->whereDate('created_at', '>=', Carbon::yesterday()->startOfMonth()->toDateString())->get();
 
           foreach ($lessons as $lesson) {
             $students = count(json_decode($lesson->students));
@@ -62,15 +62,25 @@ class TutorsAnalytics extends Command
             $t_profit = $t_profit + $lesson->price_tutor;
 
           }
-          
+
+          // рахуємо KPI
+          $kpi = 0;
+
+          if ($lessons->count() > 0) {
+            $kpi = $c_profit / ($t_profit + $c_profit) * 100;
+          }
+
           $report = new Performance;
           $report->lessons = $lessons->count();
           $report->company_profit = $c_profit;
           $report->tutor_profit = $t_profit;
           $report->tutor_id = $tutor->id;
-          $report->kpi = round($c_profit / ($t_profit + $c_profit) * 100);
+          $report->kpi = round($kpi);
           $report->save();
         }
+
+        // відправляємо сповіщення
+        \Illuminate\Support\Facades\Notification::send('', new \App\Notifications\TelegramSimpleMSG('KPI для тьюторів сформовані'));
 
     }
 }

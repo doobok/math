@@ -46,8 +46,8 @@ class StudentsAnalytics extends Command
         foreach ($students as $student) {
 
           $profit = 0;
-
-          $pays = Pay::where('student_id', $student->id)->where('type', 'lesson-pay')->get();
+          // отримуємо усі заняття за 7 днів
+          $pays = Pay::where('student_id', $student->id)->where('type', 'lesson-pay')->whereDate('created_at', '>', Carbon::today()->subDays(7)->toDateString())->get();
 
           foreach ($pays as $pay) {
             $profit = $profit + $pay->sum;
@@ -68,6 +68,9 @@ class StudentsAnalytics extends Command
           $report->save();
 
         }
+
+        // відправляємо сповіщення
+        \Illuminate\Support\Facades\Notification::send('', new \App\Notifications\TelegramSimpleMSG('KPI для учнів сформовані'));
 
     }
 }

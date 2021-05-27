@@ -89,11 +89,11 @@ export default {
   },
   methods: {
     getData () {
-      console.log(this.flagsReq);
+      // console.log(this.flagsReq);
       axios
           .get('/api/v1/stats-get', {params: {type: this.flags.type, count: this.flags.count, period: this.flags.period}})
           .then(response => {
-            console.log(response.data);
+            // console.log(response.data);
             this.chartData = response.data;
           });
     },

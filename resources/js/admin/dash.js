@@ -66,6 +66,7 @@ Vue.component('student-profile', require('./components/StudentProfile.vue').defa
 Vue.component('finance-table', require('./components/FinanceTable.vue').default);
 Vue.component('reports-table', require('./components/ReportsTable.vue').default);
 Vue.component('stats-graph', require('./components/StatGraph.vue').default);
+Vue.component('kpi-graph', require('./components/KPIGraph.vue').default);
 Vue.component('invites-table', require('./components/InvitesTable.vue').default);
 Vue.component('users-table', require('./components/UsersTable.vue').default);
 Vue.component('settings-table', require('./components/SettingsTable.vue').default);

@@ -68,6 +68,10 @@
               </p>
             </v-img>
 
+            <div class="mb-2">
+              <kpi-graph model="tutor" :mid="tutor.id"></kpi-graph>
+            </div>
+
             <v-card-text>
 
                 <v-row no-gutters>

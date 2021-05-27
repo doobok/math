@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Pay;
 use App\Report;
+use App\Performance;
 
 class LogisticController extends Controller
 {
@@ -84,5 +85,46 @@ class LogisticController extends Controller
       $pay->save();
 
       return response()->json(['success' => true, 'pay' => $pay ]);
+    }
+
+    // отримуємо KPI
+    public function getKPI(Request $request)
+    {
+      $data = collect();
+
+      if ($request->model == 'student') {
+        if ($request->f == 'l') {
+          $reports = Performance::where('student_id', $request->id)->select('created_at', 'lessons')->latest()->take(30)->get();
+          $data->push(array('d', 'Кількість занять'));
+        } elseif ($request->f == 'p') {
+          $reports = Performance::where('student_id', $request->id)->select('created_at', 'company_profit')->latest()->take(30)->get();
+          $data->push(array('d', 'Профіт компанії'));
+        }  elseif ($request->f == 'kpi') {
+          $reports = Performance::where('student_id', $request->id)->select('created_at', 'kpi')->latest()->take(30)->get();
+          $data->push(array('d', 'KPI (відношення профіту до кількості уроків за одиницю часу)'));
+        }
+        // $reports = Performance::where('student_id', $request->id)->select('created_at', 'lessons', 'company_profit', 'kpi')->latest()->take(30)->get();
+        // $data->push(array('date', 'Кількість занять', 'Профіт компанії', 'KPI (відношення профіту до кількості уроків за одиницю часу)'));
+      } elseif ($request->model == 'tutor') {
+        if ($request->f == 'l') {
+          $reports = Performance::where('tutor_id', $request->id)->select('created_at', 'lessons')->latest()->take(30)->get();
+          $data->push(array('d', 'Кількість занять'));
+        } elseif ($request->f == 'p') {
+          $reports = Performance::where('tutor_id', $request->id)->select('created_at', 'company_profit', 'tutor_profit')->latest()->take(30)->get();
+          $data->push(array('d', 'Профіт компанії', 'Дохід тьютора'));
+        }  elseif ($request->f == 'kpi') {
+          $reports = Performance::where('tutor_id', $request->id)->select('created_at', 'kpi')->latest()->take(30)->get();
+          $data->push(array('d', 'KPI (відсоток доходу компанії)'));
+        }
+        // $reports = Performance::where('tutor_id', $request->id)->select('lessons', 'company_profit', 'tutor_profit', 'kpi')->latest()->take(30)->get();
+        // $data->push(array('Кількість занять', 'Профіт компанії', 'Дохід тьютора', 'KPI (відсоток доходу компанії)'));
+      }
+
+      $sorted = $reports->reverse();
+
+      foreach ($sorted as $report) {
+        $data->push(array_values($report->toArray()));
+      }
+      return $data;
     }
 }

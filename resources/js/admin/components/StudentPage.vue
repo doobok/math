@@ -67,10 +67,15 @@
               </p>
             </v-img>
 
-            <v-card-text>
+            <div class="mb-2">
+              <kpi-graph model="student" :mid="student.id"></kpi-graph>
+            </div>
 
+            <v-card-text>
                 <v-row no-gutters>
                   <v-col cols="12" sm="7">
+
+
                     <template id="pays">
                       <div class="font-weight-bold ml-8 mb-2 text-center">
                         Фінансова історія

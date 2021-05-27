@@ -73,6 +73,8 @@ Route::group(['prefix' => 'v1'], function () {
     // Reports
     Route::get('reports-get', 'Dash\LogisticController@getReports');
     Route::get('stats-get', 'Dash\LogisticController@getStats');
+    // KPI
+    Route::get('kpi-get', 'Dash\LogisticController@getKPI');    
     // Invites
     Route::get('invites-get', 'Dash\InvitesController@getInvites');
     Route::post('invite-set', 'Dash\InvitesController@setInvite');

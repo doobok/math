@@ -52,5 +52,8 @@ class EndSchoolYear extends Command
             $student->save();
           }
         }
+
+        // відправляємо сповіщення
+        \Illuminate\Support\Facades\Notification::send('', new \App\Notifications\TelegramSimpleMSG('Активні учні переведені до наступного класу. 11 класники помічені, як неактивні'));
     }
 }

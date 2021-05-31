@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('report:monthly')->monthlyOn(1, '10:00'); // звіт за місяць
         $schedule->command('report:quarterly')->quarterly()->at('11:00'); // квартальний звіт
         $schedule->command('report:yearly')->yearly()->at('12:00'); // річний звіт
-        $schedule->command('students:upclass')->cron('0 2 5 6 *'); // перевід учнів до наступного класу
+        $schedule->command('students:upclass')->cron('0 2 1 6 *'); // перевід учнів до наступного класу
         $schedule->command('students:stats')->weekly()->sundays()->at('02:20'); // KPI учнів
         $schedule->command('tutors:stats')->monthlyOn(1, '02:30'); // KPI тьюторів
     }

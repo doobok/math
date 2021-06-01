@@ -4,7 +4,7 @@
       {{typeLabel[flags.type]}}
     </v-card-title>
     <GChart
-      class="chart"
+      class="chart5"
       :settings="{packages: ['bar', 'corechart']}"
       :data="chartData"
       :options="chartOptions"
@@ -108,7 +108,7 @@ export default {
 </script>
 
 <style>
-  .chart {
+  .chart5 {
     width: 100%;
     height: 500px;
   }

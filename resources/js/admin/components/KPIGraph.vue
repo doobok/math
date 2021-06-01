@@ -4,7 +4,7 @@
       Ефективність
     </v-card-title>
     <GChart
-      class="chart"
+      class="chart3"
       :settings="{packages: ['bar', 'corechart']}"
       :data="chartData"
       :options="chartOptions"
@@ -101,7 +101,7 @@ export default {
 </script>
 
 <style>
-  .chart {
+  .chart3 {
     width: 100%;
     height: 300px;
   }
